@@ -49,6 +49,6 @@
 
 <style scoped lang="scss" rel="stylesheet/scss">
 .produceReport{
-	min-height: calc(100vh - 170px);
+	
 }
 </style>

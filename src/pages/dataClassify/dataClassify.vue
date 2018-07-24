@@ -24,7 +24,7 @@
 					<button class="next el-btn cancel">取消</button>
 				</div>
 			</div>
-			<vuedraggable v-model="list" :options="{group:'people'}" @start="drag=true" @end="drag=false" class="clearfix ify_container">
+			<vuedraggable v-model="list" :options="{group:'people',ghostClass:'placeholder'}" @start="drag=true" @end="drag=false" class="clearfix ify_container">
 				<div class="ify_file" v-for="(element,id) in list" :key="element.id">
 					<ul  class="cursor-move">
 						<li>{{element.name}}</li>
@@ -389,7 +389,9 @@
 		justify-content: space-between;
 		transition: .3s;
 	}
-	
+	.placeholder{
+		display: none;
+	}
 	.ify_left {
 		box-sizing: border-box;
 		width: 669px;

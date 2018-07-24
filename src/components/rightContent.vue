@@ -32,9 +32,9 @@
 					//console.log(newValue);
 					var left;
 					if(newValue) {
-						left = 284
-					} else {
 						left = 6
+					} else {
+						left = 284
 					}
 					this.$refs.rightContent.style.marginLeft = left + 'px'
 				}

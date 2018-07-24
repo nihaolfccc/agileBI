@@ -89,8 +89,8 @@
 	.configuration-list {
 		>li {
 			.img-wrap {
-				width: 227px;
-				height: 131px;
+				width: 219px;
+				height: 140px;
 				cursor: pointer;
 				&:hover, &.active {
 					.img {

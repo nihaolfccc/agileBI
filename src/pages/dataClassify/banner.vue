@@ -9,7 +9,7 @@
 		</div>
 		<div class="banner_conter">
 			<div class="banner_ves">
-				<vuedraggable v-model="list.list" :options="{group:'people',sort:false}" @start="drag=true" @end="drag=false" class="banner clearfix" :style="'width:'+this.width+'px;transform:translateX('+this.transLate+'px) scale(1);transition:.5s'">
+				<vuedraggable v-model="list.list" :options="{group:'people',sort:false,ghostClass:'placeholder'}" @start="drag=true" @end="drag=false" class="banner clearfix" :style="'width:'+this.width+'px;transform:translateX('+this.transLate+'px) scale(1);transition:.5s'">
 					<div class="ify_file" v-for="(str,sindex) in list.list">
 						<ul class="cursor-move">
 							<li>{{str.name}}</li>
@@ -181,7 +181,9 @@
 		background: #d44c39;
 		color: #FFFFFF;
 	}
-	
+	.placeholder{
+		display: none;
+	}
 	.ify_container {
 		/*height:calc(100% - 50px);*/
 		height: 100%;
@@ -378,7 +380,17 @@
 				}
 			}
 		}
-		
+		.ify_file {
+			ul {
+				background: #fafcff;
+				>li {
+					&:first-child {
+						background: #dce8f6;
+    					color: #4a6c98;
+					}
+				}
+			}
+		}
 		.next::after {
 			border-color: #1f9eff;
 		}
@@ -427,7 +439,17 @@
 				}
 			}
 		}
-		
+		.ify_file {
+			ul {
+				background: #f6fdf8;
+				>li {
+					&:first-child {
+						background-color: rgba(221, 246, 220, 0.78);
+    					color: #017734;
+					}
+				}
+			}
+		}
 		.next::after {
 			border-color: #017734;
 		}

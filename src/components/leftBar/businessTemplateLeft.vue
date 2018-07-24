@@ -131,7 +131,7 @@
 			showReportContent(index,tableContent){
 				this.reportActive = index
 //				console.log(tableContent)
-				this.$store.commit('changeTableContent',tableContent)//改变方法就是改变值
+				this.$store.commit('changeTableContent',tableContent)//
 			}
 		},
 		watch: {

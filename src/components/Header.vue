@@ -113,10 +113,10 @@
 						name: "模板配置",
 						url: "templateMatching"
 					},
-					{
-						name: "数据源列表",
-						url: "dataMatchingList"
-					}
+//					{
+//						name: "数据源列表",
+//						url: "dataMatchingList"
+//					}
 				],
 				skinList: [{
 						name: "橘红色",

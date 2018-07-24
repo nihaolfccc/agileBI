@@ -1,6 +1,15 @@
 <template>
 	<div class="test">
-		<el-carousel arrow="hover" :autoplay="false">
+		<div class="placeholder">
+			正在开发中，敬请期待...
+		</div>
+		<img src="../../assets/imgs/red/step1.png"/>
+		<img src="../../assets/imgs/red/step1-selected.png"/>
+		<img src="../../assets/imgs/red/step2.png"/>
+		<img src="../../assets/imgs/red/step2-selected.png"/>
+		
+		
+		<!--<el-carousel arrow="hover" :autoplay="false">
 			<el-carousel-item v-for="item in 4" :key="item">
 				<ul>
 					<li v-for="i in 3" :key='i'>
@@ -55,7 +64,7 @@
 				<el-radio-button label="广州"></el-radio-button>
 				<el-radio-button label="深圳"></el-radio-button>
 			</el-radio-group>
-		</div>
+		</div>-->
 	</div>
 </template>
 <script>
@@ -78,7 +87,23 @@
 		}
 	};
 </script>
-<style scoped>
+<style scoped lang="scss" rel="stylesheet/scss">
+	.test{
+		position: relative;
+		height: calc(100vh - 170px);
+		.placeholder{
+			position: absolute;
+			width: 500px;
+			height: 100px;
+			font-size: 40px;
+			left: 0;
+			top: 0;
+			bottom: 0;
+			right: 0;
+			margin: auto;
+			color: #CCCCCC;
+		}
+	}
 	.el-carousel__item h3 {
 		color: #475669;
 		font-size: 18px;

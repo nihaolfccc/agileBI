@@ -2,11 +2,12 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 Vue.use(Vuex)
 
+//284
 export default new Vuex.Store({
   modules: {},
   state: {
-  	marginLeft: 284,
-    flagLeftBar: true, 
+  	marginLeft: 0,
+    flagLeftBar: true,
     flagBtn: true,
     listState: true, //列表选中项状态管理
     searchContent: '', //搜索框内容
@@ -19,13 +20,13 @@ export default new Vuex.Store({
     flagCanvasWrap: false, //控制canvas元素的显示与隐藏
     elementType: '', //制作报告页元素类型
     domList: [], //制作报告页元素数组
-    lineColor: '#000000',
+    lineColor: '#ff0000',
     lineWidth: 2,
     lineType: 'solid',
     
     fontFamily: 'Arial',
-    fontSize: 16,
-    fontColor: '#000000',
+    fontSize: 24,
+    fontColor: '#ff0000',
     fontWeight: 'normal',
     fontStyle: 'normal',
     fontUnderline: 'none',
@@ -37,8 +38,8 @@ export default new Vuex.Store({
     visibleSearch: true, //头部搜索框与配置流程相互切换
     configurationName: 'dataMatching', //头部配置流程当前项
     
-    tableContent:[],//业务数据关联页面用来传替表的数据的
-    tableName:[],//业务数据关联页面用来传替，圆的数据
+    tableContent:{},//业务数据关联页面用来传替表的数据的
+    tableName:{},//业务数据关联页面用来传替，圆的数据
   },
   mutations: {
     changeLeftBar(state, bool) {

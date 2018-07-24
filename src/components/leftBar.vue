@@ -1,10 +1,10 @@
 <template>
 	<!-- @mouseover="switchLeftBar" @mouseout="switchLeftBar"-->
-	<div class="left-bar" ref="leftBar">
+	<div class="left-bar" ref="leftBar" @mouseenter="switchLeftBar($event)" @mouseleave="switchLeftBar($event)">
 		<slot></slot>
 		<div class="switch-wrap" ref="switchWrap">
 			<!-- @click="switchLeftBar"-->
-			<button class="switch-btn" @click="switchLeftBar"></button>
+			<button class="switch-btn"></button>
 		</div>
 	</div>
 </template>
@@ -25,24 +25,25 @@
 		computed: {
 			flagLeftBar() {
 				return this.$store.state.flagLeftBar
-			}
+			},
 		},
 		watch: {
-			
+
 		},
 		methods: {
-			switchLeftBar() {
-				//console.log(this.flagLeftBar);
-				if(this.flagLeftBar) {
-					this.$store.commit('changeLeftBar', false)
-					this.$refs.leftBar.style.left = '-278px'
-					this.$refs.switchWrap.classList.add('open')
-				} else {
-					this.$store.commit('changeLeftBar', true)
-					this.$refs.leftBar.style.left = '0'
-					this.$refs.switchWrap.classList.remove('open')
+			switchLeftBar(e) {
+				console.log(this.flagLeftBar, e, e.type, e.fromElement, e.toElement);
+				if(e.fromElement != null && e.toElement != null) {//点击折叠面板时，会触发mouseenter和mouseleave事件
+					if(this.flagLeftBar) {
+						this.$refs.leftBar.style.left = '0'
+						this.$refs.switchWrap.classList.add('open')
+					} else {
+						this.$refs.leftBar.style.left = '-284px'
+						this.$refs.switchWrap.classList.remove('open')
+					}
+					this.$store.commit('changeLeftBar', !this.flagLeftBar)
 				}
-			}
+			},
 		},
 		created() {
 
@@ -67,7 +68,7 @@
 		z-index: 100;
 		position: fixed;
 		/*top: 170px;*/
-		left: 0;
+		left: -284px;
 		width: 284px;
 		transition: .3s;
 	}

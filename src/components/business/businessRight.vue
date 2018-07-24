@@ -29,7 +29,7 @@
 							<div style="left:${left}px;top:${top}px;width:${w}px;height:${h}px;" class="flowchart-object flowchart-start ">
 								<div style="position:relative">
 									<svg:svg width="${w}" height="${h}">
-										<!--<svg:ellipse cx="${w/2}" cy="${h/2}" rx="${w/2}" ry="${h/2}" class="outer" />-->
+										<svg:ellipse cx="${w/2}" cy="${h/2}" rx="${w/2}" ry="${h/2}" class="outer" />
 										<svg:ellipse cx="${w/2}" cy="${h/2}" rx="${(w/2) - 10}" ry="${(h/2) - 10}" class="inner" />
 										<svg:text text-anchor="middle" x="${ w / 2 }" y="${ h / 2 }" dominant-baseline="central" class="haha">${name}</svg:text>
 									</svg:svg>
@@ -200,7 +200,10 @@
 							"target": "book_author.author_id"
 						}]
 				},
-				exper:{}
+				exper:{},
+				content:{},
+				name:{},
+				
 			}
 		},
 
@@ -218,28 +221,25 @@
 		watch: {
 			tableContent:{
 				handler(val,oldVal){
-					//console.log(val)
-					this.exper = val
+
 				},
 				deep:true
 			},
 			tableName:{
 				handler(val,oldVal){
-					console.log(val)
-					console.log(this.exper)
-					console.log(this.exper == null)
-					console.log(val == null)
 				},
 				deep:true
 			},
 			exper:{
 				handler(val,oldVal){
-					console.log(val)
 				},
 				deep:true
 			}
 		},
 		methods: {
+			addList(){
+				console.log(this.content.nodes.push(this.name))
+			},
 			jsPlumbToolkits() {
 				$(".jtk-lasso").remove();
 				var _this = this;
@@ -468,7 +468,7 @@
 							},
 							mouseout: function(params) {
 //								console.log(params, params.scope, params.getData);
-//							console.log($(".jtk-endpoint-anchor"))
+//							    console.log($(".jtk-endpoint-anchor"))
 								if(!params.getData && $('.jtk-drag-active').length > 0) {
 									$('.table-column-type-' + params.scope).addClass('drop-hover')
 								}
@@ -496,6 +496,8 @@
 						toolkit.updateNode(arrNode, { //好像可以改id
 							w: 140,
 							h: 140,
+							left: 0,
+							top: 50,
 							name: isname,
 						});
 					})
