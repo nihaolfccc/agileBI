@@ -203,7 +203,7 @@
 				exper:{},
 				content:{},
 				name:{},
-				
+				add:false,
 			}
 		},
 
@@ -216,28 +216,60 @@
 			},
 			tableName(){
 				return this.$store.state.tableName
+			},
+			flagTable(){
+				return this.$store.state.flagTable
 			}
 		},
 		watch: {
 			tableContent:{
 				handler(val,oldVal){
-
+						if(JSON.stringify(val)== '{}'){
+							console.log("tableContent空对象")
+						}else{
+//							console.log("tableContent非空对象")
+//							console.log(val)
+							this.content = val
+						}
 				},
 				deep:true
 			},
 			tableName:{
 				handler(val,oldVal){
+					if(JSON.stringify(val)== '{}'){
+						console.log("tableName空对象")
+					}else{
+						console.log("tableName非空对象")
+						console.log(val)
+						this.content = val
+					}
+
 				},
 				deep:true
 			},
-			exper:{
+			flagTable:{
 				handler(val,oldVal){
+				},
+			},
+			content:{
+				handler(val,oldVal){
+					console.log(val)
+					if(JSON.stringify(val)== '{}'){
+						console.log("content空对象")
+						return false
+					}else{
+						console.log("content非空对象")
+						this.name = val
+//						this.jsPlumbToolkits()
+//						this.content = {}
+					}
 				},
 				deep:true
 			}
 		},
 		methods: {
 			addList(){
+				this
 				console.log(this.content.nodes.push(this.name))
 			},
 			jsPlumbToolkits() {
@@ -255,6 +287,7 @@
 					var mainElement = document.querySelector("#jtk-demo-dbase_add"), //id 不能重名 否则会出问题
 						//						addName = $(".add_and_no"),
 						leftTermList = $(".term-list"),
+						leftDataList = $(".term-list-content"),
 						addName = document.querySelector(".add_cancel_none"),
 						canvasElement = mainElement.querySelector(".jtk-demo-canvas"),
 						miniviewElement = mainElement.querySelector(".miniview"),
@@ -288,6 +321,7 @@
 					});
 					var renderer = window.renderer = toolkit.render({
 						container: canvasElement,
+						doNotUpdateOriginalData:true,
 						enableWheelZoom: false, //是否启用缩放
 						view: {
 							nodes: {
@@ -442,14 +476,15 @@
 							//							magnetize:true
 						},
 						events: {
-							portAdded: function(params) {
-								params.nodeEl.querySelectorAll("ul")[0].appendChild(params.portEl);
-							},
+//							portAdded: function(params) {
+//								console.log(params)
+//								params.nodeEl.querySelectorAll("ul")[0].appendChild(params.portEl);
+//							},
 							edgeAdded: function(params) { //拖动连线时所产生的开始端口和结束端口
 								//								console.log(params)
 								if(params.addedByMouse) {
 									toolkit.updateEdge(params.edge);
-									refreshData() //sessionStorage
+//									refreshData() //sessionStorage
 
 								}
 							},
@@ -482,32 +517,51 @@
 						zoomToFit: false
 					});
 					jsPlumb.on(addName, "tap", ".add_none", function() { //保存 所拿到的数据  拿到有连接点的数据  当前连接的原始数据  
-						refreshData()
+//						refreshData()
 					});
-					jsPlumb.on(leftTermList, "tap", "ul li", function() {
-						//点击增加的样式但是只是增加不能改
-
-						var isname = this.innerText
-						//						var a  = $(".flowchart-object .haha").html(isname) //只改name
-						$(".flowchart-object").css({
-							"display": "block"
-						})
-						//						console.log(arrNode)
-						toolkit.updateNode(arrNode, { //好像可以改id
-							w: 140,
-							h: 140,
-							left: 0,
-							top: 50,
-							name: isname,
+					jsPlumb.on(leftDataList, "tap", "p", function() {
+						//console.log(_this.tableContent)
+//						var data2 = toolkit.exportData();
+//						console.log(toolkit.getNodeCount(data2))
+						
+						var data = {}
+						data = $(this).attr("data-item")
+						console.log(JSON.parse(data))
+						var obj  = JSON.parse(data)
+						toolkit.load({
+							data: obj
 						});
+
+//						console.log(data2)
+
 					})
-					toolkit.load({
-						data: sessionStorage.getItem("jsPlumbData") ? JSON.parse(sessionStorage.getItem("jsPlumbData")) : _this.dataList
-					});
+//					jsPlumb.on(leftTermList, "tap", "ul li", function() {
+//						//点击增加的样式但是只是增加不能改
+//						var isname = this.innerText
+//						//var a  = $(".flowchart-object .haha").html(isname) //只改name
+//						$(".flowchart-object").css({
+//							"display": "block"
+//						})
+//						//console.log(arrNode)
+//						toolkit.updateNode(arrNode, { //好像可以改id
+//							w: 140,
+//							h: 140,
+//							left: 0,
+//							top: 50,
+//							name: isname,
+//						});
+//					})
+//					toolkit.load({
+//						data: sessionStorage.getItem("jsPlumbData") ? JSON.parse(sessionStorage.getItem("jsPlumbData")) : _this.dataList
+//					});
+//					toolkit.load({
+//						data:_this.name
+//					});
 
 					function refreshData() { //如果一个接口可以在这调用函数
 						renderer.storePositionsInModel();
 						var data = toolkit.exportData();
+						console.log(data)
 						sessionStorage.setItem("jsPlumbData", JSON.stringify(data))
 					}
 				});

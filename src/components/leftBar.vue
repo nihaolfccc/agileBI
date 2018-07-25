@@ -32,7 +32,7 @@
 		},
 		methods: {
 			switchLeftBar(e) {
-				console.log(this.flagLeftBar, e, e.type, e.fromElement, e.toElement);
+//				console.log(this.flagLeftBar, e, e.type, e.fromElement, e.toElement);
 				if(e.fromElement != null && e.toElement != null) {//点击折叠面板时，会触发mouseenter和mouseleave事件
 					if(this.flagLeftBar) {
 						this.$refs.leftBar.style.left = '0'

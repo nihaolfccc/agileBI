@@ -41,14 +41,20 @@
 						name: '销售收入',
 						tip: false,//对号是不是显示
 						tableName:{
-							"id": "start",
-							"type": "start",
-							"name": "销售收入",
-							"datatype": "varchar",
-							"w": 140,
-							"h": 140,
-							"left": 0,
-							"top": 50
+							"nodes":[{
+								"id": "start",
+								"type": "start",
+								"name": "销售收入",
+								"datatype": "varchar",
+								"w": 140,
+								"h": 140,
+								"left": 0,
+								"top": 50
+							}],
+							"edges":{
+								
+							}
+							
 						}
 					},
 					{
@@ -132,7 +138,8 @@
 			},
 			selectBusinessTerms(index,tableName) {
 				this.active = index;
-				this.$store.commit("changeTableName",tableName)
+//				console.log(tableName)
+				this.$store.commit("changeTableName",tableName)		
 			},
 		},
 	}

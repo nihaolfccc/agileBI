@@ -26,6 +26,7 @@
   text-align: center;
   width: 141px;
   height: 40px;
+  
 }
 
 
@@ -54,6 +55,7 @@
   padding:0;
 }
 .table-columns li{
+	position: relative;
 	border-bottom: 1px solid #fce6e4;
 }
 
@@ -404,7 +406,6 @@
 }
 
 .theme-red .table-columns li{
-	position: relative;
 	border-bottom: 1px solid #fce6e4;
 }
 

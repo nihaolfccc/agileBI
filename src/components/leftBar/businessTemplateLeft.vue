@@ -7,10 +7,12 @@
 					<p>{{item.title}}</p>
 				</div>
 				<div class="term-list" >
-					<div class="term-list-content" v-if="item.list">
+					<!--<div class="term-list-content" v-if="item.list">
 						<p :title="item.text" v-for="(item, index) in item.list" :key="index" :class="{'active': reportActive==index}" @click="showReportContent(index,item.tableContent)">{{item.name}}</p>
-					</div>
+
+					</div>-->
 					<!--组件-->
+					<business-watch v-if="item.list"></business-watch>
 					<business-left  v-if="item.elements"></business-left>
 				</div>
 			</div>
@@ -20,9 +22,16 @@
 
 <script>
 	import businessLeft from '@/components/business/businessLeft'
+	import businessWatch from '@/components/business/businessWatch'
 //	import templateLeft from '@/components/leftBar/templateLeft' //需求更改这个没有用到了
 	
 	export default {
+		
+		components: {
+			businessLeft ,
+			businessWatch,
+//			templateLeft
+		},
 		data() {
 			return {
 				items:[{
@@ -31,77 +40,6 @@
 				},{
 					title:"表分类",
 					list:[]
-				}],
-				sortList:[{
-					name:"企业注册",
-					tableContent:{
-						"nodes": [{
-								"id": "book",
-								"name": "企业信息",
-								"type": "table",
-								"left": 200,
-								"top": 100,
-								"columns": [{
-										"id": "企业ID",
-										"name": "我是企业ID的名字",
-										"datatype": "integer",
-										"primaryKey": true
-									},
-									{
-										"id": "企业名称",
-										"datatype": "varchar"
-									},
-									{
-										"id": "企业地址",
-										"datatype": "varchar"
-									},
-									{
-										"id": "主营业务",
-										"datatype": "varchar"
-									}]
-							},{
-								"id": "book_author",
-								"name": "投资情况",
-								"type": "table",
-								"left": 400,
-								"top": 100,
-								"columns": [{
-										"id": "投资方名称",
-										"datatype": "integer"
-									},
-									{
-										"id": "被投资方名称",
-										"datatype": "integer"
-									},
-									{
-										"id": "投资金额",
-										"datatype": "integer"
-									},
-									{
-										"id": "到账时间",
-										"datatype": "integer"
-									}]
-							}],
-						"edges": []
-					}
-				},{
-					name:"招商引资",
-					tableContent:{}
-				},{
-					name:"交易监督",
-					tableContent:{}
-				},{
-					name:"经营检查",
-					tableContent:{}
-				},{
-					name:"资质审查",
-					tableContent:{}
-				},{
-					name:"市场管理",
-					tableContent:{}
-				},{
-					name:"商标监管",
-					tableContent:{}
 				}],
 				active:0,
 				reportActive:0,
@@ -120,18 +58,16 @@
 //				return this.$store.state.tableContent;
 //			}
 		},
-		components: {
-			businessLeft ,
-//			templateLeft
-		},
 		methods: {
 			showOpen(index){
 				this.active = index
 			},
 			showReportContent(index,tableContent){
 				this.reportActive = index
-//				console.log(tableContent)
-				this.$store.commit('changeTableContent',tableContent)//
+				console.log(tableContent)
+				this.$store.commit('changeTableContent',tableContent)
+//				this.$store.commit('changeFlagTable',true)//
+				
 			}
 		},
 		watch: {
@@ -145,7 +81,8 @@
 			
 		},
 		mounted() {
-			this.items[1].list = this.sortList
+//			this.items[1].list = this.sortList
+//			console.log(this.items[1].list)
 		}
 	}
 </script>
