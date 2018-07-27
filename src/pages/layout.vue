@@ -93,10 +93,10 @@
 					//console.log(newValue);
 					var mainWrap = document.getElementById("main-wrap")
 					if(newValue) {
-						mainWrap.style.marginTop = '170px'
+						mainWrap.style.paddingTop = '170px'
 						mainWrap.style.minHeight = 'calc(100vh - 170px)'
 					} else {
-						mainWrap.style.marginTop = '190px'
+						mainWrap.style.paddingTop = '190px'
 						mainWrap.style.minHeight = 'calc(100vh - 190px)'
 					}
 				},
