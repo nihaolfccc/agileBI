@@ -30,9 +30,6 @@
 		methods: {
 			btnMethod(name) {
 				console.log(name)
-				$('.draggable').addClass('not-border')
-				$('.draggable[class*="rect"]').removeClass('not-border')
-				$('.draggable[class*="ellipse"]').removeClass('not-border')
 				switch(name) {
 					case '高度切换':
 						//console.log(this.flagHeight);
@@ -48,6 +45,9 @@
 						break;
 					case '导出':
 						//console.log('export');
+						$('.draggable').addClass('not-border')
+						$('.draggable[class*="rect"]').removeClass('not-border')
+						$('.draggable[class*="ellipse"]').removeClass('not-border')
 						this.$root.dialogExportSet = true
 						/*this.$parent.$refs.btnWrap.style.display='none'
 						setTimeout(() => {
@@ -77,5 +77,9 @@
 
 <!-- Add 'scoped' attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-	
+	.edit-data-source{
+		position: absolute;
+		top: 20px;
+		right: 40px;
+	}
 </style>

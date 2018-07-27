@@ -62,23 +62,20 @@
 			</div>
 
 			<!-- Node -->
-			<div class="node01" style="left: 640px; top: 376px;" do-item-id="n1">
-				<!--left: 802px-->
+			<div class="node01" style="left: 650px; top: 399px;" do-item-id="n1">
 				数据汇聚
 			</div>
-			<div class="node01" style="left: 1054px; top: 376px;" do-item-id="n2">
-				<!--left: 1878px-->
+			<div class="node01" style="left: 1038px; top: 399px;" do-item-id="n2">
 				数据应用
 			</div>
-			<div class="node01" style="left: 1320px; top: 376px;" do-item-id="n3">
-				<!--left: 2279px-->
+			<div class="node01" style="left: 1325px; top: 399px;" do-item-id="n3">
 				数据服务
 			</div>
 
 			<!-- Core -->
-			<div class="group" style="left: 624px; top: 375px; width: 595px;">
+			<div class="group" style="left: 612px; top: 398px; width: 595px;">
 				<!--left: 1114px; top: 326px; width: 613px-->
-				<div style="text-align: center; color: #333; font-size: 30px; font-weight: bold;" do-item-id="c_t">
+				<div style="text-align: center; color: #333; line-height: 1; font-size: 30px; font-weight: bold;" do-item-id="c_t">
 					大数据平台
 				</div>
 				<div class="core-numeric01" do-item-id="c_1">
@@ -147,10 +144,10 @@
 			<div do-source-id="g1_1" do-target-id="n1" do-middle-offset-x="50"></div>
 			<div do-source-id="g1_2" do-target-id="n1" do-middle-offset-x="50"></div>
 			<div do-source-id="g1_3" do-target-id="n1" do-middle-offset-x="50"></div>
-			<div do-source-id="g1_4" do-target-id="n1"></div>
+			<div do-source-id="g1_4" do-target-id="n1" do-middle-offset-x="50"></div>
 			<div do-source-id="g1_5" do-target-id="n1" do-middle-offset-x="50"></div>
 			<div do-source-id="g1_e" do-target-id="n1" do-middle-offset-x="50"></div>
-			
+
 			<div do-source-id="g1_1" do-target-id="g2_1"></div>
 			<div do-source-id="g1_1" do-target-id="g2_2"></div>
 			<div do-source-id="g1_1" do-target-id="g2_3"></div>
@@ -158,7 +155,7 @@
 			<div do-source-id="g1_1" do-target-id="g2_5"></div>
 			<div do-source-id="g1_1" do-target-id="g2_6"></div>
 			<div do-source-id="g1_1" do-target-id="g2_e"></div>
-			
+
 			<div do-source-id="g2_1" do-target-id="n1" do-middle-offset-x="50"></div>
 			<div do-source-id="g2_2" do-target-id="n1" do-middle-offset-x="50"></div>
 			<div do-source-id="g2_3" do-target-id="n1" do-middle-offset-x="50"></div>
@@ -166,23 +163,28 @@
 			<div do-source-id="g2_5" do-target-id="n1" do-middle-offset-x="50"></div>
 			<div do-source-id="g2_6" do-target-id="n1" do-middle-offset-x="50"></div>
 			<div do-source-id="g2_e" do-target-id="n1" do-middle-offset-x="50"></div>
-			
-			<div do-source-id="n3" do-target-id="n2"></div>
-			
-			<div do-source-id="g4_1" do-target-id="n3"></div>
-			<div do-source-id="g4_2" do-target-id="n3"></div>
-			<div do-source-id="g4_3" do-target-id="n3"></div>
-			<div do-source-id="g4_4" do-target-id="n3"></div>
-			<div do-source-id="g4_5" do-target-id="n3"></div>
-			<div do-source-id="g4_6" do-target-id="n3"></div>
-			<div do-source-id="g4_7" do-target-id="n3"></div>
-			<div do-source-id="g4_e" do-target-id="n3"></div>
+
+			<div do-source-id="n2" do-target-id="n3"></div>
+
+			<div do-source-id="n3" do-target-id="g4_1"></div>
+			<div do-source-id="n3" do-target-id="g4_2"></div>
+			<div do-source-id="n3" do-target-id="g4_3"></div>
+			<div do-source-id="n3" do-target-id="g4_4"></div>
+			<div do-source-id="n3" do-target-id="g4_5"></div>
+			<div do-source-id="n3" do-target-id="g4_6"></div>
+			<div do-source-id="n3" do-target-id="g4_7"></div>
+			<div do-source-id="n3" do-target-id="g4_e"></div>
+
+			<!--编辑数据源按钮-->
+			<btn :item="editDataSourceBtn"></btn>
 		</div>
 	</div>
 </template>
 
 <script>
 	import ChartLib from '@/../static/chart-library.min.js';
+	import btn from '@/components/buttons/btn'
+
 	import roulette01 from 'assets/imgs/dataShow/do-roulette-01.png';
 	import roulette02 from 'assets/imgs/dataShow/do-roulette-02.png';
 	import roulette03 from 'assets/imgs/dataShow/do-roulette-03.png';
@@ -194,12 +196,16 @@
 	 * @author Molay
 	 */
 	export default {
-		props: {
-
+		components: {
+			btn
 		},
 		data: function() {
 			return {
-
+				editDataSourceBtn: {
+					name: '编辑数据源',
+					className: 'edit-data-source',
+					iconName: 'icon-bi',
+				}
 			};
 		},
 		mounted() {
@@ -215,29 +221,53 @@
 			//console.log(me.$el, me.$el.children[0]);
 			let app = new ChartLib.DataOverview({
 				viewport: viewport,
-				core: {
-					x: 645, //875
-					y: 130,
+				billboard: {
+					edges: 'rgb(0,0,0)',
+					width: 100,
+					height: 100,
+					stroke: {
+						colorStops: 'rgb(0,0,0)'
+					},
+					color: 'rgb(0,0,0)',
+					fill: 'rgb(0,0,0)',
+					curveLayer: {
+						stroke: {
+							colorStops: [{
+									color: 'rgb(0,0,0)'
+								},
+								{
+									color: 'rgb(0,0,0)'
+								},
+								{
+									color: 'rgb(0,0,0)'
+								}
+							]
+						}
+					}
+				},
+				/*core: {
+					x: 583, //875
+					y: 89,
 					width: 660, //1000
 					height: 622, //viewport.clientHeight
-					/*rings: [
+					rings: [
 						roulette01,
 						roulette02,
 						roulette03
-					],*/
-					/*sphere: sphere01,*/
-					/*itemBackground: circle01*/
-				}
+					],
+					sphere: sphere01,
+					itemBackground: circle01
+				}*/
 			});
 			me._app = app;
-			//console.log(viewport, app)
+			console.log(app)
 			// 为核心区特殊数值内容区绑定处理器
 			app.registerFormatter('c_1', function(element, value) {
 				//console.log(element, value)
 				var str = Math.round(value).toLocaleString();
 				var arr = str.split('');
 				var arr2 = arr.map(o => o === ',' ? o : ('<span>' + o + '</span>'));
-				var str2 = arr2.join('\n') + '\n<small>条</small>';
+				var str2 = '<small>数据总量</small>\n' + arr2.join('') + '\n<small>条</small>';
 				//console.log(value, str, arr, arr2, str2)
 				return str2;
 			});
@@ -324,9 +354,9 @@
 			});
 			testTimer.start();
 			me._testTimer = testTimer;
-			
+
 			// 隐藏第二个canvas
-			$('canvas')[1].style.display='none';
+			$('canvas')[1].style.display = 'none';
 		},
 		beforeDestroy: function() {
 			let me = this;
@@ -342,10 +372,11 @@
 </script>
 
 <style lang="scss" scoped>
-	.rootWrap{
+	.rootWrap {
 		padding: 20px 50px;
 		min-width: 1814px;
 	}
+	
 	.root {
 		position: relative;
 		margin: 0 auto;
@@ -409,18 +440,16 @@
 	
 	.node01 {
 		position: absolute;
-		width: 130px;
-		height: 50px;
-		background-size: 100%;
-		background-image: url(../../assets/imgs/dataShow/do-node-01-light.png);
+		width: 124px;
+		height: 30px;
+		line-height: 30px;
+		text-align: center;
+		background-image: url(../../assets/imgs/red/dataSourceShape.png);
 		background-repeat: no-repeat;
-		background-position: 0 6px;
-		color: #FFF;
+		background-size: 100% 100%;
+		color: #333;
 		font-weight: bold;
 		font-size: 18px;
-		text-align: center;
-		vertical-align: middle;
-		line-height: 50px; //62
 	}
 	
 	.name01,
@@ -475,22 +504,17 @@
 
 <style lang="scss">
 	.core-numeric01 {
-		color: #00ffff;
-		font-size: 22px; //42
 		text-align: center;
 		font-weight: bold;
-		margin-top: 28px;
+		margin-top: 42px;
+		font-size: 40px;
+		line-height: 1;
 		span {
-			display: inline-block;
-			width: 25px; //38
-			height: 40px; //64
-			border: 1px solid #00ffff;
-			border-radius: 4px;
-			background-color: #0e2164;
-			line-height: 40px;
+			color: #dd2911;
 		}
 		small {
-			font-size: 13px; //20
+			font-size: 16px;
+			color: #333333;
 		}
 	}
 	

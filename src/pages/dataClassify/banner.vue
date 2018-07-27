@@ -310,7 +310,7 @@
 					height: 40px;
 					text-align: center;
 					line-height: 40px;
-					border-bottom: 1px solid #CCCCCC;
+					border-bottom: 1px solid #fce6e4;
 					box-sizing: border-box;
 					&:first-child {
 						background: #f9dfd6;
@@ -323,17 +323,20 @@
 	.ify_file {
 		width: 125px;
 		ul {
-			border: 1px solid #CCCCCC;
+			border: 1px solid #faeae9;
 			border-bottom: none;
 			background: #fdf6f5;
 			>li {
 				height: 49px;
 				text-align: center;
 				line-height: 49px;
-				border-bottom: 1px solid #CCCCCC;
+				border-bottom: 1px solid #fce6e4;
 				box-sizing: border-box;
 				&:first-child {
 					background: #f9dfd6;
+				}
+				&:nth-of-type(even){ 
+					background: #fffbfa;
 				}
 			}
 		}
@@ -369,12 +372,15 @@
 		.banner {
 			.ify_file {
 				ul {
-					background: #fafcff;
+					background: #f5f8fd;
 					>li {
 						box-sizing: border-box;
 						&:first-child {
 							    background: #dce8f6;
     							color: #4a6c98;
+						}
+						&:nth-of-type(even){ 
+							background: #fafcff;
 						}
 					}
 				}
@@ -434,6 +440,9 @@
 						&:first-child {
 								background-color: rgba(221, 246, 220, 0.78);
     							color: #017734;
+						}
+						&:nth-of-type(even){ 
+							background: #fcfffc;
 						}
 					}
 				}

@@ -362,7 +362,7 @@
 	.ify_left{
 		width: 669px;
 		border-radius:20px;
-		margin-right: 20px;
+		margin-right: 25px;
 		background: #FFF;
 		overflow-y:auto;
 		height: calc(100vh - 230px);
