@@ -29,7 +29,7 @@
 						srcSelected: require('../assets/imgs/red/step2-selected.png')
 					},
 					{
-						name: '',
+						name: 'dataShow',
 						src: require('../assets/imgs/red/step3.png'),
 						srcSelected: require('../assets/imgs/red/step3-selected.png')
 					},
@@ -60,7 +60,7 @@
 
 		},
 		methods: {
-			goPage(name, index){
+			goPage(name){
 				this.$store.commit('changeConfigurationName', name)
 				this.$router.push({
 					name: name
@@ -109,7 +109,7 @@
 				}
 			}
 			.img-arrow {
-				margin-top: 78px;
+				margin-top: 88px;
 			}
 		}
 	}

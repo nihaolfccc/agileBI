@@ -16,8 +16,8 @@
 								</ul>
 							</div>
 						</script>
-						<!-- table column template -->
-						<script type="jtk" id="tmplColumn">
+            <!-- table column template -->
+            <script type="jtk" id="tmplColumn">
 							<li class="table-column table-column-type-${datatype}" primary-key="${primaryKey}" data-port-id="${id}">
 								<div><span>${id}</span></div>
 								<jtk-source port-id="${id}" scope="${datatype}" filter=".table-column-delete, .table-column-delete-icon, span, .table-column-edit, .table-column-edit-icon" filter-exclude="true"  class="cover"/>
@@ -30,7 +30,7 @@
 								<div style="position:relative">
 									<svg:svg width="${w}" height="${h}">
 										<svg:ellipse cx="${w/2}" cy="${h/2}" rx="${w/2}" ry="${h/2}" class="outer" />
-										<svg:ellipse cx="${w/2}" cy="${h/2}" rx="${(w/2) - 10}" ry="${(h/2) - 10}" class="inner" />
+										<svg:ellipse cx="${w/2}" cy="${h/2}" rx="${(w/2) - 15}" ry="${(h/2) - 15}" class="inner" />
 										<svg:text text-anchor="middle" x="${ w / 2 }" y="${ h / 2 }" dominant-baseline="central" class="haha">${name}</svg:text>
 									</svg:svg>
 								</div>
@@ -211,68 +211,12 @@
 			themeColor() {
 				return this.$store.state.themeColor;
 			},
-			tableContent(){
-				return this.$store.state.tableContent;
-			},
-			tableName(){
-				return this.$store.state.tableName
-			},
-			flagTable(){
-				return this.$store.state.flagTable
-			}
 		},
 		watch: {
-			tableContent:{
-				handler(val,oldVal){
-						if(JSON.stringify(val)== '{}'){
-							console.log("tableContent空对象")
-						}else{
-//							console.log("tableContent非空对象")
-//							console.log(val)
-							this.content = val
-						}
-				},
-				deep:true
-			},
-			tableName:{
-				handler(val,oldVal){
-					if(JSON.stringify(val)== '{}'){
-						console.log("tableName空对象")
-					}else{
-						console.log("tableName非空对象")
-						console.log(val)
-						this.content = val
-					}
 
-				},
-				deep:true
-			},
-			flagTable:{
-				handler(val,oldVal){
-				},
-			},
-			content:{
-				handler(val,oldVal){
-					console.log(val)
-					if(JSON.stringify(val)== '{}'){
-						console.log("content空对象")
-						return false
-					}else{
-						console.log("content非空对象")
-						this.name = val
-//						this.jsPlumbToolkits()
-//						this.content = {}
-					}
-				},
-				deep:true
-			}
 		},
 		methods: {
-			addList(){
-				this
-				console.log(this.content.nodes.push(this.name))
-			},
-			jsPlumbToolkits() {
+			jsPlumbToolkits(dataList,typeLeft) {
 				$(".jtk-lasso").remove();
 				var _this = this;
 				var falg = false;
@@ -370,7 +314,7 @@
 									]
 								},
 								"default": { //端点的颜色样式？  一开始就连接的默认样式 或者叫连接上的默认样式？
-									//		                      	template: "tmplColumn",
+									//template: "tmplColumn",
 									anchor: ["Left", "Right"],
 									Anchors: ["Right", "Left"],
 									connector: "Flowchart",
@@ -452,12 +396,7 @@
 											location: 1,
 											visible: true,
 											width: 11,
-											length: 11,
-											events: {
-												click: function() {
-													//													console.log(1)
-												}
-											}
+											length: 11
 										}]
 									]
 								}
@@ -476,16 +415,11 @@
 							//							magnetize:true
 						},
 						events: {
-//							portAdded: function(params) {
-//								console.log(params)
-//								params.nodeEl.querySelectorAll("ul")[0].appendChild(params.portEl);
-//							},
 							edgeAdded: function(params) { //拖动连线时所产生的开始端口和结束端口
 								//								console.log(params)
 								if(params.addedByMouse) {
 									toolkit.updateEdge(params.edge);
 //									refreshData() //sessionStorage
-
 								}
 							},
 							canvasClick: function(e) {
@@ -502,8 +436,6 @@
 								}
 							},
 							mouseout: function(params) {
-//								console.log(params, params.scope, params.getData);
-//							    console.log($(".jtk-endpoint-anchor"))
 								if(!params.getData && $('.jtk-drag-active').length > 0) {
 									$('.table-column-type-' + params.scope).addClass('drop-hover')
 								}
@@ -516,25 +448,10 @@
 						consumeRightClick: false,
 						zoomToFit: false
 					});
-					jsPlumb.on(addName, "tap", ".add_none", function() { //保存 所拿到的数据  拿到有连接点的数据  当前连接的原始数据  
+					jsPlumb.on(addName, "tap", ".add_none", function() { //保存 所拿到的数据  拿到有连接点的数据  当前连接的原始数据
 //						refreshData()
 					});
-					jsPlumb.on(leftDataList, "tap", "p", function() {
-						//console.log(_this.tableContent)
-//						var data2 = toolkit.exportData();
-//						console.log(toolkit.getNodeCount(data2))
-						
-						var data = {}
-						data = $(this).attr("data-item")
-						console.log(JSON.parse(data))
-						var obj  = JSON.parse(data)
-						toolkit.load({
-							data: obj
-						});
 
-//						console.log(data2)
-
-					})
 //					jsPlumb.on(leftTermList, "tap", "ul li", function() {
 //						//点击增加的样式但是只是增加不能改
 //						var isname = this.innerText
@@ -554,24 +471,76 @@
 //					toolkit.load({
 //						data: sessionStorage.getItem("jsPlumbData") ? JSON.parse(sessionStorage.getItem("jsPlumbData")) : _this.dataList
 //					});
-//					toolkit.load({
-//						data:_this.name
-//					});
-
+					toolkit.load({
+						data:dataList
+					});
 					function refreshData() { //如果一个接口可以在这调用函数
 						renderer.storePositionsInModel();
 						var data = toolkit.exportData();
-						console.log(data)
+//						console.log(data)
 						sessionStorage.setItem("jsPlumbData", JSON.stringify(data))
 					}
 				});
-			}
+			},
+			addList(approve){
+				var _this = this;
+				var commonObj = approve ? approve :{}; //点击所保存的数据
+				$(document).on("click", ".business_title", function(){  //左边想、点击出来圆的
+					var data = $(this).attr("data-item")
+					var obj  = JSON.parse(data)
+		    		$(".jtk-surface-canvas").remove()
+		    		$(".jtk-surface-pan").remove()
+		    		$(".jtk-lasso").remove()
+		    		if(JSON.stringify(obj) != '{}'){
+			    		if(commonObj.nodes){
+			    			commonObj.nodes.map((item,index)=>{
+			    				if(item.type == "start"){
+
+			    				}else if(item.type == "table"){
+			    					obj.nodes.push(item)
+			    				}
+			    			})
+			    		}
+		    		}
+		    		commonObj = obj
+					_this.jsPlumbToolkits(obj)
+		    	})
+				$(".term-list-content").on("click","p",function(){//左侧出来表的
+		    		var data = $(this).attr("data-item")
+					var obj  = JSON.parse(data)
+		    		$(".jtk-surface-canvas").remove()
+		    		$(".jtk-surface-pan").remove()
+		    		$(".jtk-lasso").remove()
+		    		if(JSON.stringify(obj) != '{}'){
+			    		if(commonObj.nodes){
+			    			commonObj.nodes.map((item,index)=>{
+			    				if(item.type == "start"){
+			    					obj.nodes.push(item)
+			    				}else if(item.type == "table"){
+
+			    				}
+			    			})
+			    		}
+		    		}
+		    		commonObj = obj
+		    		_this.jsPlumbToolkits(obj)
+		    	})
+				this.jsPlumbToolkits(approve)
+			},
 		},
 		created() {
 
 		},
 		mounted() {
-			this.jsPlumbToolkits()
+
+			var leftCircle = $(".business_title")[0];
+			var leftList = $(".term-list-content p")[0];
+			var circleObj = JSON.parse($(leftCircle).attr("data-item"))
+			var listObj =JSON.parse($(leftList).attr("data-item")) ;
+			var obj = {}
+			listObj.nodes.push(circleObj.nodes[0])
+			this.addList(listObj);
+			
 		},
 
 	}

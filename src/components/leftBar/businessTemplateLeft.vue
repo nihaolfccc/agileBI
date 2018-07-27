@@ -1,88 +1,60 @@
 <template>
 	<div class="template-left">
 		<happy-scroll>
-			<div class="term-item" v-for="(item,index) in items" :key="index"  :class="{'open': active == index}">
+			<div class="term-item" v-for="(item,index) in items" :key="index"  :class="{'open':item.nameShow }">
 				<div class="term-title" @click="showOpen(index)">
 					<img class="term-title-icon" src="../../assets/imgs/common/term_list.png"/>
 					<p>{{item.title}}</p>
 				</div>
-				<div class="term-list" >
-					<!--<div class="term-list-content" v-if="item.list">
-						<p :title="item.text" v-for="(item, index) in item.list" :key="index" :class="{'active': reportActive==index}" @click="showReportContent(index,item.tableContent)">{{item.name}}</p>
-
-					</div>-->
-					<!--组件-->
+				<div class="term-list">
 					<business-watch v-if="item.list"></business-watch>
 					<business-left  v-if="item.elements"></business-left>
-				</div>
+				</div>				
 			</div>
 		</happy-scroll>
 	</div>
+	
 </template>
 
 <script>
 	import businessLeft from '@/components/business/businessLeft'
 	import businessWatch from '@/components/business/businessWatch'
-//	import templateLeft from '@/components/leftBar/templateLeft' //需求更改这个没有用到了
 	
 	export default {
 		
 		components: {
 			businessLeft ,
-			businessWatch,
-//			templateLeft
+			businessWatch
 		},
 		data() {
 			return {
 				items:[{
-					title:"业务术语列表",	
+					title:"业务术语列表",
+					nameShow:true,
 					elements:[],
 				},{
 					title:"表分类",
+					nameShow:true,
 					list:[]
 				}],
-				active:0,
-				reportActive:0,
 				exper: {
 					
 				}
 			}
 		},
-		props: {
-			type: {
-				type: String
-			}
-		},
 		computed: {
-//			tableContent(){
-//				return this.$store.state.tableContent;
-//			}
 		},
 		methods: {
 			showOpen(index){
-				this.active = index
-			},
-			showReportContent(index,tableContent){
-				this.reportActive = index
-				console.log(tableContent)
-				this.$store.commit('changeTableContent',tableContent)
-//				this.$store.commit('changeFlagTable',true)//
-				
-			}
+				this.items[index].nameShow = !this.items[index].nameShow
+			}	
 		},
 		watch: {
-//			tableContent:{
-//				handler(val,oldVal){
-//				},
-//				deep:true
-//			}
 		},
 		created() {
 			
 		},
 		mounted() {
-//			this.items[1].list = this.sortList
-//			console.log(this.items[1].list)
 		}
 	}
 </script>
@@ -94,6 +66,7 @@
 			.term-title{
 				height: 102px;
 				text-align: center;
+				cursor: pointer;
 				.term-title-icon{
 					margin-top: 26px;
 				}
@@ -105,8 +78,8 @@
 			}
 			.term-list{
 				max-height: 0;
-				/*margin-bottom: 10px;*/
-				transition: max-height .3s;
+				transition:.5s;
+				/*transform:3s;*/
 				overflow: hidden;
 				.term-list-content {
 					>p {
@@ -125,7 +98,7 @@
 			}
 			&.open .term-list{
 				max-height: 3000px;
-				transition: max-height .5s;
+				transition:.5s;
 			}
 		}
 	}

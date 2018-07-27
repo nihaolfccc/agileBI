@@ -124,11 +124,11 @@
 				var mainWrap = document.getElementById("main-wrap")
 				//console.log(this.visibleSearch, name);
 				//控制头部搜索框与配置流程相互切换
-				if(name == 'dataMatching' || name == 'dataClassify' || name == 'listligature' || name == 'businessMatching' || name == 'templateMatching') {
-					mainWrap.style.marginTop = '190px'
+				if(name == 'dataMatching' || name == 'dataClassify' || name == 'dataShow' || name == 'listligature' || name == 'businessMatching' || name == 'templateMatching') {
+					mainWrap.style.paddingTop = '190px'
 					mainWrap.style.minHeight = 'calc(100vh - 190px)'
 				} else {
-					mainWrap.style.marginTop = '170px'
+					mainWrap.style.paddingTop = '170px'
 					mainWrap.style.minHeight = 'calc(100vh - 170px)'
 				}
 			});
@@ -151,7 +151,6 @@
 	
 	#layout {
 		min-height: 100%;
-		overflow: hidden;
 		min-width: 1295px;
 		.header-wrap {
 			background: $white;
@@ -161,7 +160,6 @@
 			z-index: 999;
 		}
 		.main-wrap {
-			margin-top: 170px;
 			min-height: calc(100vh - 170px);
 			.fade-enter-active,
 			.fade-leave-active {

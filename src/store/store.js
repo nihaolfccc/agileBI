@@ -38,8 +38,6 @@ export default new Vuex.Store({
     visibleSearch: true, //头部搜索框与配置流程相互切换
     configurationName: 'dataMatching', //头部配置流程当前项
     
-    tableContent:{},//业务数据关联页面用来传替表的数据的
-    tableName:{},//业务数据关联页面用来传替，圆的数据
   },
   mutations: {
     changeLeftBar(state, bool) {
@@ -121,12 +119,6 @@ export default new Vuex.Store({
     },
     changeConfigurationName(state,data){
     	state.configurationName = data
-    },
-    changeTableContent(state,data){
-    	state.tableContent = data
-    },
-    changeTableName(state,data){
-    	state.tableName = data
     },
     /*setToken(state, flag) {
 			state.token = flag

@@ -378,7 +378,7 @@
 					function refreshData(){ //如果一个接口可以在这调用函数
 						renderer.storePositionsInModel();
 						var data = toolkit.exportData();
-						console.log(data)
+//						console.log(data)
 	                	sessionStorage.setItem("jsPlumbDataTwo", JSON.stringify(data))
 					}
 				});

@@ -782,6 +782,7 @@
 }
 
 //业务数据里的新增术语
+
 .add_Box{
     width: 675px;
     height: 380px;
@@ -817,18 +818,43 @@
         text-align: center;
     }
 }
-.theme-green{
-    
-}
+
 .theme-blue{
     
 }
-.theme-red{
-    .add_Box{
+.theme-green{
+    .add_Box,.change_Box{
         .el-message-box__btns{
             button{
-                width: 100px;
-                height: 32px;
+                color: #FFFFFF;
+                background: $green-color;
+                border-color: $green-color;
+                &.el-button--primary:focus, 
+                &.el-button--primary:hover{
+                    background: $green-color;
+                    border-color: $green-color;
+                }
+            } 
+        }
+        .el-message-box__message:focus{
+            border-color:$green-color;
+        }
+        textarea:focus{
+            border-color:$green-color;
+        }
+        .el-input__inner:focus{
+            border-color:$green-color;
+        }
+        .el-message-box__headerbtn:hover .el-message-box__close{
+            color:$green-color
+        }
+    }
+    
+}
+.theme-red{
+    .add_Box,.change_Box{
+        .el-message-box__btns{
+            button{
                 color: #FFFFFF;
                 background: #e64d32;
                 border-color: #e64d32;
@@ -843,6 +869,9 @@
             border-color:#e64d32;
         }
         textarea:focus{
+            border-color:#e64d32;
+        }
+        .el-input__inner:focus{
             border-color:#e64d32;
         }
         .el-message-box__headerbtn:hover .el-message-box__close{

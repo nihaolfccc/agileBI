@@ -95,8 +95,7 @@
 		.report-item {
 			.report-list {
 				width: 100%;
-				/*max-height: 0;*/
-				height: 0;
+				max-height: 0;
 				transition: all .3s;
 				overflow: hidden;
 				user-select: none;
@@ -114,8 +113,7 @@
 				}
 			}
 			&.open .report-list {
-				/*max-height: 3000px;*/
-				height: auto;
+				max-height: 3000px;
 				transition: all .5s;
 			}
 		}

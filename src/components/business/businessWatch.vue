@@ -1,8 +1,6 @@
 <template>
 	<div class="term-list-content">
-		<p :title="item.text" v-for="(item, index) in sortList" :key="index" :class="{'active': reportActive==index}" @click="showReportContent(index,item.tableContent)" :data-item="JSON.stringify(item.tableContent)">{{item.name}}</p>
-
-
+		<p :title="item.text" v-for="(item, index) in sortList" :key="index" :class="{'active': reportActive==index}" @click="showReportContent(index)" :data-item="JSON.stringify(item.tableContent)">{{item.name}}</p>
 	</div>
 </template>
 
@@ -39,7 +37,26 @@
 										"id": "主营业务",
 										"datatype": "varchar"
 									}]
-							}],
+							},{
+							"id": "book_pdd",
+							"name": "投资情况",
+							"type": "table",
+							"left": 300,
+							"top": 400,
+							"columns": [{
+									"id": "投资方名字",
+									"datatype": "integer"
+								},{
+									"id": "被投资方名称",
+									"datatype": "integer"
+								},{
+									"id": "投资金额",
+									"datatype": "integer"
+								},{
+									"id": "到账时间",
+									"datatype": "integer"
+								}]
+						}],
 						"edges": []
 					}
 				},{
@@ -90,12 +107,8 @@
 		components: {
 		},
 		methods: {	
-			showReportContent(index,tableContent){
+			showReportContent(index){
 				this.reportActive = index
-				//this.$store.commit('changeTableContent',tableContent)
-//				this.$store.commit('changeFlagTable',true)//
-				
-				
 			}
 		},
 		watch: {			

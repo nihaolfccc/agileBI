@@ -9,16 +9,16 @@ const SearchReuslt = r => require(['@/pages/searchResult/index'], r)
 const Chart = r => require(['@/pages/chart/chart'], r)
 const ProduceReport = r => require(['@/pages/report/produceReport'], r)
 const DataMatching = r => require(['@/pages/configuration/dataMatching'], r)
-const TemplateMatching = r => require(['@/pages/configuration/templateMatching'], r)
-const BusinessMatching = r => require(['@/pages/configuration/BusinessMatching'], r)
-const Community = r => require(['@/pages/community/index'], r)
-const Test = r => require(['@/pages/test/test'], r)
-//const Listligature = r => require(['@/components/list/listligature'], r)
+const DataClassify = r => require(['@/pages/dataClassify/dataClassify'], r)
+const DataShow = r => require(['@/pages/configuration/dataShow'], r)
 const DataAssociation = r => require(['@/pages/configuration/dataAssociation'], r)
+const BusinessMatching = r => require(['@/pages/configuration/BusinessMatching'], r)
+const TemplateMatching = r => require(['@/pages/configuration/templateMatching'], r)
 
 const Collect = r => require(['@/pages/collect/collect'], r)
+const Community = r => require(['@/pages/community/index'], r)
 const DataMatchingList = r => require(['@/pages/configurationList/dataMatchingList'], r)
-const DataClassify = r => require(['@/pages/dataClassify/dataClassify'], r)
+const Test = r => require(['@/pages/test/test'], r)
 
 const router = new Router({
 	// mode: 'history',
@@ -46,33 +46,37 @@ const router = new Router({
 				name: 'dataMatching',
 				component: DataMatching
 			}, {
-				path: 'templateMatching',
-				name: 'templateMatching',
-				component: TemplateMatching
+				path: 'dataClassify',
+				name: 'dataClassify',
+				component: DataClassify
 			}, {
-				path: 'businessMatching',
-				name: 'businessMatching',
-				component: BusinessMatching
+				path: 'dataShow',
+				name: 'dataShow',
+				component: DataShow
 			}, {
 				path: 'dataAssociation',
 				name: 'dataAssociation',
 				component: DataAssociation
 			}, {
-				path: 'community',
-				name: 'community',
-				component: Community
+				path: 'businessMatching',
+				name: 'businessMatching',
+				component: BusinessMatching
+			}, {
+				path: 'templateMatching',
+				name: 'templateMatching',
+				component: TemplateMatching
 			}, {
 				path: 'collect',
 				name: 'collect',
 				component: Collect
 			}, {
+				path: 'community',
+				name: 'community',
+				component: Community
+			}, {
 				path: 'dataMatchingList',
 				name: 'dataMatchingList',
 				component: DataMatchingList
-			}, {
-				path: 'dataClassify',
-				name: 'dataClassify',
-				component: DataClassify
 			},
 			{
 				path: '*',
@@ -106,8 +110,8 @@ router.beforeEach((to, from, next) => {
 		store.commit('changeSearchContent', "")
 		app.search = ''
 	}
-	//控制头部搜索框与配置流程相互切换
-	if(to.name == 'dataMatching' || to.name == 'dataClassify' || to.name == 'dataAssociation' || to.name == 'businessMatching' || to.name == 'templateMatching') {
+	//控制头部搜索框与配置流程组件相互切换
+	if(to.name == 'dataMatching' || to.name == 'dataClassify' || to.name == 'dataShow' || to.name == 'dataAssociation' || to.name == 'businessMatching' || to.name == 'templateMatching') {
 		store.commit('changeVisibleSearch', false)
 	} else {
 		store.commit('changeVisibleSearch', true)
@@ -127,7 +131,7 @@ router.beforeEach((to, from, next) => {
 			sessionStorage.setItem('headNav', 4)
 			break;
 	}
-	if(to.name == 'dataMatching' || to.name == 'dataClassify' || to.name == 'dataAssociation' || to.name == 'businessMatching' || to.name == 'templateMatching') {
+	if(to.name == 'dataMatching' || to.name == 'dataClassify' || to.name == 'dataShow' || to.name == 'dataAssociation' || to.name == 'businessMatching' || to.name == 'templateMatching') {
 		app.headNav = 1
 		sessionStorage.setItem('headNav', 1)
 		store.commit('changeConfigurationName', to.name)
@@ -139,6 +143,10 @@ router.beforeEach((to, from, next) => {
 			case 'dataClassify':
 				app.configureActive = 1
 				sessionStorage.setItem('configureActive', 1)
+				break;
+			case 'dataShow':
+				app.configureActive = 2
+				sessionStorage.setItem('configureActive', 2)
 				break;
 			case 'dataAssociation':
 				app.configureActive = 3

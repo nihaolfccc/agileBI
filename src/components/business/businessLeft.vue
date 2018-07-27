@@ -15,11 +15,11 @@
 		</div>
 
 		<ul class="business-terms-list">
-			<li class="business_title transition" :class="{'active': active==index}" v-for="(item, index) in businessTermsList" :key="index" @click="selectBusinessTerms(index,item.tableName)">
-				<span>{{item.name}}</span>
-				<i class="iconfont icon-duihao2 fr" v-if="item.tip"></i>
-				<i class="iconfont icon-bi bt_left" v-if="active==index" @click.stop="amendName(item.name)"></i>
-				<i class="iconfont icon-unie639 bt_left" v-if="active==index"></i>
+			<li class="business_title transition" :class="{'active': active==index}" v-for="(item, index) in businessTermsList" :key="index" @click="selectBusinessTerms(index)" :data-item="JSON.stringify(item)">
+				<span>{{item.nodes[0].name}}</span>
+				<i class="iconfont icon-duihao2 fr" v-if="item.nodes[0].tip"></i>
+				<i class="iconfont icon-bi bt_left" :class="{'activeShow': active==index}" @click.stop="changeName(item.nodes[0].name,item.nodes[0].id)"></i>
+				<i class="iconfont icon-unie639 bt_left" :class="{'activeShow': active==index}" @click="deleteName(item.nodes[0].name,item.nodes[0].id)"></i>
 				<div class="tilte_background"></div>
 				
 			</li>
@@ -38,44 +38,100 @@
 				active: 0,
 				dialogTableVisible:false,
 				businessTermsList: [{
-						name: '销售收入',
-						tip: false,//对号是不是显示
-						tableName:{
-							"nodes":[{
-								"id": "start",
-								"type": "start",
-								"name": "销售收入",
-								"datatype": "varchar",
-								"w": 140,
-								"h": 140,
-								"left": 0,
-								"top": 50
-							}],
-							"edges":{
-								
-							}
+						"nodes":[{
+							"id": "1",
+							"type": "start",
+							"name": "销售收入",
+							"datatype": "varchar",
+							"w": 140,
+							"h": 140,
+							"left": 0,
+							"top": 50,
+							"tip": false,
+						}],
+						"edges":{
 							
 						}
 					},
 					{
-						name: '订单转换率',
-						tip: false,
-						tableName:{}
+						"nodes":[{
+							"id": "2",
+							"type": "start",
+							"name": "商品收入",
+							"datatype": "varchar",
+							"w": 140,
+							"h": 140,
+							"left": 0,
+							"top": 50,
+							"tip": true,
+						}],
+						"edges":{
+							
+						}
 					},
 					{
-						name: '利润率',
-						tip: true,
-						tableName:{}
+						"nodes":[{
+							"id": "3",
+							"type": "start",
+							"name": "利润率",
+							"datatype": "varchar",
+							"w": 140,
+							"h": 140,
+							"left": 0,
+							"top": 50,
+							"tip": false,
+						}],
+						"edges":{
+							
+						}
 					},
 					{
-						name: '成本',
-						tip: true,
-						tableName:{}
+						"nodes":[{
+							"id": "4",
+							"type": "start",
+							"name": "订单转换率",
+							"datatype": "varchar",
+							"w": 140,
+							"h": 140,
+							"left": 0,
+							"top": 50,
+							"tip": false,
+						}],
+						"edges":{
+							
+						}
 					},
 					{
-						name: '商品品类',
-						tip: true,
-						tableName:{}
+						"nodes":[{
+							"id": "5",
+							"type": "start",
+							"name": "商品类型",
+							"datatype": "varchar",
+							"w": 140,
+							"h": 140,
+							"left": 0,
+							"top": 50,
+							"tip": false,
+						}],
+						"edges":{
+							
+						}
+					},
+					{
+						"nodes":[{
+							"id": "6",
+							"type": "start",
+							"name": "时间占比",
+							"datatype": "varchar",
+							"w": 140,
+							"h": 140,
+							"left": 0,
+							"top": 50,
+							"tip": false,
+						}],
+						"edges":{
+							
+						}
 					}
 				],
 				exp:{
@@ -101,6 +157,24 @@
 		            inputValidator:this.validator,
 		            inputErrorMessage:"输入框不能为空",
 				}).then(({value}) => {
+					console.log(value)
+					//调用接口
+					var list = {
+						"nodes":[],
+						"edges":{}
+					}
+					var val = {}
+						val.name = value;
+						val.tip = false;
+						val.id = value + 7;
+						val.type = "start";
+						val.datatype= "varchar";
+						val.w=  140;
+						val.h=  140;
+						val.left=  0;
+						val.top=  50;
+						list.nodes.push(val)
+						this.businessTermsList.push(list)
 					BIMsg({
 						message: "添加成功",
 						type: 'success'
@@ -119,16 +193,43 @@
 					return true
 				}
 			},
-			amendName(name) {
+			changeName(name,id) {
 				this.$prompt('请输入名字', '提示', {
 					confirmButtonText: '确定',
 					cancelButtonText: '取消',
-					inputValue:name
+					inputValue:name,
+					customClass:"change_Box",
 				}).then(({value}) => {
 					console.log(value)
+					this.businessTermsList.map((item,i)=>{
+						
+						if(item.nodes[0].id == id){
+							item.nodes[0].name = value
+						}
+					})
 				}).catch(() => {
 
 				});
+			},
+			deleteName(name,id){
+			        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+			          confirmButtonText: '确定',
+			          cancelButtonText: '取消',
+			          type: 'warning',
+			          customClass:"change_Box",
+			        }).then(() => {
+			        	this.businessTermsList.map((item,i)=>{
+							if(item.nodes[0].id == id){
+								this.businessTermsList.splice(i, 1);
+							}
+						})
+				        BIMsg({
+							message: "删除成功",
+							type: 'success'
+						})
+			        }).catch(() => {
+			                   
+			        });
 			},
 			chackFile() {
 				this.$refs.file.click()
@@ -136,10 +237,8 @@
 			fileUpload() {
 				console.log(1)
 			},
-			selectBusinessTerms(index,tableName) {
+			selectBusinessTerms(index) {
 				this.active = index;
-//				console.log(tableName)
-				this.$store.commit("changeTableName",tableName)		
 			},
 		},
 	}
@@ -167,9 +266,25 @@
 				cursor: pointer;
 				padding-left: 19px;
 				padding-right: 25px;
+				>span{
+					float:left;
+					display: block;
+					max-width: 140px;
+					height: 50px;
+					overflow: hidden;
+					white-space: nowrap;
+					text-overflow: ellipsis;
+				}
 				.bt_left{
+					display: none;
 					color: #FFF;
 					margin-left: 15px;
+				}
+				&:hover .bt_left{
+					display: inline-block;
+				}
+				.activeShow{
+					display: inline-block;
 				}
 			}
 		}

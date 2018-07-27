@@ -99,7 +99,7 @@
 					},
 					{
 						name: "数据源展示",
-						url: ""
+						url: "dataShow"
 					},
 					{
 						name: "数据关联",

@@ -12,6 +12,9 @@
   "dependencies": {
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
+    "d3": "^4.10.2",
+    "fabric": "^1.7.19",
+    "three": "^0.87.1",
     "echarts": "^4.1.0",
     "element-ui": "^2.3.8",
     "html2canvas": "^1.0.0-alpha.12",

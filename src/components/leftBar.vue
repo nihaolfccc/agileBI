@@ -1,5 +1,6 @@
 <template>
 	<!-- @mouseover="switchLeftBar" @mouseout="switchLeftBar"-->
+	<!--@mouseenter="switchLeftBar($event)" @mouseleave="switchLeftBar($event)"-->
 	<div class="left-bar" ref="leftBar" @mouseenter="switchLeftBar($event)" @mouseleave="switchLeftBar($event)">
 		<slot></slot>
 		<div class="switch-wrap" ref="switchWrap">
