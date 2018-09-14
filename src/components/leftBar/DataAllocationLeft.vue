@@ -1,100 +1,172 @@
 <template>
 	<div class="data_allocation">
 		<happy-scroll>
-			<div class="all_data" v-for="(item,index) in dataAll" :key="index">
-				<span class="all_data_name" :class="{'nameActive': nameActive == index}">{{item.title}}</span>
-				<div class="all_data_select">
-					<ul class="clearfix">
-						<li :title="obj.name" v-for="(obj,i) in item.data" :key="i" :class="{'active': active == obj.id}" @click="getActive(obj,index)">
-							<div class="ads_border">
-								<img :src="obj.imgUrl" alt="" />
-								<div class="ads_name" :title="obj.name">
-									{{obj.name}}
-								</div>
-							</div>
-						</li>
-					</ul>
-				</div>
-			</div>
+			<el-collapse v-model="activeNames" class="data_allocation_collapse">
+				<el-collapse-item title="数据库" name="1">
+					<div class="all_data" v-for="(item,index) in dataAll" :key="index">
+						<!--<span class="all_data_name" :class="{'nameActive': nameActive == index}">{{item.title}}</span>-->
+						<div class="all_data_select">
+							<ul class="clearfix">
+								<li :title="obj.name" v-for="(obj,i) in item.data" :key="i" :class="{'active': active == obj.id}" @click="getActive(obj, index)">
+									<div class="ads_border">
+										<img :src="obj.imgUrl" alt="" />
+										<div class="ads_name" :title="obj.name">
+											{{obj.name}}
+										</div>
+									</div>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</el-collapse-item>
+				<el-collapse-item name="2" class="uploaded">
+					<template slot="title">
+						<i class="iconfont icon-ep--"></i>
+						<p>已上传的数据源</p>
+					</template>
+					<allocation-exist :allocationList="allocationList"></allocation-exist>
+				</el-collapse-item>
+			</el-collapse>
 		</happy-scroll>
 	</div>
 </template>
 
 <script>
+	import { mapState } from "vuex";
+	import { getDataMatchingList } from "@/api/index.js"
+	import allocationExist from "components/leftBar/allocationExist"
+
 	export default {
+		components: {
+			allocationExist
+		},
 		data: function() {
 			return {
-				dataAll:[{
-					title:"数据库",
-					data:[{
-						name:"MySQL",
-						imgUrl:require("@/assets/imgs/common/MySQL.png"),
-						id:"1",
-						tag:"mysql"
-					},{
-						name:"MaprHadoopHive",
-						imgUrl:require("@/assets/imgs/common/MaprHadoopHive.png"),
-						id:"2",
-						tag:"mapr"
-					},{
-						name:"oracle",
-						imgUrl:require("@/assets/imgs/common/oracle.png"),
-						id:"3",
-						tag:"mysql"
-					},{
-						name:"SQLServer",
-						imgUrl:require("@/assets/imgs/common/SQLServer.png"),
-						id:"4",
-						tag:"mysql"
-					}]
-				},
-//				{
-//					title:"文件",
-//					data:[{
-//						name:"Excle",
-//						imgUrl:require("@/assets/imgs/common/excle2.png"),
-//						id:"5",
-//						tag:"execl"
-//					},
-////					{
-////						name:"csv",
-////						imgUrl:require("@/assets/imgs/common/csv.png"),
-////						id:"6",
-////						tag:"execl"
-////					}
-//					]
-//				},
-//				{
-//					title:"网页",
-//					data:[{
-//						name:"HTML",
-//						imgUrl:require("@/assets/imgs/common/web.png"),
-//						id:"7",
-//						tag:"web"
-//					}]
-//				}
+				activeNames: ["1", "2"], //控制折叠面板的展开
+				active: 1, //数据源类型下标
+				nameActive: 0, //蓝色主题下-标题下面的高亮短横杠
+				allocationList: [],//数据源列表
+				dataAll: [{//数据源类型
+						data: [{
+							name: "MySQL",
+							imgUrl: require("@/assets/imgs/common/MySQL.png"),
+							id: "1",
+							tag: "mysql"
+						}, {
+							name: "MaprHadoopHive",
+							imgUrl: require("@/assets/imgs/common/MaprHadoopHive.png"),
+							id: "2",
+							tag: "mapr"
+						}, {
+							name: "Oracle",
+							imgUrl: require("@/assets/imgs/common/oracle.png"),
+							id: "3",
+							tag: "mysql"
+						}, {
+							name: "SQLServer",
+							imgUrl: require("@/assets/imgs/common/SQLServer.png"),
+							id: "4",
+							tag: "mysql"
+						}]
+					},
+					/*{
+						title: "文件",
+						data: [{
+								name: "Excle",
+								imgUrl: require("@/assets/imgs/common/excle2.png"),
+								id: "5",
+								tag: "execl"
+							},
+							{
+								name: "csv",
+								imgUrl: require("@/assets/imgs/common/csv.png"),
+								id: "6",
+								tag: "execl"
+							}
+						]
+					},
+					{
+						title: "网页",
+						data: [{
+							name: "HTML",
+							imgUrl: require("@/assets/imgs/common/web.png"),
+							id: "7",
+							tag: "web"
+						}]
+					}*/
 				],
-				active: 1,
-				nameActive: 0,
 			}
 		},
-		components: {},
+		computed: {
+			...mapState(["dataMatch"]),
+		},
+		watch: {
+			dataMatch: {
+				handler(newValue, oldValue) {
+					//console.log('左侧监听dataMatch',newValue, newValue.id)
+					this.active = newValue.id
+				},
+				deep: true
+			}
+		},
 		methods: {
+			// 新建数据源，并且下面的数据源列表取消选中状态
 			getActive(obj, index) {
-				this.active = obj.id
 				this.nameActive = index
-				this.$store.commit('changeDataMatch', obj)
-			}
-
+				this.$store.commit('changeDataMatch', obj)//右侧表单清空
+				this.$store.commit('changeUploaded')//数据源列表取消选中状态
+			},
+			getDataSource() {
+				getDataMatchingList({
+					"userId": this.$root.userId
+				}).then(data => {
+					console.log('获取左侧服务器、数据库列表', data)
+					if(data.message == "success") {
+						this.allocationList = data.data
+					}
+				}).catch(err => {
+					console.log(err)
+				})
+			},
 		},
+		created() {
+			this.getDataSource()
+		},
+		mounted() {
 
+		}
 	}
 </script>
 
-<style scoped lang="scss" rel="stylesheet/scss">
+<style lang="scss" rel="stylesheet/scss">
 	.data_allocation {
+		height: 100%;
 		width: 284px;
 		background-blend-mode: saturation, normal, normal;
+		box-sizing: border-box;
+		.uploaded {
+			>div[role='tab'] {
+				.el-collapse-item__header {
+					line-height: 2;
+					height: 110px;
+					padding: 0 20px;
+					text-align: center;
+					i.icon-ep-- {
+						display: inline-block;
+						line-height: 1;
+						font-size: 30px;
+						margin-top: 30px;
+					}
+					p {
+						line-height: 1;
+						margin-top: 5px;
+					}
+					.el-collapse-item__arrow {
+						line-height: 110px;
+					}
+				}
+			}
+		}
 		.all_data_name {
 			display: block;
 			margin: auto;
@@ -164,6 +236,16 @@
 	
 	.theme-red {
 		.data_allocation {
+			.data_allocation_collapse {
+				>.el-collapse-item {
+					>div[role='tab'] {
+						.el-collapse-item__header {
+							background: url(../../assets/imgs/bg_red.png) no-repeat;
+							background-size: 100% 100%;
+						}
+					}
+				}
+			}
 			.all_data_name {
 				background: url(../../assets/imgs/red/title_red.png);
 			}
@@ -189,6 +271,20 @@
 	
 	.theme-blue {
 		.data_allocation {
+			padding: 6px;
+			.data_allocation_collapse {
+				>.el-collapse-item {
+					>div[role='tab'] {
+						.el-collapse-item__header {
+							background: url(../../assets/imgs/blue/report_title.png)no-repeat;
+							background-size: 100% 100%;
+						}
+					}
+				}
+			}
+			.el-collapse-item__header.is-active {
+				background-size: 100% 100%;
+			}
 			.all_data_name {
 				background: url(../../assets/imgs/blue/title_blue.png);
 			}
@@ -219,6 +315,16 @@
 	
 	.theme-green {
 		.data_allocation {
+			.data_allocation_collapse {
+				>.el-collapse-item {
+					>div[role='tab'] {
+						.el-collapse-item__header {
+							background: url(../../assets/imgs/bg_green.png) no-repeat;
+							background-size: 100% 100%;
+						}
+					}
+				}
+			}
 			.all_data_name {
 				background: url(../../assets/imgs/green/title_green.png);
 			}

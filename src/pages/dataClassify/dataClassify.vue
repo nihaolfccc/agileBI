@@ -28,7 +28,7 @@
 				<div class="ify_file" v-for="(element,id) in list" :key="element.id">
 					<ul  class="cursor-move">
 						<li>{{element.name}}</li>
-						<li v-for="(obj,i) in element.childer" :key="i">{{obj.name}}</li>
+						<li v-for="(obj,i) in element.childer" :key="i" :title="obj.name">{{obj.name}}</li>
 					</ul>
 				</div>
 			</vuedraggable>
@@ -38,6 +38,7 @@
 
 <script>
 	import banner from "@/pages/dataClassify/banner"
+	import {getDataMatchingList} from "@/api/index.js"
 	export default {
 		components: {
 			banner
@@ -47,7 +48,7 @@
 			return {
 				list: [{
 					id: 1221,
-					name: "企业信息1",
+					name: "企业信息100",
 					childer: [{
 						id: 99,
 						name: "企业名称"
@@ -370,8 +371,15 @@
 				})
 			},
 			btn_add() {
-				//保存按钮
-
+				//保存按钮 ，调取接口
+				//左边的轮播数组
+				//this.list
+//				console.log(this.arr)
+				getDataMatchingList({
+					userId:"123"
+				}).then((data)=>{
+					console.log(data)
+				})
 			}
 		},
 		created() {
@@ -478,19 +486,28 @@
 		margin-left: 40px;
 		margin-bottom: 50px;
 		ul {
-			border: 1px solid #CCCCCC;
+			border: 1px solid transparent;
 			border-bottom: none;
 			background: #fdf6f5;
-			height: 200px;
+			height: 201px;
 			box-sizing: border-box;
+			overflow-y: auto;
 			>li {
 				height: 40px;
 				text-align: center;
 				line-height: 40px;
-				border-bottom: 1px solid #CCCCCC;
+				border-bottom: 1px solid transparent;
 				box-sizing: border-box;
+				padding: 0 10px;
+			    overflow: hidden;
+			    white-space: nowrap;
+			    text-overflow: ellipsis;
 				&:first-child {
+					color:#a92312;
 					background: #f9dfd6;
+				}
+				&:nth-of-type(even){ 
+					background: #fffbfa;
 				}
 			}
 		}
@@ -528,16 +545,30 @@
 		}
 	}
 	
-	.theme-red {}
+	.theme-red {
+		.ify_file {
+			ul {
+				border-color:#fceceb;
+				>li {
+					border-color:#fceceb;
+				}
+			}
+		}
+	}
 	
 	.theme-blue {
 		.ify_file {
 			ul {
-				background: #fafcff;
+				background: #f5f8fd;
+				border-color:#e6eff9;
 				>li {
+					border-color:#e6eff9;
 					&:first-child {
 						background: #dce8f6;
 						color: #4a6c98;
+					}
+					&:nth-of-type(even){ 
+						background: #fafcff;
 					}
 				}
 			}
@@ -559,10 +590,15 @@
 		.ify_file{
 			ul{
 				background: #f6fdf8;
+				border-color:#e7f9ed;
 				>li{
+					border-color:#e7f9ed;
 					&:first-child{
 						background: #e4f8e3;
 						color: #017734;
+					}
+					&:nth-of-type(even){ 
+						background: #fcfffc;
 					}
 				}
 			}

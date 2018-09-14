@@ -1,19 +1,18 @@
 <template>
 	<div id="content" ref="content">
-		<header>
-			<span :title="question">{{question}}</span>
-			<div class="btn-wrap" v-if="flagBtn" ref="btnWrap">
-				<btn v-for="(item, index) in buttons" :key="index" :item="item"></btn>
-			</div>
-			<div class="btn-wrap" v-if="!flagBtn" ref="btnWrap">
-				<btn v-for="(item, index) in buttons2" :key="index" :item="item"></btn>
+		<header v-if="visibleHeader">
+			<span :title="reportName">{{reportName}}</span>
+			<div class="btn-wrap">
+				<btn v-for="(item, index) in buttons" :key="index" :item="item" @click.native="item.fn"></btn>
 			</div>
 		</header>
-		<layout-type :layoutType="layoutType"></layout-type>
+		<div class="interspace" v-if="!visibleHeader"></div>
+		<layout-type></layout-type>
 	</div>
 </template>
 
 <script>
+	import { mapState } from "vuex";
 	import btn from '@/components/buttons/btn'
 	import layoutType from '@/components/template/layoutType'
 
@@ -22,89 +21,35 @@
 			btn,
 			layoutType
 		},
-		data: function() {
-			return {
-				question: '',
-				buttons: [{
-						name: '高度切换',
-						iconName: 'icon-daochu'
-					},
-					{
-						name: '收藏',
-						iconName: 'icon-shoucang3'
-					},
-					{
-						name: '导出',
-						iconName: 'icon-daochu'
-					},
-				],
-				buttons2: [{
-						name: '保存',
-						className: 'save'
-					},
-					{
-						name: '取消',
-						className: 'cancel'
-					}
-				],
-				layoutType: 'left',
+		props: {
+			buttons: {
+				type: Array
 			}
 		},
-		props: {
-			
+		data() {
+			return {
+				
+			}
 		},
 		computed: {
-			flagBtn() {
-				return this.$store.state.flagBtn
-			},
-			reportId() {
-				return this.$store.state.reportId
-			},
-			reportName() {
-				return this.$store.state.reportName
-			},
+			...mapState(["reportName", "visibleHeader"])
 		},
 		watch: {
-			reportId: {
-				handler(newValue, oldValue) {
-					//console.log(newValue)
-					this.getChartData(newValue)
-				}
-			},
-			reportName: {
-				handler(newValue, oldValue) {
-					//console.log(newValue)
-					this.question = newValue
-				}
-			},
+			
 		},
 		methods: {
-			getChartData(id) {
-				//console.log(id)
-			},
+			
 		},
 		mounted() {
-			if(this.reportName!='' && this.reportId!=0){
-				//console.log(this.reportName)
-				this.question = this.reportName
-				this.getChartData(this.reportId)
-			}
+			
 		}
 	}
 </script>
 
 <style scoped lang="scss" rel="stylesheet/scss">
-	.theme-blue {
-	}
-	
-	.theme-red {
-	}
-	
-	.theme-green {
-	}
-	
 	#content {
 		box-sizing: border-box;
+		min-height: calc(100vh - 210px);
 		padding: 0 46px 40px;
 		border-radius: 8px;
 		background-color: white;
@@ -133,5 +78,8 @@
 				}
 			}
 		}
+	}
+	.interspace{
+		height: 40px;
 	}
 </style>

@@ -1,190 +1,146 @@
 <template>
 	<div class="main-content" id="main-content" style="height: 867px;">
-		<!--居左布局-->
-		<div class="layout-left" v-if="layoutType=='left'">
+		<!--六个元素-左布局-->
+		<div class="layout-left" v-if="layoutType=='six-left'">
 			<div class="content-left">
 				<div class="content-left-top">
-					<div class="bgcolor-f8 border-change" :class="{'active': activeBorder==0}" @click="addBorder(0)">
-						<base-chart :windowSize="chageSize" :resize="flagLeftBar" :time="300" :initTime="300" :chartType="mainMap" key="mainMapLeft"></base-chart>
-						<div class="btn-wrap">
-							<button :class="item.classBtn" v-for="(item, index) in btns" :key="index" @click="btnMethod(item.classBtn)"><i class="iconfont" :class="item.classIcon"></i></button>
-						</div>
-					</div>
+					<each-chart :idx="chartArr[0]" :chartType="echartsData[0].chartType" :options="echartsData[0]" key="six0"></each-chart>
 				</div>
 				<div class="content-left-bottom">
-					<div class="bgcolor-fa border-change" :class="{'active': activeBorder==1}" @click="addBorder(1)">
-						<base-chart :windowSize="chageSize" :resize="flagLeftBar" :time="300" :initTime="300" :chartType="MapA"></base-chart>
-						<button class="switch-main-map" @click="switchMainMap('MapA', MapA)" v-if="false"><i class="iconfont icon-genghuan"></i></button>
-						<div class="btn-wrap">
-							<button :class="item.classBtn" v-for="(item, index) in btns" :key="index" @click="btnMethod(item.classBtn)"><i class="iconfont" :class="item.classIcon"></i></button>
-						</div>
-					</div>
-					<div class="bgcolor-fa border-change" :class="{'active': activeBorder==2}" @click="addBorder(2)">
-						<base-chart :windowSize="chageSize" :resize="flagLeftBar" :time="300" :initTime="300" :chartType="MapB"></base-chart>
-						<button class="switch-main-map" @click="switchMainMap('MapB', MapB)" v-if="false"><i class="iconfont icon-genghuan"></i></button>
-						<div class="btn-wrap">
-							<button :class="item.classBtn" v-for="(item, index) in btns" :key="index" @click="btnMethod(item.classBtn)"><i class="iconfont" :class="item.classIcon"></i></button>
-						</div>
-					</div>
+					<each-chart :idx="chartArr[1]" :chartType="echartsData[1].chartType" :options="echartsData[1]" key="six1"></each-chart>
+					<each-chart :idx="chartArr[2]" :chartType="echartsData[2].chartType" :options="echartsData[2]" key="six2"></each-chart>
 				</div>
 			</div>
 			<div class="content-right">
-				<div class="bgcolor-fa border-change" :class="{'active': activeBorder==3}" @click="addBorder(3)">
-					<base-chart :windowSize="chageSize" :resize="flagLeftBar" :time="300" :initTime="300" :chartType="MapC"></base-chart>
-					<button class="switch-main-map" @click="switchMainMap('MapC', MapC)" v-if="false"><i class="iconfont icon-genghuan"></i></button>
-					<div class="btn-wrap">
-						<button :class="item.classBtn" v-for="(item, index) in btns" :key="index" @click="btnMethod(item.classBtn)"><i class="iconfont" :class="item.classIcon"></i></button>
-					</div>
+				<div>
+					<each-chart :idx="chartArr[3]" :chartType="echartsData[3].chartType" :options="echartsData[3]" key="six3"></each-chart>
 				</div>
-				<div class="bgcolor-fa border-change" :class="{'active': activeBorder==4}" @click="addBorder(4)">
-					<base-chart :windowSize="chageSize" :resize="flagLeftBar" :time="300" :initTime="300" :chartType="MapD"></base-chart>
-					<button class="switch-main-map" @click="switchMainMap('MapD', MapD)" v-if="false"><i class="iconfont icon-genghuan"></i></button>
-					<div class="btn-wrap">
-						<button :class="item.classBtn" v-for="(item, index) in btns" :key="index" @click="btnMethod(item.classBtn)"><i class="iconfont" :class="item.classIcon"></i></button>
-					</div>
+				<div>
+					<each-chart :idx="chartArr[4]" :chartType="echartsData[4].chartType" :options="echartsData[4]" key="six4"></each-chart>
 				</div>
-				<div class="writingReport bgcolor-fa">
-					<h4>文字报告</h4>
-					<ol>
-						<li v-for="(item, index) in writingReport" :key="index">{{item}}</li>
-					</ol>
+				<div>
+					<each-chart :idx="chartArr[5]" :chartType="echartsData[5].chartType" :options="echartsData[5]" key="six5"></each-chart>
 				</div>
 			</div>
 		</div>
 
-		<!--居中布局-->
-		<div class="layout-left layout-center" v-if="layoutType=='center'">
-			<div class="content-right ml">
-				<div class="bgcolor-fa border-change" :class="{'active': activeBorder==3}" @click="addBorder(3)">
-					<base-chart :windowSize="chageSize" :resize="flagLeftBar" :time="300" :initTime="300" :chartType="MapC"></base-chart>
-					<button class="switch-main-map" @click="switchMainMap('MapC', MapC)" v-if="false"><i class="iconfont icon-genghuan"></i></button>
-					<div class="btn-wrap">
-						<button :class="item.classBtn" v-for="(item, index) in btns" :key="index" @click="btnMethod(item.classBtn)"><i class="iconfont" :class="item.classIcon"></i></button>
-					</div>
-				</div>
-				<div class="bgcolor-fa border-change" :class="{'active': activeBorder==4}" @click="addBorder(4)">
-					<base-chart :windowSize="chageSize" :resize="flagLeftBar" :time="300" :initTime="300" :chartType="MapD"></base-chart>
-					<button class="switch-main-map" @click="switchMainMap('MapD', MapD)" v-if="false"><i class="iconfont icon-genghuan"></i></button>
-					<div class="btn-wrap">
-						<button :class="item.classBtn" v-for="(item, index) in btns" :key="index" @click="btnMethod(item.classBtn)"><i class="iconfont" :class="item.classIcon"></i></button>
-					</div>
-				</div>
-				<div class="bgcolor-fa border-change" :class="{'active': activeBorder==1}" @click="addBorder(1)">
-					<base-chart :windowSize="chageSize" :resize="flagLeftBar" :time="300" :initTime="300" :chartType="MapA"></base-chart>
-					<button class="switch-main-map" @click="switchMainMap('MapD', MapD)" v-if="false"><i class="iconfont icon-genghuan"></i></button>
-					<div class="btn-wrap">
-						<button :class="item.classBtn" v-for="(item, index) in btns" :key="index" @click="btnMethod(item.classBtn)"><i class="iconfont" :class="item.classIcon"></i></button>
-					</div>
-				</div>
-			</div>
+		<!--六个元素-右布局-->
+		<div class="layout-left row-reverse" v-if="layoutType=='six-right'">
 			<div class="content-left">
 				<div class="content-left-top">
-					<div class="bgcolor-f8 border-change" :class="{'active': activeBorder==0}" @click="addBorder(0)">
-						<base-chart :windowSize="chageSize" :resize="flagLeftBar" :time="300" :initTime="300" :chartType="mainMap" key="mainMapcenter"></base-chart>
-					</div>
+					<each-chart :idx="chartArr[0]" :chartType="echartsData[0].chartType" :options="echartsData[0]" key="six0"></each-chart>
 				</div>
 				<div class="content-left-bottom">
-					<div class="bgcolor-fa border-change" :class="{'active': activeBorder==2}" @click="addBorder(2)">
-						<base-chart :windowSize="chageSize" :resize="flagLeftBar" :time="300" :initTime="300" :chartType="MapB"></base-chart>
-						<button class="switch-main-map" @click="switchMainMap('MapB', MapB)" v-if="false"><i class="iconfont icon-genghuan"></i></button>
-						<div class="btn-wrap">
-							<button :class="item.classBtn" v-for="(item, index) in btns" :key="index" @click="btnMethod(item.classBtn)"><i class="iconfont" :class="item.classIcon"></i></button>
-						</div>
-					</div>
-					<div class="bgcolor-fa border-change" :class="{'active': activeBorder==5}" @click="addBorder(5)">
-						<base-chart :windowSize="chageSize" :resize="flagLeftBar" :time="300" :initTime="300" :chartType="MapE"></base-chart>
-						<button class="switch-main-map" @click="switchMainMap('MapE', MapE)" v-if="false"><i class="iconfont icon-genghuan"></i></button>
-						<div class="btn-wrap">
-							<button :class="item.classBtn" v-for="(item, index) in btns" :key="index" @click="btnMethod(item.classBtn)"><i class="iconfont" :class="item.classIcon"></i></button>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="content-right mr">
-				<div class="bgcolor-fa border-change" :class="{'active': activeBorder==6}" @click="addBorder(6)">
-					<base-chart :windowSize="chageSize" :resize="flagLeftBar" :time="300" :initTime="300" :chartType="MapF"></base-chart>
-					<button class="switch-main-map" @click="switchMainMap('MapF', MapF)" v-if="false"><i class="iconfont icon-genghuan"></i></button>
-					<div class="btn-wrap">
-						<button :class="item.classBtn" v-for="(item, index) in btns" :key="index" @click="btnMethod(item.classBtn)"><i class="iconfont" :class="item.classIcon"></i></button>
-					</div>
-				</div>
-				<div class="bgcolor-fa border-change" :class="{'active': activeBorder==7}" @click="addBorder(7)">
-					<base-chart :windowSize="chageSize" :resize="flagLeftBar" :time="300" :initTime="300" :chartType="MapG"></base-chart>
-					<button class="switch-main-map" @click="switchMainMap('MapG', MapG)" v-if="false"><i class="iconfont icon-genghuan"></i></button>
-					<div class="btn-wrap">
-						<button :class="item.classBtn" v-for="(item, index) in btns" :key="index" @click="btnMethod(item.classBtn)"><i class="iconfont" :class="item.classIcon"></i></button>
-					</div>
-				</div>
-				<div class="writingReport bgcolor-fa">
-					<h4>文字报告</h4>
-					<ol>
-						<li v-for="(item, index) in writingReport" :key="index">{{item}}</li>
-					</ol>
-				</div>
-			</div>
-		</div>
-
-		<!--居右布局-->
-		<div class="layout-left layout-right" v-if="layoutType=='right'">
-			<div class="content-left">
-				<div class="content-left-top">
-					<div class="bgcolor-f8 border-change" :class="{'active': activeBorder==0}" @click="addBorder(0)">
-						<base-chart :windowSize="chageSize" :resize="flagLeftBar" :time="300" :initTime="300" :chartType="mainMap" key="mainMapRight"></base-chart>
-					</div>
-				</div>
-				<div class="content-left-bottom">
-					<div class="bgcolor-fa border-change" :class="{'active': activeBorder==2}" @click="addBorder(2)">
-						<base-chart :windowSize="chageSize" :resize="flagLeftBar" :time="300" :initTime="300" :chartType="MapB"></base-chart>
-						<button class="switch-main-map" @click="switchMainMap('MapB', MapB)" v-if="false"><i class="iconfont icon-genghuan"></i></button>
-						<div class="btn-wrap">
-							<button :class="item.classBtn" v-for="(item, index) in btns" :key="index" @click="btnMethod(item.classBtn)"><i class="iconfont" :class="item.classIcon"></i></button>
-						</div>
-					</div>
-					<div class="writingReport bgcolor-fa">
-						<h4>文字报告</h4>
-						<ol>
-							<li v-for="(item, index) in writingReport" :key="index">{{item}}</li>
-						</ol>
-					</div>
+					<each-chart :idx="chartArr[1]" :chartType="echartsData[1].chartType" :options="echartsData[1]" key="six1"></each-chart>
+					<each-chart :idx="chartArr[2]" :chartType="echartsData[2].chartType" :options="echartsData[2]" key="six2"></each-chart>
 				</div>
 			</div>
 			<div class="content-right">
-				<div class="bgcolor-fa border-change" :class="{'active': activeBorder==3}" @click="addBorder(3)">
-					<base-chart :windowSize="chageSize" :resize="flagLeftBar" :time="300" :initTime="300" :chartType="MapC"></base-chart>
-					<button class="switch-main-map" @click="switchMainMap('MapC', MapC)" v-if="false"><i class="iconfont icon-genghuan"></i></button>
-					<div class="btn-wrap">
-						<button :class="item.classBtn" v-for="(item, index) in btns" :key="index" @click="btnMethod(item.classBtn)"><i class="iconfont" :class="item.classIcon"></i></button>
-					</div>
+				<div>
+					<each-chart :idx="chartArr[3]" :chartType="echartsData[3].chartType" :options="echartsData[3]" key="six3"></each-chart>
 				</div>
-				<div class="bgcolor-fa border-change" :class="{'active': activeBorder==4}" @click="addBorder(4)">
-					<base-chart :windowSize="chageSize" :resize="flagLeftBar" :time="300" :initTime="300" :chartType="MapD"></base-chart>
-					<button class="switch-main-map" @click="switchMainMap('MapD', MapD)" v-if="false"><i class="iconfont icon-genghuan"></i></button>
-					<div class="btn-wrap">
-						<button :class="item.classBtn" v-for="(item, index) in btns" :key="index" @click="btnMethod(item.classBtn)"><i class="iconfont" :class="item.classIcon"></i></button>
-					</div>
+				<div>
+					<each-chart :idx="chartArr[4]" :chartType="echartsData[4].chartType" :options="echartsData[4]" key="six4"></each-chart>
 				</div>
-				<div class="bgcolor-fa border-change" :class="{'active': activeBorder==1}" @click="addBorder(1)">
-					<base-chart :windowSize="chageSize" :resize="flagLeftBar" :time="300" :initTime="300" :chartType="MapA"></base-chart>
-					<button class="switch-main-map" @click="switchMainMap('MapA', MapA)" v-if="false"><i class="iconfont icon-genghuan"></i></button>
-					<div class="btn-wrap">
-						<button :class="item.classBtn" v-for="(item, index) in btns" :key="index" @click="btnMethod(item.classBtn)"><i class="iconfont" :class="item.classIcon"></i></button>
-					</div>
+				<div>
+					<each-chart :idx="chartArr[5]" :chartType="echartsData[5].chartType" :options="echartsData[5]" key="six5"></each-chart>
 				</div>
 			</div>
 		</div>
 
-		<!--图标设置——对话框-->
-		<el-dialog title="图表设置" :visible.sync="dialogChartSet">
+		<!--五个元素-->
+		<div class="layout-left layout-five" v-if="layoutType=='five'">
+			<div class="content-five-left">
+				<div>
+					<each-chart :idx="chartArr[1]" :chartType="echartsData[1].chartType" :options="echartsData[1]" key="five1"></each-chart>
+				</div>
+				<div>
+					<each-chart :idx="chartArr[2]" :chartType="echartsData[2].chartType" :options="echartsData[2]" key="five2"></each-chart>
+				</div>
+			</div>
+			<div class="content-five-center">
+				<each-chart :idx="chartArr[0]" :chartType="echartsData[0].chartType" :options="echartsData[0]" key="five0"></each-chart>
+			</div>
+			<div class="content-five-right">
+				<div>
+					<each-chart :idx="chartArr[3]" :chartType="echartsData[3].chartType" :options="echartsData[3]" key="five3"></each-chart>
+				</div>
+				<div>
+					<each-chart :idx="chartArr[4]" :chartType="echartsData[4].chartType" :options="echartsData[4]" key="five4"></each-chart>
+				</div>
+			</div>
+		</div>
+
+		<!--四个元素-->
+		<div class="layout-left layout-four" v-if="layoutType=='four'">
+			<div class="layout-four__top">
+				<each-chart :idx="chartArr[0]" :chartType="echartsData[0].chartType" :options="echartsData[0]" key="four0"></each-chart>
+				<each-chart :idx="chartArr[1]" :chartType="echartsData[1].chartType" :options="echartsData[1]" key="four1"></each-chart>
+			</div>
+			<div class="layout-four__bottom">
+				<each-chart :idx="chartArr[2]" :chartType="echartsData[2].chartType" :options="echartsData[2]" key="four2"></each-chart>
+				<each-chart :idx="chartArr[3]" :chartType="echartsData[3].chartType" :options="echartsData[3]" key="four3"></each-chart>
+			</div>
+		</div>
+
+		<!--三个元素-主图在左-->
+		<div class="layout-left layout-three-left" v-if="layoutType=='three-left'">
+			<div class="content-left">
+				<each-chart :idx="chartArr[0]" :chartType="echartsData[0].chartType" :options="echartsData[0]" key="three-left0"></each-chart>
+			</div>
+			<div class="content-right">
+				<each-chart :idx="chartArr[1]" :chartType="echartsData[1].chartType" :options="echartsData[1]" key="three-left1"></each-chart>
+				<each-chart :idx="chartArr[2]" :chartType="echartsData[2].chartType" :options="echartsData[2]" key="three-left2"></each-chart>
+			</div>
+		</div>
+
+		<!--三个元素-主图在右-->
+		<div class="layout-left layout-three-left row-reverse" v-if="layoutType=='three-right'">
+			<div class="content-left">
+				<each-chart :idx="chartArr[0]" :chartType="echartsData[0].chartType" :options="echartsData[0]" key="three-right0"></each-chart>
+			</div>
+			<div class="content-right">
+				<each-chart :idx="chartArr[1]" :chartType="echartsData[1].chartType" :options="echartsData[1]" key="three-right1"></each-chart>
+				<each-chart :idx="chartArr[2]" :chartType="echartsData[2].chartType" :options="echartsData[2]" key="three-right2"></each-chart>
+			</div>
+		</div>
+
+		<!--两个元素-上下排列-->
+		<div class="layout-left layout-two-v" v-if="layoutType=='two-v'">
+			<div>
+				<each-chart :idx="chartArr[0]" :chartType="echartsData[0].chartType" :options="echartsData[0]" key="two-v0"></each-chart>
+			</div>
+			<div>
+				<each-chart :idx="chartArr[1]" :chartType="echartsData[1].chartType" :options="echartsData[1]" key="two-v1"></each-chart>
+			</div>
+		</div>
+
+		<!--两个元素-左右排列-->
+		<div class="layout-left layout-two-h" v-if="layoutType=='two-h'">
+			<div>
+				<each-chart :idx="chartArr[0]" :chartType="echartsData[0].chartType" :options="echartsData[0]" key="two-h0"></each-chart>
+			</div>
+			<div>
+				<each-chart :idx="chartArr[1]" :chartType="echartsData[1].chartType" :options="echartsData[1]" key="two-h1"></each-chart>
+			</div>
+		</div>
+
+		<!--一个元素-->
+		<div class="layout-left layout-one" v-if="layoutType=='one'">
+			<each-chart :idx="chartArr[0]" :chartType="echartsData[0].chartType" :options="echartsData[0]" key="one"></each-chart>
+		</div>
+
+		<!--图表设置——对话框-->
+		<el-dialog title="图表设置" :visible.sync="dialogChartSet" class="dialogChartSet">
 			<div class="el-dialog-content clearfix">
-				<div :class="['chart-type'+item, {'active': chartTypeActive==index}]" v-for="(item, index) in 29" :key="index" @click="chartTypeActive=index"></div>
-				<div class="chart-type30" @click="getMoreChart"></div>
+				<div class="transition" :class="['chart-type'+(index +1), {'active': chartTypeActive == index, 'highlight': highlightArr.indexOf(index) != -1}]" v-for="(item, index) in switchTypeObj" :key="index" @click="clickDialogChart(index, $event,item.value)" :title="item.name"></div>
 			</div>
 			<div slot="footer" class="dialog-footer clearfix">
-				<div class="fl" v-if="false">
+				<div class="fl" :class="{'is-disabled': isDisabled}">
 					<div>
 						<div class="check" v-show="flagMainMap"></div>
 						<div class="check-not" v-show="!flagMainMap"></div>
-						<input type="checkbox" name="mainMap" id="mainMap" v-model="flagMainMap" @change="becomeMainMap" />
+						<input type="checkbox" name="mainMap" id="mainMap" :disabled="isDisabled" v-model="flagMainMap" />
 					</div>
 					<label for="mainMap">设为主图</label>
 				</div>
@@ -199,114 +155,221 @@
 </template>
 
 <script>
-	import baseChart from '@/components/charts/baseChart'
+	import { mapState } from "vuex";
+	import eachChart from '@/components/template/eachChart'
 	import canvasBoard from '@/components/canvas/canvasBoard'
+	//import { dataEcharts } from '@/json/common.js' // 获取本地模拟数据
 
 	export default {
 		components: {
-			baseChart,
+			eachChart,
 			canvasBoard,
 		},
-		data: function() {
+		props: {
+
+		},
+		data() {
 			return {
-				windowSize: document.documentElement.clientWidth,
-				writingReport: [
-					'4月19日到达开封的客流中飞机前往的占比45.49%，火车占34.47%。',
-					'在2016年8月旅游收到达到最高点为500123194元。1月是最低点，为3214123元。',
-					'旅游客源前三名深圳，广州和大理。',
-					'旅游收入占比为国内收入94.94%。',
-					'旅游消费主要餐饮，酒店，古维等。',
-					'旅游人数在2016年7月达到最高点，为500万人次。'
-				],
-				mainMap: 'chinaMap',
-				MapA: 'basicRadar',
-				MapB: 'torus',
-				MapC: 'pie',
-				MapD: 'barYCategory',
-				MapE: 'lineAndBar',
-				MapF: 'hotWord',
-				MapG: 'scatter',
-				activeBorder: 0,
-				btns: [{
-						classBtn: 'btn-set',
-						classIcon: 'icon-shezhi',
-					},
-					/*{
-						classBtn: 'btn-copy',
-						classIcon: 'icon-fuzhi1',
-					},
-					{
-						classBtn: 'btn-delete',
-						classIcon: 'icon-shanchu-',
-					}*/
-				],
 				dialogChartSet: false,
 				flagMainMap: false,
-				chartTypeActive: 0,
+				chartTypeActive: -1,
+				isDisabled: false,
+				highlightArr: [],
+				selectType: '',
+				switchType: ['twoSbarY', 'twoSbar', 'twoSfunnel', 'twoSLine', 'twoSacreage', 'twoSpie', 'twoSpieRing', 'twoSareaPie', 'twoSradiusPie', 'twoSradarNood', 'twoSradarLine', 'twoMbarY', 'twoMbar', 'twoMClusterY', 'twoMCluster', 'twoSMcard', 'twoSScard', 'twoMStackAcreage', 'twoMradarLine', 'twoMradarNood', 'twoMacreage', 'twoMLine', 'twoMRiver'],
+				switchTypeObj: [{
+					'name':'横向柱状图',
+					'value':'twoSbarY'
+				},{
+					'name':'竖向柱状图',
+					'value':'twoSbar'
+				},{
+					'name':'漏斗图',
+					'value':'twoSfunnel'
+				},{
+					'name':'折线图',
+					'value':'twoSLine'
+				},{
+					'name':'普通面积图',
+					'value':'twoSacreage'
+				},{
+					'name':'饼状图',
+					'value':'twoSpie'
+				},{
+					'name':'环形图',
+					'value':'twoSpieRing'
+				},{
+					'name':'定角南丁格尔图',
+					'value':'twoSareaPie'
+				},{
+					'name':'不定角南丁格尔图',
+					'value':'twoSradiusPie'
+				},{
+					'name':'面状雷达图',
+					'value':'twoSradarNood'
+				},{
+					'name':'线状雷达图',
+					'value':'twoSradarLine'
+				},{
+					'name':'横向堆积柱状图',
+					'value':'twoMbarY'
+				},{
+					'name':'竖向堆积柱状图',
+					'value':'twoMbar'
+				},{
+					'name':'横向簇状柱状图',
+					'value':'twoMClusterY'
+				},{
+					'name':'竖向簇状柱状图',
+					'value':'twoMCluster'
+				},{
+					'name':'多行卡片图',
+					'value':'twoSMcard'
+				},{
+					'name':'标准卡片图',
+					'value':'twoSScard'
+				},{
+					'name':'堆积面积图',
+					'value':'twoMStackAcreage'
+				},{
+					'name':'多序列线状雷达图',
+					'value':'twoMradarLine'
+				},{
+					'name':'多序列面状雷达图',
+					'value':'twoMradarNood'
+				},{
+					'name':'多序列面积图',
+					'value':'twoMacreage'
+				},{
+					'name':'多序列折线图',
+					'value':'twoMLine'
+				},{
+					'name':'河流图',
+					'value':'twoMRiver'
+				},],
+
 			}
 		},
-		props: {
-			layoutType: {
-				type: String,
-				default: 'left'
-			},
-		},
+		/*
+		 *瀑布图没有写
+		 * 解释上面渲染的是什么图表   
+		 * 2维单序列:	twoSbarY(横向柱状图) 6
+		 * 				twoSbar(竖向柱状图) 7
+		 * 				twoSfunnel(漏斗图)13
+		 * 				twoSLine(折线图)14
+		 * 				twoSacreage(普通面积图)15
+		 * 				twoSpie(饼状图)19
+		 * 				twoSpieRing(环形图)20
+		 * 				twoSareaPie(定角南丁格尔图)21
+		 * 				twoSradiusPie(不定角南丁格尔图)22
+		 * 				twoSradarNood(面状雷达图)31
+		 * 				twoSradarLine(线状雷达图)32
+		 * 
+		 * 2维多序列:	twoMbarY(横向堆积柱状图)	4	
+		 * 				twoMbar(竖向堆积柱状图) 5
+		 * 				twoMClusterY(横向簇状柱状图)10
+		 * 				twoMCluster(竖向簇状柱状图)11
+		 * 				twoSMcard(多行卡片图)29  //可能能够切换成柱状图
+		 * 				twoSScard(标准卡片图)30 //暂时无图可以切换
+		 * 				twoMStackAcreage(堆积面积图)
+		 * 				twoMradarLine(线状雷达图)
+		 * 				twoMradarNood(面状雷达图)
+		 * 				twoMacreage 多序列面积图
+		 * 				twoMLine 多序列折线图
+		 * 				twoMRiver 河流图
+		 * 				
+		 * 				
+		 * 
+		 * 
+		 * 				
+		 * 
+		 * 
+		 * */
 		computed: {
-			chageSize() {
-				window.addEventListener('resize', () => {
-					this.windowSize = document.documentElement.clientWidth
-				})
-				return this.windowSize
-			},
-			flagLeftBar() {
-				return this.$store.state.flagLeftBar
-			},
-			flagBtn() {
-				return this.$store.state.flagBtn
-			},
+			...mapState(['layoutType', 'chartArr', 'currentChartIndex', 'echartsData']),
 		},
 		watch: {
-
+			echartsData: {
+				handler(val, olval) {
+					console.log("监听图表数组变化", val)
+					this.showChart()
+				},
+				deep: true
+			},
 		},
 		methods: {
-			switchMainMap(compontentName, compontentValue) {
-				//console.log(compontentName, compontentValue)
-				this[compontentName] = this.mainMap
-				this.mainMap = compontentValue
-			},
-			addBorder(index) {
-				this.activeBorder = index
-			},
-			btnMethod(type) {
-				console.log(type);
-				switch(type) {
-					case 'btn-set':
-						this.showChartSet()
-						break;
-
+			// 点击图表设置——对话框里面的图表
+			clickDialogChart(index, e, item) {
+				//console.log("点击图表设置——对话框里面的图表",index)
+				if($(e.target).hasClass('highlight')) {
+					this.chartTypeActive = index
+					this.selectType = item
 				}
 			},
-			showChartSet() {
-				this.dialogChartSet = true
-			},
-			becomeMainMap() {
-				console.log(this.flagMainMap)
-
-			},
-			getMoreChart() {
-
-			},
+			// 点击确定按钮 切换图表  切换成主图？
 			chartSetConfirmFn() {
 				this.dialogChartSet = false
+				if(this.flagMainMap) { //是不是在切换陈主图的时候也要更换图表类型
+					var mainChart = this.echartsData[0]
+					var selectChart = this.echartsData[this.currentChartIndex]
+					this.echartsData[0] = selectChart
+					this.echartsData[this.currentChartIndex] = mainChart
+					if(this.selectType != '') {
+						this.echartsData[0].chartType = this.selectType
+					}
+
+				}
+				if(this.selectType != "" && !this.flagMainMap) {
+					this.echartsData[this.currentChartIndex].chartType = this.selectType
+				}
 			},
+			showChart() {
+				switch(this.echartsData.length) {
+					case 1:
+						this.$store.commit('changeTemplateActive', 8)
+						this.$store.commit('changeLayoutType', 'one')
+						this.$store.commit('changeChartArr', [0])
+						break;
+					case 2:
+						this.$store.commit('changeTemplateActive', 6)
+						this.$store.commit('changeLayoutType', 'two-v')
+						this.$store.commit('changeChartArr', [0, 1])
+						break;
+					case 3:
+						this.$store.commit('changeTemplateActive', 4)
+						this.$store.commit('changeLayoutType', 'three-left')
+						this.$store.commit('changeChartArr', [0, 1, 2])
+						break;
+					case 4:
+						this.$store.commit('changeTemplateActive', 3)
+						this.$store.commit('changeLayoutType', 'four')
+						this.$store.commit('changeChartArr', [0, 1, 2, 3])
+						break;
+					case 5:
+						this.$store.commit('changeTemplateActive', 2)
+						this.$store.commit('changeLayoutType', 'five')
+						this.$store.commit('changeChartArr', [0, 1, 2, 3, 4])
+						break;
+					case 6:
+						this.$store.commit('changeTemplateActive', 0)
+						this.$store.commit('changeLayoutType', 'six-left')
+						this.$store.commit('changeChartArr', [0, 1, 2, 3, 4, 5])
+						break;
+					default:
+						this.$store.commit('changeTemplateActive', -1) //左侧布局类型模板下标
+						this.$store.commit('changeLayoutType', '')
+						this.$store.commit('changeChartArr', [])
+						break;
+				}
+			}
 		},
 		created() {
-
+			// 以下代码必须写在created钩子函数中，否则跳页面回来之后报错echartsData
+			this.showChart()
 		},
 		mounted() {
-			this.$nextTick(() => { //必须加，否则全局状态不改变
-				//this.$store.commit('changeBtn', false)
-			})
+			// 获取本地模拟数据
+			//this.$store.commit('changeEchartsData', dataEcharts)
 		}
 	}
 </script>
@@ -316,16 +379,6 @@
 		position: relative;
 		height: calc(100vh - 332px);
 		min-height: 615px;
-	}
-	
-	.bgcolor-f8 {
-		border-radius: 6px;
-		background-color: #f8f8f8;
-	}
-	
-	.bgcolor-fa {
-		border-radius: 6px;
-		background-color: #fafafa;
 	}
 	
 	.layout-left {
@@ -340,24 +393,22 @@
 				margin-right: 10px;
 			}
 			.content-left-top {
-				flex: 2;
 				>div {
 					position: relative;
-					height: 100%;
-					margin-bottom: 30px;
+					height: 568px;
 				}
 			}
 			.content-left-bottom {
-				margin-top: 60px;
-				flex: 1;
+				margin-top: 30px;
+				height: 269px;
 				display: flex;
 				>div {
 					flex: 1;
 					width: 0;
-					margin-top: -30px;
+					margin-right: 30px;
 					position: relative;
-					&:first-of-type {
-						margin-right: 30px;
+					&:last-of-type {
+						margin-right: 0;
 					}
 				}
 			}
@@ -371,6 +422,7 @@
 				margin-left: 20px;
 				margin-bottom: 30px;
 				flex: 1;
+				height: 0;
 				position: relative;
 				&:last-of-type {
 					margin-bottom: 0;
@@ -379,237 +431,512 @@
 		}
 	}
 	
-	.layout-center {
-		.content-right.ml {
-			>div {
-				margin-left: 0;
-				margin-right: 9px;
+	.layout-one {
+		>div {
+			flex: 1;
+			display: flex;
+			width: 100%;
+			height: 100%;
+			overflow: hidden;
+		}
+	}
+	
+	.layout-two-v {
+		flex-direction: column;
+		>div {
+			flex: 1;
+			margin-bottom: 30px;
+			&:last-of-type {
+				margin-bottom: 0;
 			}
 		}
-		.content-left {
-			>div {
-				margin: 0 3px;
+	}
+	
+	.layout-two-h {
+		>div {
+			flex: 1;
+			margin-right: 30px;
+			&:last-of-type {
+				margin-right: 0;
 			}
-			.content-left-bottom {
+		}
+	}
+	
+	.layout-three-left {
+		>div {
+			flex: 1;
+			&.content-left {
+				margin-right: 30px;
+			}
+			&.content-right {
+				display: flex;
+				flex-direction: column;
 				>div {
-					&:first-of-type {
-						margin-right: 12px;
+					flex: 1;
+					margin-bottom: 30px;
+					&:last-of-type {
+						margin-bottom: 0;
 					}
 				}
 			}
 		}
-		.content-right.mr {
-			>div {
-				margin-left: 9px;
-			}
-		}
 	}
 	
-	.layout-right {
+	.row-reverse {
 		flex-direction: row-reverse;
-		.content-left {
-			>div {
-				margin-left: 10px;
+		>div {
+			&.content-left {
 				margin-right: 0;
 			}
-		}
-		.content-right {
-			>div {
-				margin-left: 0;
-				margin-right: 20px;
+			&.content-right {
+				margin-right: 30px;
 			}
 		}
 	}
 	
-	.writingReport {
-		padding: 0 12px;
-		color: #20334a;
-		box-sizing: border-box;
-		border: 8px solid transparent;
-		display: flex;
+	.layout-four {
 		flex-direction: column;
-		h4 {
-			line-height: 1;
-			padding: 6px 0 14px;
-			font-size: 16px;
-			font-weight: bold;
-		}
-		ol {
+		>div {
 			flex: 1;
-			height: 0;
-			overflow: auto;
-			li {
-				list-style: decimal;
-				list-style-position: inside;
-				line-height: 32px;
-				font-size: 14px;
+			display: flex;
+			margin-bottom: 30px;
+			&:last-of-type {
+				margin-bottom: 0;
+			}
+			>div {
+				flex: 1;
+				margin-right: 30px;
+				&:last-of-type {
+					margin-right: 0;
+				}
 			}
 		}
 	}
 	
-	.switch-main-map {
-		display: none;
-		position: absolute;
-		top: 2px;
-		right: 2px;
-		width: 20px;
-		height: 20px;
-		border-radius: 4px;
-		color: white;
-		&:hover {
-			opacity: .8;
+	.layout-five {
+		.content-five-left,
+		.content-five-right {
+			width: 0;
+			flex: 1;
+			display: flex;
+			flex-direction: column;
+			>div {
+				flex: 1;
+				height: 0;
+				&:first-of-type {
+					margin-bottom: 30px;
+				}
+			}
+		}
+		.content-five-center {
+			flex: 2;
+			width: 0;
+			margin: 0 30px;
 		}
 	}
 	
-	.btn-wrap {
-		display: none;
-		position: absolute;
-		top: 2px;
-		right: 2px;
-		>button {
-			float: left;
-			width: 20px;
-			height: 20px;
-			line-height: 20px;
-			border-radius: 4px;
-			color: white;
-			&+button{
-				margin-left: 10px;
+	//对话框
+	.el-dialog-content {
+		>div {
+			&.chart-type1 {
+				/*background: url(../../assets/imgs/common/chart_type.png) no-repeat 7px 7px;*/
+				background: url(../../assets/imgs/common/twoSbarY.png) no-repeat;
+				background-size: 25px 25px;
+				background-position: center;
 			}
-			&:hover {
-				opacity: .8;
+			&.chart-type2 {
+				/*background: url(../../assets/imgs/common/chart_type.png) no-repeat -47px 7px;*/
+				background: url(../../assets/imgs/common/twoSbar.png) no-repeat;
+				background-size: 25px 25px;
+				background-position: center;
 			}
-			i {
-				font-size: 15px;
+			&.chart-type3 {
+				/*background: url(../../assets/imgs/common/chart_type.png) no-repeat -101px 7px;*/
+				background: url(../../assets/imgs/common/twoSfunnel.png) no-repeat;
+				background-size: 25px 25px;
+				background-position: center;
+			}
+			&.chart-type4 {
+				/*background: url(../../assets/imgs/common/chart_type.png) no-repeat -155px 7px;*/
+				background: url(../../assets/imgs/common/twoSLine.png) no-repeat;
+				background-size: 25px 25px;
+				background-position: center;
+			}
+			&.chart-type5 {
+				/*background: url(../../assets/imgs/common/chart_type.png) no-repeat -209px 7px;*/
+				background: url(../../assets/imgs/common/twoSacreage.png) no-repeat;
+				background-size: 25px 25px;
+				background-position: center;
+			}
+			&.chart-type6 {
+				/*background: url(../../assets/imgs/common/chart_type.png) no-repeat -263px 7px;*/
+				background: url(../../assets/imgs/common/twoSpie.png) no-repeat;
+				background-size: 25px 25px;
+				background-position: center;
+			}
+			&.chart-type7 {
+				/*background: url(../../assets/imgs/common/chart_type.png) no-repeat 7px -48px;*/
+				background: url(../../assets/imgs/common/twoSpieRing.png) no-repeat;
+				background-size: 25px 25px;
+				background-position: center;
+			}
+			&.chart-type8 {
+				/*background: url(../../assets/imgs/common/chart_type.png) no-repeat -47px -48px;*/
+				background: url(../../assets/imgs/common/twoSareaPie.png) no-repeat;
+				background-size: 25px 25px;
+				background-position: center;
+			}
+			&.chart-type9 {
+				/*background: url(../../assets/imgs/common/chart_type.png) no-repeat -101px -48px;*/
+				background: url(../../assets/imgs/common/twoSradiusPie.png) no-repeat;
+				background-size: 25px 25px;
+				background-position: center;
+			}
+			&.chart-type10 {
+				/*background: url(../../assets/imgs/common/chart_type.png) no-repeat -155px -48px;*/
+				background: url(../../assets/imgs/common/twoSradarNood.png) no-repeat;
+				background-size: 25px 25px;
+				background-position: center;
+			}
+			&.chart-type11 {
+				/*background: url(../../assets/imgs/common/chart_type.png) no-repeat -209px -48px;*/
+				background: url(../../assets/imgs/common/twoSradarLine.png) no-repeat;
+				background-size: 25px 25px;
+				background-position: center;
+			}
+			&.chart-type12 {
+				/*background: url(../../assets/imgs/common/chart_type.png) no-repeat -263px -48px;*/
+				background: url(../../assets/imgs/common/twoMbarY.png) no-repeat;
+				background-size: 25px 25px;
+				background-position: center;
+			}
+			&.chart-type13 {
+				/*background: url(../../assets/imgs/common/chart_type.png) no-repeat 7px -103px;*/
+				background: url(../../assets/imgs/common/twoMbar.png) no-repeat;
+				background-size: 25px 25px;
+				background-position: center;
+			}
+			&.chart-type14 {
+				/*background: url(../../assets/imgs/common/chart_type.png) no-repeat -47px -103px;*/
+				background: url(../../assets/imgs/common/twoMClusterY.png) no-repeat;
+				background-size: 25px 25px;
+				background-position: center;
+			}
+			&.chart-type15 {
+				/*background: url(../../assets/imgs/common/chart_type.png) no-repeat -101px -103px;*/
+				background: url(../../assets/imgs/common/twoMCluster.png) no-repeat;
+				background-size: 25px 25px;
+				background-position: center;
+			}
+			&.chart-type16 {
+				/*background: url(../../assets/imgs/common/chart_type.png) no-repeat -155px -103px;*/
+				background: url(../../assets/imgs/common/twoSMcard.png) no-repeat;
+				background-size: 25px 25px;
+				background-position: center;
+			}
+			&.chart-type17 {
+				/*background: url(../../assets/imgs/common/chart_type.png) no-repeat -209px -103px;*/
+				background: url(../../assets/imgs/common/twoSScard.png) no-repeat;
+				background-size: 25px 25px;
+				background-position: center;
+			}
+			&.chart-type18 {
+				/*background: url(../../assets/imgs/common/chart_type.png) no-repeat -263px -103px;*/
+				background: url(../../assets/imgs/common/twoMStackAcreage.png) no-repeat;
+				background-size: 25px 25px;
+				background-position: center;
+			}
+			&.chart-type19 {
+				/*background: url(../../assets/imgs/common/chart_type.png) no-repeat 7px -158px;*/
+				background: url(../../assets/imgs/common/twoMradarLine.png) no-repeat;
+				background-size: 25px 25px;
+				background-position: center;
+			}
+			&.chart-type20 {
+				/*background: url(../../assets/imgs/common/chart_type.png) no-repeat -47px -158px;*/
+				background: url(../../assets/imgs/common/twoMradarNood.png) no-repeat;
+				background-size: 25px 25px;
+				background-position: center;
+			}
+			&.chart-type21 {
+				/*background: url(../../assets/imgs/common/chart_type.png) no-repeat -101px -158px;*/
+				background: url(../../assets/imgs/common/twoMacreage.png) no-repeat;
+				background-size: 25px 25px;
+				background-position: center;
+			}
+			&.chart-type22 {
+				/*background: url(../../assets/imgs/common/chart_type.png) no-repeat -155px -158px;*/
+				background: url(../../assets/imgs/common/twoMLine.png) no-repeat;
+				background-size: 25px 25px;
+				background-position: center;
+			}
+			&.chart-type23 {
+				/*background: url(../../assets/imgs/common/chart_type.png) no-repeat -209px -158px;*/
+				background: url(../../assets/imgs/common/twoMRiver.png) no-repeat;
+				background-size: 25px 25px;
+				background-position: center;
+			}
+			&.chart-type24 {
+				background: url(../../assets/imgs/common/chart_type.png) no-repeat -263px -158px;
+			}
+			&.chart-type25 {
+				background: url(../../assets/imgs/common/chart_type.png) no-repeat 7px -213px;
+			}
+			&.chart-type26 {
+				background: url(../../assets/imgs/common/chart_type.png) no-repeat -47px -213px;
+			}
+			&.chart-type27 {
+				background: url(../../assets/imgs/common/chart_type.png) no-repeat -101px -213px;
+			}
+			&.chart-type28 {
+				background: url(../../assets/imgs/common/chart_type.png) no-repeat -155px -213px;
+			}
+			&.chart-type29 {
+				background: url(../../assets/imgs/common/chart_type.png) no-repeat -209px -213px;
 			}
 		}
 	}
 	
-	.border-change {
-		box-sizing: border-box;
-		border: 8px solid transparent;
-		&:hover,
-		&.active {
-			.switch-main-map {
-				display: block;
+	//定版后删除
+	.el-dialog-content {
+		>div.highlight {
+			&.chart-type1 {
+				background: url(../../assets/imgs/red/twoSbarY-red.png) no-repeat;
+				background-size: 25px 25px;
+				background-position: center;
 			}
-			.btn-wrap {
-				display: block;
+			&.chart-type2 {
+				background: url(../../assets/imgs/red/twoSbar-red.png) no-repeat;
+				background-size: 25px 25px;
+				background-position: center;
+			}
+			&.chart-type3 {
+				background: url(../../assets/imgs/red/twoSfunnel-red.png) no-repeat;
+				background-size: 25px 25px;
+				background-position: center;
+			}
+			&.chart-type4 {
+				background: url(../../assets/imgs/red/twoSLine-red.png) no-repeat;
+				background-size: 25px 25px;
+				background-position: center;
+			}
+			&.chart-type5 {
+				background: url(../../assets/imgs/red/twoSacreage-red.png) no-repeat;
+				background-size: 25px 25px;
+				background-position: center;
+			}
+			&.chart-type6 {
+				background: url(../../assets/imgs/red/twoSpie-red.png) no-repeat;
+				background-size: 25px 25px;
+				background-position: center;
+			}
+			&.chart-type7 {
+				background: url(../../assets/imgs/red/twoSpieRing-red.png) no-repeat;
+				background-size: 25px 25px;
+				background-position: center;
+			}
+			&.chart-type8 {
+				background: url(../../assets/imgs/red/twoSareaPie-red.png) no-repeat;
+				background-size: 25px 25px;
+				background-position: center;
+			}
+			&.chart-type9 {
+				background: url(../../assets/imgs/red/twoSradiusPie-red.png) no-repeat;
+				background-size: 25px 25px;
+				background-position: center;
+			}
+			&.chart-type10 {
+				background: url(../../assets/imgs/red/twoSradarNood-red.png) no-repeat;
+				background-size: 25px 25px;
+				background-position: center;
+			}
+			&.chart-type11 {
+				background: url(../../assets/imgs/red/twoSradarLine-red.png) no-repeat;
+				background-size: 25px 25px;
+				background-position: center;
+			}
+			&.chart-type12 {
+				background: url(../../assets/imgs/red/twoMbarY-red.png) no-repeat;
+				background-size: 25px 25px;
+				background-position: center;
+			}
+			&.chart-type13 {
+				background: url(../../assets/imgs/red/twoMbar-red.png) no-repeat;
+				background-size: 25px 25px;
+				background-position: center;
+			}
+			&.chart-type14 {
+				background: url(../../assets/imgs/red/twoMClusterY-red.png) no-repeat;
+				background-size: 25px 25px;
+				background-position: center;
+			}
+			&.chart-type15 {
+				background: url(../../assets/imgs/red/twoMCluster-red.png) no-repeat;
+				background-size: 25px 25px;
+				background-position: center;
+			}
+			&.chart-type16 {
+				background: url(../../assets/imgs/red/twoSMcard-red.png) no-repeat;
+				background-size: 25px 25px;
+				background-position: center;
+			}
+			&.chart-type17 {
+				background: url(../../assets/imgs/red/twoSScard-red.png) no-repeat;
+				background-size: 25px 25px;
+				background-position: center;
+			}
+			&.chart-type18 {
+				background: url(../../assets/imgs/red/twoMStackAcreage-red.png) no-repeat;
+				background-size: 25px 25px;
+				background-position: center;
+			}
+			&.chart-type19 {
+				background: url(../../assets/imgs/red/twoMradarLine-red.png) no-repeat;
+				background-size: 25px 25px;
+				background-position: center;
+			}
+			&.chart-type20 {
+				background: url(../../assets/imgs/red/twoMradarNood-red.png) no-repeat;
+				background-size: 25px 25px;
+				background-position: center;
+			}
+			&.chart-type21 {
+				background: url(../../assets/imgs/red/twoMacreage-red.png) no-repeat;
+				background-size: 25px 25px;
+				background-position: center;
+			}
+			&.chart-type22 {
+				background: url(../../assets/imgs/red/twoMLine-red.png) no-repeat;
+				background-size: 25px 25px;
+				background-position: center;
+			}
+			&.chart-type23 {
+				background: url(../../assets/imgs/red/twoMRiver-red.png) no-repeat;
+				background-size: 25px 25px;
+				background-position: center;
+			}
+			&.chart-type24 {
+				background: url(../../assets/imgs/red/chart_type.png) no-repeat -263px -158px;
+			}
+			&.chart-type25 {
+				background: url(../../assets/imgs/red/chart_type.png) no-repeat 7px -213px;
+			}
+			&.chart-type26 {
+				background: url(../../assets/imgs/red/chart_type.png) no-repeat -47px -213px;
+			}
+			&.chart-type27 {
+				background: url(../../assets/imgs/red/chart_type.png) no-repeat -101px -213px;
+			}
+			&.chart-type28 {
+				background: url(../../assets/imgs/red/chart_type.png) no-repeat -155px -213px;
+			}
+			&.chart-type29 {
+				background: url(../../assets/imgs/red/chart_type.png) no-repeat -209px -213px;
 			}
 		}
 	}
-	/*蓝色主题*/
 	
+	//蓝色主题
 	.theme-blue {
-		.border-change {
-			&:hover,
-			&.active {
-				border: 8px solid #d1d9df;
-			}
-		}
-		.switch-main-map {
-			background-color: #0e426a;
-		}
-		.btn-wrap {
-			>button {
-				background-color: #0e426a;
-			}
-		}
-		/*对话框*/
 		.el-dialog-content {
 			>div {
-				&.chart-type1 {
-					background: url(../../assets/imgs/blue/chart_type.png) no-repeat 10px 8px;
-				}
-				&.chart-type2 {
-					background: url(../../assets/imgs/blue/chart_type.png) no-repeat -44px 8px;
-				}
-				&.chart-type3 {
-					background: url(../../assets/imgs/blue/chart_type.png) no-repeat -98px 8px;
-				}
-				&.chart-type4 {
-					background: url(../../assets/imgs/blue/chart_type.png) no-repeat -152px 8px;
-				}
-				&.chart-type5 {
-					background: url(../../assets/imgs/blue/chart_type.png) no-repeat -206px 8px;
-				}
-				&.chart-type6 {
-					background: url(../../assets/imgs/blue/chart_type.png) no-repeat -260px 8px;
-				}
-				&.chart-type7 {
-					background: url(../../assets/imgs/blue/chart_type.png) no-repeat 10px -47px;
-				}
-				&.chart-type8 {
-					background: url(../../assets/imgs/blue/chart_type.png) no-repeat -44px -47px;
-				}
-				&.chart-type9 {
-					background: url(../../assets/imgs/blue/chart_type.png) no-repeat -98px -47px;
-				}
-				&.chart-type10 {
-					background: url(../../assets/imgs/blue/chart_type.png) no-repeat -152px -47px;
-				}
-				&.chart-type11 {
-					background: url(../../assets/imgs/blue/chart_type.png) no-repeat -206px -47px;
-				}
-				&.chart-type12 {
-					background: url(../../assets/imgs/blue/chart_type.png) no-repeat -260px -47px;
-				}
-				&.chart-type13 {
-					background: url(../../assets/imgs/blue/chart_type.png) no-repeat 10px -103px;
-				}
-				&.chart-type14 {
-					background: url(../../assets/imgs/blue/chart_type.png) no-repeat -44px -103px;
-				}
-				&.chart-type15 {
-					background: url(../../assets/imgs/blue/chart_type.png) no-repeat -98px -103px;
-				}
-				&.chart-type16 {
-					background: url(../../assets/imgs/blue/chart_type.png) no-repeat -152px -103px;
-				}
-				&.chart-type17 {
-					background: url(../../assets/imgs/blue/chart_type.png) no-repeat -206px -103px;
-				}
-				&.chart-type18 {
-					background: url(../../assets/imgs/blue/chart_type.png) no-repeat -260px -103px;
-				}
-				&.chart-type19 {
-					background: url(../../assets/imgs/blue/chart_type.png) no-repeat 10px -158px;
-				}
-				&.chart-type20 {
-					background: url(../../assets/imgs/blue/chart_type.png) no-repeat -44px -158px;
-				}
-				&.chart-type21 {
-					background: url(../../assets/imgs/blue/chart_type.png) no-repeat -98px -158px;
-				}
-				&.chart-type22 {
-					background: url(../../assets/imgs/blue/chart_type.png) no-repeat -152px -158px;
-				}
-				&.chart-type23 {
-					background: url(../../assets/imgs/blue/chart_type.png) no-repeat -206px -158px;
-				}
-				&.chart-type24 {
-					background: url(../../assets/imgs/blue/chart_type.png) no-repeat -260px -158px;
-				}
-				&.chart-type25 {
-					background: url(../../assets/imgs/blue/chart_type.png) no-repeat 10px -213px;
-				}
-				&.chart-type26 {
-					background: url(../../assets/imgs/blue/chart_type.png) no-repeat -44px -213px;
-				}
-				&.chart-type27 {
-					background: url(../../assets/imgs/blue/chart_type.png) no-repeat -98px -213px;
-				}
-				&.chart-type28 {
-					background: url(../../assets/imgs/blue/chart_type.png) no-repeat -152px -213px;
-				}
-				&.chart-type29 {
-					background: url(../../assets/imgs/blue/chart_type.png) no-repeat -206px -213px;
-				}
-				&.chart-type30 {
-					background: url(../../assets/imgs/blue/chart_type.png) no-repeat -260px -213px;
+				&:hover,
+				&.active {
+					border-color: $configure-list-3;
 				}
 			}
 		}
+		/*.el-dialog-content {
+			>div.highlight {
+				&.chart-type1 {
+					background: url(../../assets/imgs/blue/chart_type.png) no-repeat 7px 7px;
+				}
+				&.chart-type2 {
+					background: url(../../assets/imgs/blue/chart_type.png) no-repeat -47px 7px;
+				}
+				&.chart-type3 {
+					background: url(../../assets/imgs/blue/chart_type.png) no-repeat -101px 7px;
+				}
+				&.chart-type4 {
+					background: url(../../assets/imgs/blue/chart_type.png) no-repeat -155px 7px;
+				}
+				&.chart-type5 {
+					background: url(../../assets/imgs/blue/chart_type.png) no-repeat -209px 7px;
+				}
+				&.chart-type6 {
+					background: url(../../assets/imgs/blue/chart_type.png) no-repeat -263px 7px;
+				}
+				&.chart-type7 {
+					background: url(../../assets/imgs/blue/chart_type.png) no-repeat 7px -48px;
+				}
+				&.chart-type8 {
+					background: url(../../assets/imgs/blue/chart_type.png) no-repeat -47px -48px;
+				}
+				&.chart-type9 {
+					background: url(../../assets/imgs/blue/chart_type.png) no-repeat -101px -48px;
+				}
+				&.chart-type10 {
+					background: url(../../assets/imgs/blue/chart_type.png) no-repeat -155px -48px;
+				}
+				&.chart-type11 {
+					background: url(../../assets/imgs/blue/chart_type.png) no-repeat -209px -48px;
+				}
+				&.chart-type12 {
+					background: url(../../assets/imgs/blue/chart_type.png) no-repeat -263px -48px;
+				}
+				&.chart-type13 {
+					background: url(../../assets/imgs/blue/chart_type.png) no-repeat 7px -103px;
+				}
+				&.chart-type14 {
+					background: url(../../assets/imgs/blue/chart_type.png) no-repeat -47px -103px;
+				}
+				&.chart-type15 {
+					background: url(../../assets/imgs/blue/chart_type.png) no-repeat -101px -103px;
+				}
+				&.chart-type16 {
+					background: url(../../assets/imgs/blue/chart_type.png) no-repeat -155px -103px;
+				}
+				&.chart-type17 {
+					background: url(../../assets/imgs/blue/chart_type.png) no-repeat -209px -103px;
+				}
+				&.chart-type18 {
+					background: url(../../assets/imgs/blue/chart_type.png) no-repeat -263px -103px;
+				}
+				&.chart-type19 {
+					background: url(../../assets/imgs/blue/chart_type.png) no-repeat 7px -158px;
+				}
+				&.chart-type20 {
+					background: url(../../assets/imgs/blue/chart_type.png) no-repeat -47px -158px;
+				}
+				&.chart-type21 {
+					background: url(../../assets/imgs/blue/chart_type.png) no-repeat -101px -158px;
+				}
+				&.chart-type22 {
+					background: url(../../assets/imgs/blue/chart_type.png) no-repeat -155px -158px;
+				}
+				&.chart-type23 {
+					background: url(../../assets/imgs/blue/chart_type.png) no-repeat -209px -158px;
+				}
+				&.chart-type24 {
+					background: url(../../assets/imgs/blue/chart_type.png) no-repeat -263px -158px;
+				}
+				&.chart-type25 {
+					background: url(../../assets/imgs/blue/chart_type.png) no-repeat 7px -213px;
+				}
+				&.chart-type26 {
+					background: url(../../assets/imgs/blue/chart_type.png) no-repeat -47px -213px;
+				}
+				&.chart-type27 {
+					background: url(../../assets/imgs/blue/chart_type.png) no-repeat -101px -213px;
+				}
+				&.chart-type28 {
+					background: url(../../assets/imgs/blue/chart_type.png) no-repeat -155px -213px;
+				}
+				&.chart-type29 {
+					background: url(../../assets/imgs/blue/chart_type.png) no-repeat -209px -213px;
+				}
+			}
+		}*/
 		.check {
 			background: url(../../assets/imgs/blue/check.png) no-repeat;
 		}
@@ -617,117 +944,108 @@
 			background: url(../../assets/imgs/blue/check_not.png) no-repeat;
 		}
 	}
-	/*红色主题*/
 	
+	//红色主题
 	.theme-red {
-		.border-change {
-			&:hover,
-			&.active {
-				border: 8px solid #ffaea3;
-			}
-		}
-		.switch-main-map {
-			background-color: #d44c39;
-		}
-		.btn-wrap {
-			>button {
-				background-color: #d44c39;
-			}
-		}
 		.el-dialog-content {
 			>div {
-				&.chart-type1 {
-					background: url(../../assets/imgs/red/chart_type.png) no-repeat 10px 8px;
-				}
-				&.chart-type2 {
-					background: url(../../assets/imgs/red/chart_type.png) no-repeat -44px 8px;
-				}
-				&.chart-type3 {
-					background: url(../../assets/imgs/red/chart_type.png) no-repeat -98px 8px;
-				}
-				&.chart-type4 {
-					background: url(../../assets/imgs/red/chart_type.png) no-repeat -152px 8px;
-				}
-				&.chart-type5 {
-					background: url(../../assets/imgs/red/chart_type.png) no-repeat -206px 8px;
-				}
-				&.chart-type6 {
-					background: url(../../assets/imgs/red/chart_type.png) no-repeat -260px 8px;
-				}
-				&.chart-type7 {
-					background: url(../../assets/imgs/red/chart_type.png) no-repeat 10px -47px;
-				}
-				&.chart-type8 {
-					background: url(../../assets/imgs/red/chart_type.png) no-repeat -44px -47px;
-				}
-				&.chart-type9 {
-					background: url(../../assets/imgs/red/chart_type.png) no-repeat -98px -47px;
-				}
-				&.chart-type10 {
-					background: url(../../assets/imgs/red/chart_type.png) no-repeat -152px -47px;
-				}
-				&.chart-type11 {
-					background: url(../../assets/imgs/red/chart_type.png) no-repeat -206px -47px;
-				}
-				&.chart-type12 {
-					background: url(../../assets/imgs/red/chart_type.png) no-repeat -260px -47px;
-				}
-				&.chart-type13 {
-					background: url(../../assets/imgs/red/chart_type.png) no-repeat 10px -103px;
-				}
-				&.chart-type14 {
-					background: url(../../assets/imgs/red/chart_type.png) no-repeat -44px -103px;
-				}
-				&.chart-type15 {
-					background: url(../../assets/imgs/red/chart_type.png) no-repeat -98px -103px;
-				}
-				&.chart-type16 {
-					background: url(../../assets/imgs/red/chart_type.png) no-repeat -152px -103px;
-				}
-				&.chart-type17 {
-					background: url(../../assets/imgs/red/chart_type.png) no-repeat -206px -103px;
-				}
-				&.chart-type18 {
-					background: url(../../assets/imgs/red/chart_type.png) no-repeat -260px -103px;
-				}
-				&.chart-type19 {
-					background: url(../../assets/imgs/red/chart_type.png) no-repeat 10px -158px;
-				}
-				&.chart-type20 {
-					background: url(../../assets/imgs/red/chart_type.png) no-repeat -44px -158px;
-				}
-				&.chart-type21 {
-					background: url(../../assets/imgs/red/chart_type.png) no-repeat -98px -158px;
-				}
-				&.chart-type22 {
-					background: url(../../assets/imgs/red/chart_type.png) no-repeat -152px -158px;
-				}
-				&.chart-type23 {
-					background: url(../../assets/imgs/red/chart_type.png) no-repeat -206px -158px;
-				}
-				&.chart-type24 {
-					background: url(../../assets/imgs/red/chart_type.png) no-repeat -260px -158px;
-				}
-				&.chart-type25 {
-					background: url(../../assets/imgs/red/chart_type.png) no-repeat 10px -213px;
-				}
-				&.chart-type26 {
-					background: url(../../assets/imgs/red/chart_type.png) no-repeat -44px -213px;
-				}
-				&.chart-type27 {
-					background: url(../../assets/imgs/red/chart_type.png) no-repeat -98px -213px;
-				}
-				&.chart-type28 {
-					background: url(../../assets/imgs/red/chart_type.png) no-repeat -152px -213px;
-				}
-				&.chart-type29 {
-					background: url(../../assets/imgs/red/chart_type.png) no-repeat -206px -213px;
-				}
-				&.chart-type30 {
-					background: url(../../assets/imgs/red/chart_type.png) no-repeat -260px -213px;
+				&:hover,
+				&.active {
+					border-color: $configure-list-red-3;
 				}
 			}
 		}
+		/*.el-dialog-content {
+			>div.highlight {
+				&.chart-type1 {
+					background: url(../../assets/imgs/red/chart_type.png) no-repeat 7px 7px;
+				}
+				&.chart-type2 {
+					background: url(../../assets/imgs/red/chart_type.png) no-repeat -47px 7px;
+				}
+				&.chart-type3 {
+					background: url(../../assets/imgs/red/chart_type.png) no-repeat -101px 7px;
+				}
+				&.chart-type4 {
+					background: url(../../assets/imgs/red/chart_type.png) no-repeat -155px 7px;
+				}
+				&.chart-type5 {
+					background: url(../../assets/imgs/red/chart_type.png) no-repeat -209px 7px;
+				}
+				&.chart-type6 {
+					background: url(../../assets/imgs/red/chart_type.png) no-repeat -263px 7px;
+				}
+				&.chart-type7 {
+					background: url(../../assets/imgs/red/chart_type.png) no-repeat 7px -48px;
+				}
+				&.chart-type8 {
+					background: url(../../assets/imgs/red/chart_type.png) no-repeat -47px -48px;
+				}
+				&.chart-type9 {
+					background: url(../../assets/imgs/red/chart_type.png) no-repeat -101px -48px;
+				}
+				&.chart-type10 {
+					background: url(../../assets/imgs/red/chart_type.png) no-repeat -155px -48px;
+				}
+				&.chart-type11 {
+					background: url(../../assets/imgs/red/chart_type.png) no-repeat -209px -48px;
+				}
+				&.chart-type12 {
+					background: url(../../assets/imgs/red/chart_type.png) no-repeat -263px -48px;
+				}
+				&.chart-type13 {
+					background: url(../../assets/imgs/red/chart_type.png) no-repeat 7px -103px;
+				}
+				&.chart-type14 {
+					background: url(../../assets/imgs/red/chart_type.png) no-repeat -47px -103px;
+				}
+				&.chart-type15 {
+					background: url(../../assets/imgs/red/chart_type.png) no-repeat -101px -103px;
+				}
+				&.chart-type16 {
+					background: url(../../assets/imgs/red/chart_type.png) no-repeat -155px -103px;
+				}
+				&.chart-type17 {
+					background: url(../../assets/imgs/red/chart_type.png) no-repeat -209px -103px;
+				}
+				&.chart-type18 {
+					background: url(../../assets/imgs/red/chart_type.png) no-repeat -263px -103px;
+				}
+				&.chart-type19 {
+					background: url(../../assets/imgs/red/chart_type.png) no-repeat 7px -158px;
+				}
+				&.chart-type20 {
+					background: url(../../assets/imgs/red/chart_type.png) no-repeat -47px -158px;
+				}
+				&.chart-type21 {
+					background: url(../../assets/imgs/red/chart_type.png) no-repeat -101px -158px;
+				}
+				&.chart-type22 {
+					background: url(../../assets/imgs/red/chart_type.png) no-repeat -155px -158px;
+				}
+				&.chart-type23 {
+					background: url(../../assets/imgs/red/chart_type.png) no-repeat -209px -158px;
+				}
+				&.chart-type24 {
+					background: url(../../assets/imgs/red/chart_type.png) no-repeat -263px -158px;
+				}
+				&.chart-type25 {
+					background: url(../../assets/imgs/red/chart_type.png) no-repeat 7px -213px;
+				}
+				&.chart-type26 {
+					background: url(../../assets/imgs/red/chart_type.png) no-repeat -47px -213px;
+				}
+				&.chart-type27 {
+					background: url(../../assets/imgs/red/chart_type.png) no-repeat -101px -213px;
+				}
+				&.chart-type28 {
+					background: url(../../assets/imgs/red/chart_type.png) no-repeat -155px -213px;
+				}
+				&.chart-type29 {
+					background: url(../../assets/imgs/red/chart_type.png) no-repeat -209px -213px;
+				}
+			}
+		}*/
 		.check {
 			background: url(../../assets/imgs/red/check.png) no-repeat;
 		}
@@ -735,117 +1053,108 @@
 			background: url(../../assets/imgs/red/check_not.png) no-repeat;
 		}
 	}
-	/*绿色主题*/
 	
+	//绿色主题
 	.theme-green {
-		.border-change {
-			&:hover,
-			&.active {
-				border: 8px solid #bae4c0;
-			}
-		}
-		.switch-main-map {
-			background-color: #6cb28a;
-		}
-		.btn-wrap {
-			>button {
-				background-color: #6cb28a;
-			}
-		}
 		.el-dialog-content {
 			>div {
-				&.chart-type1 {
-					background: url(../../assets/imgs/green/chart_type.png) no-repeat 10px 8px;
-				}
-				&.chart-type2 {
-					background: url(../../assets/imgs/green/chart_type.png) no-repeat -44px 8px;
-				}
-				&.chart-type3 {
-					background: url(../../assets/imgs/green/chart_type.png) no-repeat -98px 8px;
-				}
-				&.chart-type4 {
-					background: url(../../assets/imgs/green/chart_type.png) no-repeat -152px 8px;
-				}
-				&.chart-type5 {
-					background: url(../../assets/imgs/green/chart_type.png) no-repeat -206px 8px;
-				}
-				&.chart-type6 {
-					background: url(../../assets/imgs/green/chart_type.png) no-repeat -260px 8px;
-				}
-				&.chart-type7 {
-					background: url(../../assets/imgs/green/chart_type.png) no-repeat 10px -47px;
-				}
-				&.chart-type8 {
-					background: url(../../assets/imgs/green/chart_type.png) no-repeat -44px -47px;
-				}
-				&.chart-type9 {
-					background: url(../../assets/imgs/green/chart_type.png) no-repeat -98px -47px;
-				}
-				&.chart-type10 {
-					background: url(../../assets/imgs/green/chart_type.png) no-repeat -152px -47px;
-				}
-				&.chart-type11 {
-					background: url(../../assets/imgs/green/chart_type.png) no-repeat -206px -47px;
-				}
-				&.chart-type12 {
-					background: url(../../assets/imgs/green/chart_type.png) no-repeat -260px -47px;
-				}
-				&.chart-type13 {
-					background: url(../../assets/imgs/green/chart_type.png) no-repeat 10px -103px;
-				}
-				&.chart-type14 {
-					background: url(../../assets/imgs/green/chart_type.png) no-repeat -44px -103px;
-				}
-				&.chart-type15 {
-					background: url(../../assets/imgs/green/chart_type.png) no-repeat -98px -103px;
-				}
-				&.chart-type16 {
-					background: url(../../assets/imgs/green/chart_type.png) no-repeat -152px -103px;
-				}
-				&.chart-type17 {
-					background: url(../../assets/imgs/green/chart_type.png) no-repeat -206px -103px;
-				}
-				&.chart-type18 {
-					background: url(../../assets/imgs/green/chart_type.png) no-repeat -260px -103px;
-				}
-				&.chart-type19 {
-					background: url(../../assets/imgs/green/chart_type.png) no-repeat 10px -158px;
-				}
-				&.chart-type20 {
-					background: url(../../assets/imgs/green/chart_type.png) no-repeat -44px -158px;
-				}
-				&.chart-type21 {
-					background: url(../../assets/imgs/green/chart_type.png) no-repeat -98px -158px;
-				}
-				&.chart-type22 {
-					background: url(../../assets/imgs/green/chart_type.png) no-repeat -152px -158px;
-				}
-				&.chart-type23 {
-					background: url(../../assets/imgs/green/chart_type.png) no-repeat -206px -158px;
-				}
-				&.chart-type24 {
-					background: url(../../assets/imgs/green/chart_type.png) no-repeat -260px -158px;
-				}
-				&.chart-type25 {
-					background: url(../../assets/imgs/green/chart_type.png) no-repeat 10px -213px;
-				}
-				&.chart-type26 {
-					background: url(../../assets/imgs/green/chart_type.png) no-repeat -44px -213px;
-				}
-				&.chart-type27 {
-					background: url(../../assets/imgs/green/chart_type.png) no-repeat -98px -213px;
-				}
-				&.chart-type28 {
-					background: url(../../assets/imgs/green/chart_type.png) no-repeat -152px -213px;
-				}
-				&.chart-type29 {
-					background: url(../../assets/imgs/green/chart_type.png) no-repeat -206px -213px;
-				}
-				&.chart-type30 {
-					background: url(../../assets/imgs/green/chart_type.png) no-repeat -260px -213px;
+				&:hover,
+				&.active {
+					border-color: $configure-list-green-3;
 				}
 			}
 		}
+		/*.el-dialog-content {
+			>div.highlight {
+				&.chart-type1 {
+					background: url(../../assets/imgs/green/chart_type.png) no-repeat 7px 7px;
+				}
+				&.chart-type2 {
+					background: url(../../assets/imgs/green/chart_type.png) no-repeat -47px 7px;
+				}
+				&.chart-type3 {
+					background: url(../../assets/imgs/green/chart_type.png) no-repeat -101px 7px;
+				}
+				&.chart-type4 {
+					background: url(../../assets/imgs/green/chart_type.png) no-repeat -155px 7px;
+				}
+				&.chart-type5 {
+					background: url(../../assets/imgs/green/chart_type.png) no-repeat -209px 7px;
+				}
+				&.chart-type6 {
+					background: url(../../assets/imgs/green/chart_type.png) no-repeat -263px 7px;
+				}
+				&.chart-type7 {
+					background: url(../../assets/imgs/green/chart_type.png) no-repeat 7px -48px;
+				}
+				&.chart-type8 {
+					background: url(../../assets/imgs/green/chart_type.png) no-repeat -47px -48px;
+				}
+				&.chart-type9 {
+					background: url(../../assets/imgs/green/chart_type.png) no-repeat -101px -48px;
+				}
+				&.chart-type10 {
+					background: url(../../assets/imgs/green/chart_type.png) no-repeat -155px -48px;
+				}
+				&.chart-type11 {
+					background: url(../../assets/imgs/green/chart_type.png) no-repeat -209px -48px;
+				}
+				&.chart-type12 {
+					background: url(../../assets/imgs/green/chart_type.png) no-repeat -263px -48px;
+				}
+				&.chart-type13 {
+					background: url(../../assets/imgs/green/chart_type.png) no-repeat 7px -103px;
+				}
+				&.chart-type14 {
+					background: url(../../assets/imgs/green/chart_type.png) no-repeat -47px -103px;
+				}
+				&.chart-type15 {
+					background: url(../../assets/imgs/green/chart_type.png) no-repeat -101px -103px;
+				}
+				&.chart-type16 {
+					background: url(../../assets/imgs/green/chart_type.png) no-repeat -155px -103px;
+				}
+				&.chart-type17 {
+					background: url(../../assets/imgs/green/chart_type.png) no-repeat -209px -103px;
+				}
+				&.chart-type18 {
+					background: url(../../assets/imgs/green/chart_type.png) no-repeat -263px -103px;
+				}
+				&.chart-type19 {
+					background: url(../../assets/imgs/green/chart_type.png) no-repeat 7px -158px;
+				}
+				&.chart-type20 {
+					background: url(../../assets/imgs/green/chart_type.png) no-repeat -47px -158px;
+				}
+				&.chart-type21 {
+					background: url(../../assets/imgs/green/chart_type.png) no-repeat -101px -158px;
+				}
+				&.chart-type22 {
+					background: url(../../assets/imgs/green/chart_type.png) no-repeat -155px -158px;
+				}
+				&.chart-type23 {
+					background: url(../../assets/imgs/green/chart_type.png) no-repeat -209px -158px;
+				}
+				&.chart-type24 {
+					background: url(../../assets/imgs/green/chart_type.png) no-repeat -263px -158px;
+				}
+				&.chart-type25 {
+					background: url(../../assets/imgs/green/chart_type.png) no-repeat 7px -213px;
+				}
+				&.chart-type26 {
+					background: url(../../assets/imgs/green/chart_type.png) no-repeat -47px -213px;
+				}
+				&.chart-type27 {
+					background: url(../../assets/imgs/green/chart_type.png) no-repeat -101px -213px;
+				}
+				&.chart-type28 {
+					background: url(../../assets/imgs/green/chart_type.png) no-repeat -155px -213px;
+				}
+				&.chart-type29 {
+					background: url(../../assets/imgs/green/chart_type.png) no-repeat -209px -213px;
+				}
+			}
+		}*/
 		.check {
 			background: url(../../assets/imgs/green/check.png) no-repeat;
 		}
@@ -854,62 +1163,68 @@
 		}
 	}
 	
-	.el-dialog-content {
-		padding: 17px 26px 4px;
-		background-color: #f8f8f8;
-		border-radius: 3px;
-		>div {
-			box-sizing: border-box;
-			float: left;
-			margin-right: 12px;
-			margin-bottom: 13px;
-			width: 42px;
-			height: 42px;
-			border: 1px solid transparent;
+	// 对话框-图表设置
+	.dialogChartSet {
+		.el-dialog-content {
+			padding: 14px 24px 5px 25px;
+			background-color: #f8f8f8;
 			border-radius: 3px;
-			cursor: pointer;
-			&:nth-of-type(6n) {
-				margin-right: 0;
-			}
-			&:hover,
-			&.active {
-				border: 1px solid #dfdfdf;
-				background-color: #ebebeb !important;
+			>div {
+				box-sizing: border-box;
+				float: left;
+				margin-right: 8px;
+				margin-bottom: 9px;
+				width: 46px;
+				height: 46px;
+				border: 4px solid transparent;
+				border-radius: 3px;
+				cursor: not-allowed;
+				&.highlight {
+					cursor: pointer;
+				}
+				&:nth-of-type(6n) {
+					margin-right: 0;
+				}
 			}
 		}
-	}
-	
-	.dialog-footer {
-		height: 32px;
-		>.fl {
-			>div {
-				float: left;
-				margin-top: 10px;
-				position: relative;
-				width: 14px;
-				height: 14px;
-				div {
-					height: 100%;
+		.dialog-footer {
+			height: 32px;
+			>.fl {
+				&.is-disabled {
+					input,
+					label {
+						cursor: not-allowed;
+						color: #c0c4cc;
+					}
 				}
-				input {
-					position: absolute;
-					top: 0;
-					left: 0;
-					width: 100%;
-					height: 100%;
-					opacity: 0;
+				>div {
+					float: left;
+					margin-top: 10px;
+					position: relative;
+					width: 14px;
+					height: 14px;
+					div {
+						height: 100%;
+					}
+					input {
+						position: absolute;
+						top: 0;
+						left: 0;
+						width: 100%;
+						height: 100%;
+						opacity: 0;
+						cursor: pointer;
+					}
+				}
+				>label {
+					float: left;
+					padding-left: 10px;
+					line-height: 32px;
+					font-size: 14px;
+					color: #303030;
 					cursor: pointer;
 				}
 			}
-			>label {
-				float: left;
-				padding-left: 10px;
-				line-height: 32px;
-				font-size: 14px;
-				color: #303030;
-				cursor: pointer;
-			}
 		}
-		
 	}
 </style>

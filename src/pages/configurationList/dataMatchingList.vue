@@ -1,6 +1,5 @@
 <template>
 	<div class="matching_list">
-		
 		<common-list :title="title" types="matchingList" :data="tableData" :total="total" :tableTitle="tableTitle" :selsetShow="true"></common-list>
 	</div>
 </template>
@@ -68,8 +67,6 @@
 			},
 		},
 		created(){
-			//getDataMatchingList
-//			this.getMatchingAjax()
 			this.getMatchingPageAjax()
 		},
 		methods: {

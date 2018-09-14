@@ -4,8 +4,7 @@ const colorPalette = [
   '#ffcc55',
   '#bfd8c0',
   '#88a390',
-  '#ff9012',
-  "transparent"
+  '#ff9012'
 ];
 const themeGreen = {
   color: colorPalette,

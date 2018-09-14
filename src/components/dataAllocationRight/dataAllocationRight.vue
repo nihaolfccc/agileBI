@@ -1,6 +1,9 @@
 <template>
 	<div class="data-allocation-right">
-		<component :is="cpt.tag" :dataObj="cpt" ref="mydata"></component>
+		<transition name="fade2" mode="out-in">
+			<component :is="dataMatch.tag" ref="mydata"></component>
+		</transition>
+
 		<div>
 			<div class="option">
 				<button class="test el-btn save" :plain="true" @click="open">测试连接</button>
@@ -11,36 +14,32 @@
 </template>
 
 <script>
-	import mysql from '@/components/dialog/mysqlData'
-	import mapr from '@/components/dialog/maprData'
-	import execl from '@/components/dialog/execlFile'
-	import web from '@/components/dialog/webData'
-	import dialogField from '@/components/dialog/dialogFileld'
+	import { mapState } from "vuex";
+	import mysql from '@/components/dataAllocationRight/mysqlData'
+	import mapr from '@/components/dataAllocationRight/maprData'
+	import execl from '@/components/dataAllocationRight/execlFile'
+	import web from '@/components/dataAllocationRight/webData'
 	//	import {BIMsg} from '../../assets/js/tools.js'
 	//	import {postDataAllocationRight,getDataAllocationRight} from "@/api/index.js"
+	
 	export default {
 		components: {
 			mysql,
 			mapr,
 			execl,
-			web,
-			dialogField
+			web
 		},
 		data() {
 			return {
 				disState: true, //按钮无法点击
-				dataState: true, //判断是否测试连接过
+				databaseId: '',// 数据库id，子组件需要用
 			}
 		},
 		props: {
-			cpt: {
-				type: Object
-			},
+			
 		},
 		computed: {
-			themeColor() {
-				return this.$store.state.themeColor
-			}
+			...mapState(["dataMatch"]),
 		},
 		methods: {
 			open() {
@@ -51,7 +50,7 @@
 			}
 		},
 		watch: {
-			cpt: {
+			dataMatch: {
 				handler(newValue, oldValue) {
 					if(newValue) {
 						this.disState = true;
@@ -79,7 +78,6 @@
 			text-align: center;
 			padding-bottom: 46px;
 			button {
-
 				&[disabled] {
 					cursor: not-allowed;
 					opacity: .5;

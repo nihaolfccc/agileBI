@@ -13,7 +13,7 @@
 					<div class="ify_file" v-for="(str,sindex) in list.list">
 						<ul class="cursor-move">
 							<li>{{str.name}}</li>
-							<li v-for="(obj,i) in str.childer">{{obj.name}}</li>
+							<li v-for="(obj,i) in str.childer" v-if="i<4" :title="obj.name">{{obj.name}}</li>
 						</ul>
 					</div>
 				</vuedraggable>
@@ -117,6 +117,7 @@
 				this.$prompt('请输入类名', '提示', {
 					confirmButtonText: '确定',
 					cancelButtonText: '取消',
+					customClass:"change_Box",
 				}).then(({
 					value
 				}) => {
@@ -303,16 +304,22 @@
 			margin-left: 15px;
 			ul {
 				width: 100%;
-				border: 1px solid #CCCCCC;
+				border: 1px solid transparent;
 				border-bottom: none;
 				background: #fdf6f5;
+				overflow-y: auto;
 				>li {
 					height: 40px;
 					text-align: center;
 					line-height: 40px;
-					border-bottom: 1px solid #fce6e4;
+					border-bottom: 1px solid transparent;
 					box-sizing: border-box;
+					padding: 0 10px;
+				    overflow: hidden;
+				    white-space: nowrap;
+				    text-overflow: ellipsis;
 					&:first-child {
+						color:#a92312;
 						background: #f9dfd6;
 					}
 				}
@@ -333,6 +340,7 @@
 				border-bottom: 1px solid #fce6e4;
 				box-sizing: border-box;
 				&:first-child {
+					color:#a92312;
 					background: #f9dfd6;
 				}
 				&:nth-of-type(even){ 
@@ -373,8 +381,10 @@
 			.ify_file {
 				ul {
 					background: #f5f8fd;
+					border-color:#e6eff9;
 					>li {
 						box-sizing: border-box;
+						border-color:#e6eff9;
 						&:first-child {
 							    background: #dce8f6;
     							color: #4a6c98;
@@ -436,7 +446,9 @@
 			.ify_file {
 				ul {
 					background: #f6fdf8;
+					border-color:#e7f9ed;
 					>li {
+						border-color:#e7f9ed;
 						&:first-child {
 								background-color: rgba(221, 246, 220, 0.78);
     							color: #017734;
@@ -489,6 +501,15 @@
 		}
 	}
 	.theme-red{
-		
+		.banner {
+			.ify_file {
+				ul {
+					border-color:#fceceb;
+					>li {
+						border-color:#fceceb;
+					}
+				}
+			}
+		}
 	}
 </style>

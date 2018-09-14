@@ -1,0 +1,1 @@
+webpackJsonp([48],{V8fo:function(e,o,t){"use strict";Object.defineProperty(o,"__esModule",{value:!0});o.default=function(e){console.log("2维多序列横向百分比堆积柱状图",e),"twoMbarPY"===e.type||console.error("数据类型错误")}}});

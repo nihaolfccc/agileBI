@@ -24,30 +24,40 @@
 						srcSelected: require('../assets/imgs/red/step1-selected.png')
 					},
 					{
-						name: 'dataClassify',
+						name: 'dataStructureAnalysis',
 						src: require('../assets/imgs/red/step2.png'),
 						srcSelected: require('../assets/imgs/red/step2-selected.png')
 					},
 					{
-						name: 'dataShow',
+						name: 'foreignKey',
 						src: require('../assets/imgs/red/step3.png'),
 						srcSelected: require('../assets/imgs/red/step3-selected.png')
 					},
 					{
-						name: 'dataAssociation',
+						name: 'dataShow',
 						src: require('../assets/imgs/red/step4.png'),
 						srcSelected: require('../assets/imgs/red/step4-selected.png')
 					},
 					{
-						name: 'businessMatching',
+						name: 'entity',
 						src: require('../assets/imgs/red/step5.png'),
 						srcSelected: require('../assets/imgs/red/step5-selected.png')
 					},
 					{
-						name: 'templateMatching',
+						name: 'relationExtraction',
 						src: require('../assets/imgs/red/step6.png'),
 						srcSelected: require('../assets/imgs/red/step6-selected.png')
-					}
+					},
+					{
+						name: 'hotWord',
+						src: require('../assets/imgs/red/step7.png'),
+						srcSelected: require('../assets/imgs/red/step7-selected.png')
+					},
+					/*{
+						name: 'templateMatching',
+						src: require('../assets/imgs/red/step8.png'),
+						srcSelected: require('../assets/imgs/red/step8-selected.png')
+					}*/
 				]
 			}
 		},
@@ -81,16 +91,18 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		min-width: 1600px;
+		min-width: 1689px;
 		height: 140px;
 		background: url(../assets/imgs/red/configuration_bg.png);
 	}
 	
 	.configuration-list {
+		overflow: hidden;
+    /*min-width: 1689px;*/
+    height: 100%;
 		>li {
 			.img-wrap {
-				width: 219px;
-				height: 140px;
+				width: 170px;
 				cursor: pointer;
 				&:hover, &.active {
 					.img {
@@ -109,7 +121,7 @@
 				}
 			}
 			.img-arrow {
-				margin-top: 88px;
+				margin-top: 67px;
 			}
 		}
 	}

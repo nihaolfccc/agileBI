@@ -9,7 +9,7 @@
 		components: {
 			
 		},
-		data: function() {
+		data() {
 			return {
 				
 			}
@@ -32,9 +32,9 @@
 					//console.log(newValue);
 					var left;
 					if(newValue) {
-						left = 6
+						left = this.marginLeft
 					} else {
-						left = 284
+						left = 6
 					}
 					this.$refs.rightContent.style.marginLeft = left + 'px'
 				}

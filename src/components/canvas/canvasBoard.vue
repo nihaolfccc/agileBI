@@ -47,7 +47,7 @@
 
 <script>
 	import { mapState } from "vuex";
-	import { BIMsg } from '../../assets/js/tools.js'
+	import { BIMsg } from '@/assets/js/tools.js'
 
 	export default {
 		components: {
@@ -78,6 +78,16 @@
 			...mapState(["flagCanvasWrap", "elementType", "domList", "lineColor", "lineWidth", "lineType", "fontFamily", "fontSize", "fontWeight", "fontStyle", "fontUnderline", "fontColor"]),
 		},
 		watch: {
+			/*flagCanvasWrap: {
+				handler(newValue, oldValue) {
+					//console.log(newValue)
+					if(newValue){
+						setTimeout(()=>{
+							$('#canvasWrap')[0].addEventListener('mousedown', this.onMouseDown, false);
+						})
+					}
+				}
+			},*/
 			/*改变所选中元素线的属性*/
 			lineColor: {
 				handler(newValue, oldValue) {
@@ -174,7 +184,7 @@
 				$('.draggable').addClass('not-border')
 				$('.draggable[class*="rect"]').removeClass('not-border')
 				$('.draggable[class*="ellipse"]').removeClass('not-border')
-				
+
 				this.index = index
 				var arr = this.domList
 				var type = arr[index].type
@@ -347,7 +357,7 @@
 				$('.draggableVLine').blur()
 				$('.draggableHLine2').blur()
 				$('.draggableVLine2').blur()
-				
+
 				$('.draggable').addClass('not-border')
 				$('.draggable[class*="rect"]').removeClass('not-border')
 				$('.draggable[class*="ellipse"]').removeClass('not-border')
@@ -567,6 +577,7 @@
 
 <style lang="scss" rel="stylesheet/scss">
 	#canvasWrap {
+		z-index: 100;
 		position: absolute;
 		top: 0;
 		left: 0;

@@ -1,26 +1,25 @@
 <template>
-	<!-- @mouseover="switchLeftBar" @mouseout="switchLeftBar"-->
 	<!--@mouseenter="switchLeftBar($event)" @mouseleave="switchLeftBar($event)"-->
-	<div class="left-bar" ref="leftBar" @mouseenter="switchLeftBar($event)" @mouseleave="switchLeftBar($event)">
+	<div class="left-bar" ref="leftBar">
 		<slot></slot>
 		<div class="switch-wrap" ref="switchWrap">
-			<!-- @click="switchLeftBar"-->
-			<button class="switch-btn"></button>
+			<!-- @click="clickSwitchLeftBar"-->
+			<button class="switch-btn" @click="clickSwitchLeftBar"></button>
 		</div>
 	</div>
 </template>
 
 <script>
 	export default {
+		components: {
+
+		},
 		data() {
 			return {
 
 			}
 		},
 		props: {
-
-		},
-		components: {
 
 		},
 		computed: {
@@ -33,16 +32,30 @@
 		},
 		methods: {
 			switchLeftBar(e) {
-//				console.log(this.flagLeftBar, e, e.type, e.fromElement, e.toElement);
-				if(e.fromElement != null && e.toElement != null) {//点击折叠面板时，会触发mouseenter和mouseleave事件
-					if(this.flagLeftBar) {
+				//console.log(this.flagLeftBar, e, e.type, e.fromElement, e.toElement);
+				//点击折叠面板时，会触发mouseenter和mouseleave事件
+				if(e.fromElement != null && e.toElement != null) {
+					if(e.type == 'mouseenter') {
 						this.$refs.leftBar.style.left = '0'
 						this.$refs.switchWrap.classList.add('open')
+						this.$store.commit('changeLeftBar', false)
 					} else {
 						this.$refs.leftBar.style.left = '-284px'
 						this.$refs.switchWrap.classList.remove('open')
+						this.$store.commit('changeLeftBar', true)
 					}
-					this.$store.commit('changeLeftBar', !this.flagLeftBar)
+				}
+			},
+			clickSwitchLeftBar() {
+				//console.log(this.flagLeftBar);
+				if(this.flagLeftBar) {
+					this.$refs.leftBar.style.left = '-284px'
+					this.$refs.switchWrap.classList.add('open')
+					this.$store.commit('changeLeftBar', false)
+				} else {
+					this.$refs.leftBar.style.left = '0'
+					this.$refs.switchWrap.classList.remove('open')
+					this.$store.commit('changeLeftBar', true)
 				}
 			},
 		},
@@ -53,8 +66,8 @@
 			this.$nextTick(() => {
 				var name = this.$route.name
 				var leftBar = this.$refs.leftBar
-				//控制头部搜索框与配置流程相互切换
-				if(name == 'dataMatching' || name == 'dataClassify' || name == 'listligature' || name == 'businessMatching' || name == 'templateMatching') {
+				//控制头部搜索框与配置流程相互切换  
+				if(name == 'dataMatching' || name == 'dataStructureAnalysis' || name == 'foreignKey' || name == 'dataShow' || name == 'entity' || name == 'relationExtraction' || name == 'hotWord' || name == 'templateMatching') {
 					leftBar.style.height = 'calc(100vh - 190px)'
 				} else {
 					leftBar.style.height = 'calc(100vh - 170px)'
@@ -69,7 +82,8 @@
 		z-index: 100;
 		position: fixed;
 		/*top: 170px;*/
-		left: -284px;
+		/*left: -284px;*/
+		left: 0;
 		width: 284px;
 		transition: .3s;
 	}
@@ -80,6 +94,10 @@
 		right: -17px;
 		width: 17px;
 		height: 100%;
+		&.open {
+			right: -23px;
+			width: 23px;
+		}
 	}
 	
 	.switch-btn {
@@ -100,7 +118,6 @@
 				background: url(../assets/imgs/blue/left_close.png) no-repeat;
 				background-size: 100% 100%;
 				&.open {
-					width: 23px;
 					background: url(../assets/imgs/blue/left_open.png) no-repeat;
 					background-size: 100% 100%;
 				}
@@ -116,7 +133,6 @@
 				background: url(../assets/imgs/red/left_close.png) no-repeat;
 				background-size: 100% 100%;
 				&.open {
-					width: 23px;
 					background: url(../assets/imgs/red/left_open.png) no-repeat;
 					background-size: 100% 100%;
 				}
@@ -132,7 +148,6 @@
 				background: url(../assets/imgs/green/left_close.png) no-repeat;
 				background-size: 100% 100%;
 				&.open {
-					width: 23px;
 					background: url(../assets/imgs/green/left_open.png) no-repeat;
 					background-size: 100% 100%;
 				}

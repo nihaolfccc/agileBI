@@ -3,8 +3,8 @@
 		<happy-scroll>
 			<div class="report-item" :class="{'open': active==index}" v-for="(item, index) in items" :key="index">
 				<div class="report-title" :class="{'active': active==index}" @click="showList(index)">
-					<div class="report-title-icon" :class="item.className"></div>
-					<p v-html="item.title"></p>
+					<i class="iconfont report-title-icon" :class="item.iconName"></i>
+					<p>{{item.title}}</p>
 					<div class="arrow" v-if="themeColor!='blue'">
 						<i class="iconfont icon-zhankai" v-show="active!=index"></i>
 						<i class="iconfont icon-zhankai-copy" v-show="active==index"></i>
@@ -12,12 +12,16 @@
 				</div>
 				<div class="report-list">
 					<div>
-						<!--条件渲染-->
-						<div class="report-list-content" v-if="item.list">
-							<p :class="{'active': reportActive==index}" :title="item.text" v-for="(item, index) in item.list" :key="index" @click="showReportContent(index, item.id, item.text)">{{item.text}}</p>
+						<!--条件渲染-报告-->
+						<div class="report-list-content" v-if="item.title=='报告'">
+							<p :class="{'active': reportActive==index}" :title="item.reportName" v-for="(item, index) in reportList" :key="index" @click="showReportContent(index, item)">{{item.reportName}}</p>
 						</div>
-						<!--条件渲染-->
-						<collapse-element v-if="item.elements"></collapse-element>
+
+						<!--条件渲染-模板-->
+						<template-type v-if="item.title=='模板'"></template-type>
+
+						<!--条件渲染-元素-->
+						<collapse-element v-if="item.title=='元素'"></collapse-element>
 					</div>
 				</div>
 			</div>
@@ -28,33 +32,36 @@
 <script>
 	import collapseTwo from '@/components/collapse/collapseTwo'
 	import collapseElement from '@/components/collapse/collapseElement'
+	import templateType from '@/components/other/templateType'
+	import { mapState } from "vuex";
 
 	export default {
 		components: {
-			collapseTwo,//没用到
-			collapseElement
+			collapseTwo, //没用到
+			collapseElement,
+			templateType,
 		},
 		data() {
 			return {
 				active: 0,
 				items: [{
-						title: '报&nbsp;&nbsp;告',
-						className: 'report',
-						list: []
+						title: '报告',
+						iconName: 'icon-baogao',
 					},
 					{
-						title: '元&nbsp;&nbsp;素',
-						className: 'element',
-						elements: []
+						title: '模板',
+						iconName: 'icon-moban',
+					},
+					{
+						title: '元素',
+						iconName: 'icon-yuansu',
 					}
 				],
-				reportActive: 0,
+				routeId: '0',
 			}
 		},
 		computed: {
-			themeColor() {
-				return this.$store.state.themeColor
-			}
+			...mapState(['themeColor', 'reportActive', 'reportList']),
 		},
 		watch: {
 
@@ -66,25 +73,37 @@
 				} else {
 					this.active = index
 				}
-				if (this.active==1) {
+				if(this.active == 2) {
 					this.$store.commit('changeCanvasWrap', true)
-				}else{
+				} else {
 					this.$store.commit('changeCanvasWrap', false)
 				}
 			},
-			showReportContent(index, id, text) {
-				this.reportActive = index
-				//console.log(id);
-				this.$store.commit('changeReportId', id)
-				this.$store.commit('changeReportName', text)
+			//点击一条报告
+			showReportContent(index, obj) {
+				//console.log(obj)
+				// 点击报告列表项时清空制作报告页元素数组
+				this.$store.commit('changeDomList', [])
+				this.routeId = this.$route.params.id
+				if(this.routeId == '0' || this.routeId == '3') {
+					// 调接口
+					this.$parent.$parent.$parent.$refs.search.getAjax(obj.reportName, true, index)
+				}else if(this.routeId == '1' || this.routeId == '2') {
+					this.$store.commit('changeReportActive', index)
+					this.$store.commit('changeReportId', obj.reportId)
+					if(this.routeId == '1'){
+						// 调接口
+						this.$store.dispatch('getStoreInfo', obj.reportId)
+					}else if(this.routeId == '2'){
+						// 调接口
+						this.$store.dispatch('getReportInfo', obj.reportId)
+						this.$store.commit('changeCurrFolderId', obj.folderId)
+					}
+				}
 			}
 		},
 		mounted() {
-			var reportList = JSON.parse(sessionStorage.getItem('reportList'));
-			//console.log(reportList, reportList.constructor==Array);
-			if(reportList.constructor==Array && reportList.length>0){
-				this.items[0].list = reportList;
-			}
+
 		}
 	}
 </script>
@@ -93,6 +112,10 @@
 	.produce-report-left {
 		height: 100%;
 		.report-item {
+			.report-title-icon {
+				color: white;
+				font-size: 18px;
+			}
 			.report-list {
 				width: 100%;
 				max-height: 0;
@@ -100,6 +123,7 @@
 				overflow: hidden;
 				user-select: none;
 				.report-list-content {
+					padding: 10px 0;
 					>p {
 						height: 49px;
 						line-height: 49px;
@@ -138,20 +162,9 @@
 						background-size: 100% 100%;
 					}
 					>.report-title-icon {
-						margin-top: 16px;
 						display: inline-block;
-						width: 22px;
-						height: 24px;
-						&.report {
-							background: url(../../assets/imgs/blue/icon_report.png) no-repeat 0 0;
-						}
-						&.chart {
-							background: url(../../assets/imgs/blue/chart.png) no-repeat 0 2px;
-							background-size: 100%;
-						}
-						&.element {
-							background: url(../../assets/imgs/blue/icon_report.png) no-repeat 0 -162px;
-						}
+						margin-top: 21px;
+						line-height: 1;
 					}
 					>p {
 						color: white;
@@ -190,9 +203,7 @@
 					user-select: none;
 					>.report-title-icon {
 						float: left;
-						margin-top: 30px;
-						width: 18px;
-						height: 20px;
+						line-height: 80px;
 					}
 					>p {
 						float: left;
@@ -227,18 +238,6 @@
 				.report-title {
 					background: url(../../assets/imgs/bg_red.png) no-repeat;
 					background-size: 100% 100%;
-					>.report-title-icon {
-						&.report {
-							background: url(../../assets/imgs/green/icon_report.png) no-repeat 0 0;
-						}
-						&.chart {
-							background: url(../../assets/imgs/blue/chart.png) no-repeat 0 4px;
-							background-size: 100%;
-						}
-						&.element {
-							background: url(../../assets/imgs/green/icon_report.png) no-repeat 0 -157px;
-						}
-					}
 				}
 				.report-list {
 					.report-list-content {
@@ -265,18 +264,6 @@
 				.report-title {
 					background: url(../../assets/imgs/bg_green.png) no-repeat;
 					background-size: 100% 100%;
-					>.report-title-icon {
-						&.report {
-							background: url(../../assets/imgs/green/icon_report.png) no-repeat 0 0;
-						}
-						&.chart {
-							background: url(../../assets/imgs/blue/chart.png) no-repeat 0 4px;
-							background-size: 100%;
-						}
-						&.element {
-							background: url(../../assets/imgs/green/icon_report.png) no-repeat 0 -157px;
-						}
-					}
 				}
 				.report-list {
 					.report-list-content {

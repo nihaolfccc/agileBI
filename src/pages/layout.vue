@@ -1,42 +1,19 @@
 <template>
 	<div id='layout' ref="layout">
 		<div class="header-wrap">
-			<HeaderBar></HeaderBar>
-			<SearchBar v-if="visibleSearch"></SearchBar>
+			<header-bar></header-bar>
+			<search-bar v-if="visibleSearch" ref="search"></search-bar>
 			<configuration v-if="!visibleSearch"></configuration>
 		</div>
 		<div class="main-wrap" id="main-wrap">
-			<!-- <transition name="fade"> -->
-			<router-view></router-view>
-			<!-- </transition> -->
+			<router-view v-if="isRouterAlive"></router-view>
 		</div>
-
-		<!--对话框-->
-		<el-dialog title="导出设置" :visible.sync="$root.dialogExportSet" class="dialogExportSet">
-			<div class="el-dialog-content">
-				<div class="selectReportPeriod clearfix">
-					<span class="fl">选择报告周期</span>
-					<el-radio-group v-model="reportPeriod" class="fl">
-						<el-radio :label="item.label" v-for="(item, index) in reportPeriodList" :key="index">{{item.label}}</el-radio>
-					</el-radio-group>
-				</div>
-				<div class="selectExportFormat clearfix">
-					<span class="fl">选择导出格式</span>
-					<el-radio-group v-model="exportFormat" class="fl">
-						<el-radio :label="item.label" v-for="(item, index) in exportFormatList" :key="index">{{item.label}}</el-radio>
-					</el-radio-group>
-				</div>
-			</div>
-			<div slot="footer" class="dialog-footer">
-				<button class="dialog-confirm" type="button" @click="exportConfirmFn">确 定</button>
-			</div>
-		</el-dialog>
 	</div>
 </template>
 
 <script>
 	import HeaderBar from "../components/Header";
-	import SearchBar from "../components/search";
+	import SearchBar from "../components/search/search.vue";
 	import configuration from "../components/configuration";
 	import { mapState } from "vuex";
 
@@ -44,43 +21,15 @@
 		components: {
 			HeaderBar,
 			SearchBar,
-			configuration
+			configuration,
 		},
 		data() {
 			return {
-				shrinkState: 0,
-				reportPeriod: '日报',
-				reportPeriodList: [{
-						label: '日报'
-					},
-					{
-						label: '周报'
-					},
-					{
-						label: '月报'
-					},
-					{
-						label: '季报'
-					},
-					{
-						label: '年报'
-					},
-				],
-				exportFormat: 'word文档',
-				exportFormatList: [{
-						label: 'word文档'
-					},
-					{
-						label: 'png图片'
-					},
-					{
-						label: 'PDF文件'
-					},
-				],
+				
 			};
 		},
 		computed: {
-			...mapState(["themeColor", "visibleSearch"])
+			...mapState(["themeColor", "visibleSearch", "isRouterAlive"]),
 		},
 		watch: {
 			themeColor: {
@@ -88,7 +37,7 @@
 					newValue ? this.setTheme() : null;
 				}
 			},
-			visibleSearch: {//初始化渲染dom时监听不到变化，所以需要在mounted里初始化执行一次
+			visibleSearch: { //初始化渲染dom时监听不到变化，所以需要在mounted里初始化执行一次
 				handler(newValue, oldValue) {
 					//console.log(newValue);
 					var mainWrap = document.getElementById("main-wrap")
@@ -112,10 +61,6 @@
 					"blue";
 				target.className = this.themeColor ? "theme-" + this.themeColor : `theme-${localStorageCls}`;
 			},
-			exportConfirmFn() {
-				console.log(this.reportPeriod, this.exportFormat)
-				this.$root.dialogExportSet = false
-			},
 		},
 		mounted() {
 			this.$nextTick(() => {
@@ -124,7 +69,7 @@
 				var mainWrap = document.getElementById("main-wrap")
 				//console.log(this.visibleSearch, name);
 				//控制头部搜索框与配置流程相互切换
-				if(name == 'dataMatching' || name == 'dataClassify' || name == 'dataShow' || name == 'listligature' || name == 'businessMatching' || name == 'templateMatching') {
+				if(name == 'dataMatching' || name == 'dataStructureAnalysis' || name == 'foreignKey' || name == 'dataShow' || name == 'entity' || name == 'relationExtraction' || name == 'hotWord' || name == 'templateMatching') {
 					mainWrap.style.paddingTop = '190px'
 					mainWrap.style.minHeight = 'calc(100vh - 190px)'
 				} else {
@@ -136,19 +81,7 @@
 	};
 </script>
 
-<style lang="scss" rel="stylesheet/scss">
-	.selectReportPeriod,
-	.selectExportFormat {
-		line-height: 24px;
-		>span {
-			margin-right: 20px;
-		}
-	}
-	
-	.selectReportPeriod {
-		margin-bottom: 40px;
-	}
-	
+<style scoped lang="scss" rel="stylesheet/scss">
 	#layout {
 		min-height: 100%;
 		min-width: 1295px;
@@ -161,65 +94,6 @@
 		}
 		.main-wrap {
 			min-height: calc(100vh - 170px);
-			.fade-enter-active,
-			.fade-leave-active {
-				transition: all 2s ease;
-			}
-			.fade-enter {
-				transform: translateX(-50px);
-				opacity: 0;
-			}
-			.fade-leave-active {
-				transition: none;
-			}
-		}
-	}
-	
-	.dialogExportSet {
-		.el-radio {
-			line-height: 24px;
-		}
-		.el-dialog-content {
-			padding-left: 75px;
-		}
-		.dialog-footer {
-			text-align: center;
-			padding-bottom: 10px;
-		}
-	}
-	
-	.dialog-confirm {
-		width: 100px;
-		height: 32px;
-		line-height: 32px;
-		text-align: center;
-		border-radius: 16px;
-		font-size: 16px;
-		font-weight: bold;
-		color: white;
-		&:hover {
-			opacity: .8;
-		}
-	}
-	
-	.theme-blue {
-		.dialog-confirm {
-			background: url(../assets/imgs/blue/bg_confirm.png) no-repeat;
-			background-size: 100% 100%;
-		}
-	}
-	
-	.theme-red {
-		.dialog-confirm {
-			background: url(../assets/imgs/red/bg_confirm.png) no-repeat;
-			background-size: 100% 100%;
-		}
-	}
-	
-	.theme-green {
-		.dialog-confirm {
-			background: url(../assets/imgs/green/bg_confirm.png) no-repeat;
-			background-size: 100% 100%;
 		}
 	}
 </style>

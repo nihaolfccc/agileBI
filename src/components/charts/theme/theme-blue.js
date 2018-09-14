@@ -4,8 +4,7 @@ const colorPalette = [
   '#ffca28',
   '#bdc8d1',
   '#7696c5',
-  '#ff890b',
-"transparent"
+  '#ff890b'
 ];
 
 const themeBlue = {

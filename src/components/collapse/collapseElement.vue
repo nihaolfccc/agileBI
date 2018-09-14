@@ -23,12 +23,10 @@
 						</el-option>
 					</el-select>
 					<div class="font-related clearfix">
-						<div class="font-size border-background fl">
-							<el-select v-model="fontSize" placeholder="请选择">
-								<el-option v-for="item in fontSizes" :key="item.value" :label="item.label" :value="item.value">
-								</el-option>
-							</el-select>
-						</div>
+						<el-select class="font-size border-background fl" v-model="fontSize" placeholder="请选择">
+							<el-option v-for="item in fontSizes" :key="item.value" :label="item.label" :value="item.value">
+							</el-option>
+						</el-select>
 						<div class="font-weight-underline border-background fl">
 							<i class="iconfont icon-B font-weight" :class="{'active': stateFontWeight=='bold'}" @click="changeFontWeight"></i>
 							<i class="iconfont icon-xieti font-style" :class="{'active': stateFontStyle=='italic'}" @click="changeFontStyle"></i>
@@ -72,11 +70,17 @@
 
 <script>
 	import { mapState } from "vuex";
-	
+
 	export default {
+		components: {
+
+		},
+		props: {
+
+		},
 		data() {
 			return {
-				elementTypeActive: -1,
+				elementTypeActive: 0,
 				fontFamily: 'Arial',
 				fontFamilys: [{
 					value: 'Arial',
@@ -199,7 +203,7 @@
 					'rgb(0,255,255)',
 					'rgb(255,0,255)',
 					'rgb(255, 192, 203)',
-					
+
 					'rgba(255, 0, 0, .5)',
 					'rgba(255, 128, 0, .5)',
 					'rgba(255,2 55, .5)',
@@ -287,12 +291,6 @@
 				]
 			}
 		},
-		props: {
-
-		},
-		components: {
-
-		},
 		computed: {
 			...mapState({
 				domList: 'domList',
@@ -312,12 +310,12 @@
 			lineColor: {
 				handler(newValue, oldValue) {
 					//console.log(newValue)
-					if(newValue!=null){
+					if(newValue != null) {
 						this.$store.commit('changeLineColor', newValue)
 						this.$refs.lineColor.style.color = newValue
-					}else{
-						this.$store.commit('changeLineColor', 'black')
-						this.$refs.lineColor.style.color = 'black'
+					} else {
+						this.$store.commit('changeLineColor', '#ff0000')
+						this.$refs.lineColor.style.color = '#ff0000'
 					}
 				}
 			},
@@ -348,44 +346,45 @@
 			fontColor: {
 				handler(newValue, oldValue) {
 					//console.log(newValue)
-					if(newValue!=null){
+					if(newValue != null) {
 						this.$store.commit('changeFontColor', newValue)
 						this.$refs.fontColor.style.color = newValue
-					}else{
-						this.$store.commit('changeFontColor', 'black')
-						this.$refs.fontColor.style.color = 'black'
+					} else {
+						this.$store.commit('changeFontColor', '#ff0000')
+						this.$refs.fontColor.style.color = '#ff0000'
 					}
 				}
 			},
 			//监听vuex 里面的变量
 			stateLineColor: {
 				handler(newValue, oldValue) {
-					this.lineColor=newValue
+					//console.log(newValue)
+					this.lineColor = newValue
 				}
 			},
 			stateLineWidth: {
 				handler(newValue, oldValue) {
-					this.lineWidth=newValue
+					this.lineWidth = newValue
 				}
 			},
 			stateLineType: {
 				handler(newValue, oldValue) {
-					this.lineType=newValue
+					this.lineType = newValue
 				}
 			},
 			stateFontFamily: {
 				handler(newValue, oldValue) {
-					this.fontFamily=newValue
+					this.fontFamily = newValue
 				}
 			},
 			stateFontSize: {
 				handler(newValue, oldValue) {
-					this.fontSize=newValue
+					this.fontSize = newValue
 				}
 			},
 			stateFontColor: {
 				handler(newValue, oldValue) {
-					this.fontColor=newValue
+					this.fontColor = newValue
 				}
 			},
 		},
@@ -591,8 +590,28 @@
 			line-height: 33px;
 		}
 		.text-set-tool {
+			.el-select {
+				.el-input__inner {
+					display: block;
+					height: 22px;
+					line-height: 22px;
+					padding-right: 20px;
+					border: none;
+					border-radius: 12px;
+					background-color: transparent;
+					color: white;
+					&::-webkit-input-placeholder {
+						color: white;
+					}
+				}
+				.el-select__caret{
+					line-height: 22px;
+					color: white;
+				}
+			}
 			.font-family {
 				margin-bottom: 19px;
+				width: 100%;
 				height: 24px;
 			}
 			.font-related {

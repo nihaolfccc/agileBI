@@ -1,29 +1,22 @@
 <template>
-	<el-collapse class="collapse" v-model="activeNames">
+	<el-collapse class="collapse" v-model="activeNames" accordion>
 		<el-collapse-item v-for="(item, index) in echartsList" :key="index" :name="index+1">
 			<template slot="title">
 				<p :title="item.title">{{item.title}}</p>
 			</template>
 			<div class="item">
-				<div class="left-layout" :class="{'active': active==item.id}" @click="changeEcharts(item.id)">
-					<div>
-						<img :src="item.src" />
-					</div>
-				</div>
-				<div class="right-layout" :class="{'active': active==item.id2}" @click="changeEcharts(item.id2)">
-					<div>
-						<img :src="item.src" />
-					</div>
-				</div>
+				<analyze-template></analyze-template>
 			</div>
 		</el-collapse-item>
 	</el-collapse>
 </template>
 
 <script>
+	import analyzeTemplate from '@/components/other/analyzeTemplate'
+
 	export default {
 		components: {
-
+			analyzeTemplate
 		},
 		data() {
 			return {
@@ -45,7 +38,7 @@
 		methods: {
 			changeEcharts(id) {
 				//console.log(id)
-				this.active=id
+				this.active = id
 			},
 		},
 		mounted() {
@@ -58,29 +51,6 @@
 	.collapse {
 		.el-collapse-item__header {
 			padding: 0 20px 1px;
-		}
-		.item {
-			>div {
-				border: 6px solid transparent;
-				border-radius: 8px;
-				cursor: pointer;
-				opacity: .6;
-				transition: .3s;
-				&.left-layout {
-					margin-bottom: 18px;
-				}
-				&.active, &:hover{
-					border-color: rgba(255, 255, 255, .5);
-					opacity: 1;
-				}
-				>div {
-					border: 2px solid rgba(255, 255, 255, .5);
-					border-radius: 2px;
-					>img {
-						width: 100%;
-					}
-				}
-			}
 		}
 	}
 	
@@ -101,7 +71,7 @@
 				}
 			}
 			.el-collapse-item__wrap {
-				background-color: #c7402e;
+				background-color: $bg-active-red;
 			}
 			.item {
 				margin: 20px;
@@ -118,7 +88,7 @@
 				}
 			}
 			.el-collapse-item__wrap {
-				background-color: #176636;
+				background-color: $bg-active-green;
 			}
 			.item {
 				margin: 20px;

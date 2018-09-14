@@ -3,16 +3,17 @@
 		<happy-scroll>
 			<div class="report-item" :class="{'open': active==index}" v-for="(item, index) in items" :key="index">
 				<div class="report-title" :class="{'active': active==index}" @click="showList(index)">
-					<div class="report-title-icon" :class="item.className"></div>
-					<p v-html="item.title"></p>
+					<i class="iconfont report-title-icon" :class="item.iconName"></i>
+					<p>{{item.title}}</p>
 					<div class="arrow" v-if="themeColor!='blue'">
 						<i class="iconfont icon-zhankai" v-show="active!=index"></i>
 						<i class="iconfont icon-zhankai-copy" v-show="active==index"></i>
 					</div>
 				</div>
 				<div class="report-list">
-					<div>
-						<collapse-analyze :echartsList="item.list"></collapse-analyze>
+					<div class="report-list-content">
+						<p v-for="(item, index) in analyzeList" :key="index" :title="item.title">{{item.title}}</p>
+						<!--<collapse-analyze :echartsList="analyzeList"></collapse-analyze>-->
 					</div>
 				</div>
 			</div>
@@ -32,10 +33,10 @@
 				active: 0,
 				items: [{
 						title: '分析方法列表',
-						className: 'report',
-						list: []
+						iconName: 'icon-baogao',
 					}
 				],
+				analyzeList: [],
 			}
 		},
 		props: {
@@ -50,8 +51,7 @@
 			themeColor: {
 				handler(newValue, oldValue) {
 					this.changeEchartsList()
-				},
-				deep: true
+				}
 			}
 		},
 		methods: {
@@ -63,40 +63,21 @@
 				}
 			},
 			changeEchartsList() {
-				this.items[0].list = [{
-						title: '趋势分析',
-						src: require('../../assets/imgs/common/left-layout.png'),
-						src2: require('../../assets/imgs/common/left-layout.png'),
-						id: 0,
-						id2: 1
+				this.analyzeList=[
+					{
+						title: '趋势分析'
 					},
 					{
-						title: '基期分析',
-						src: require('../../assets/imgs/common/left-layout.png'),
-						src2: require('../../assets/imgs/common/left-layout.png'),
-						id: 2,
-						id2: 3
+						title: '基期分析'
 					},
 					{
-						title: '对比分析',
-						src: require('../../assets/imgs/common/left-layout.png'),
-						src2: require('../../assets/imgs/common/left-layout.png'),
-						id: 4,
-						id2: 5
+						title: '对比分析'
 					},
 					{
-						title: '排名分析',
-						src: require('../../assets/imgs/common/left-layout.png'),
-						src2: require('../../assets/imgs/common/left-layout.png'),
-						id: 6,
-						id2: 7
+						title: '排名分析'
 					},
 					{
-						title: '结构分析',
-						src: require('../../assets/imgs/common/left-layout.png'),
-						src2: require('../../assets/imgs/common/left-layout.png'),
-						id: 8,
-						id2: 9
+						title: '结构分析'
 					}
 				]
 			}
@@ -114,6 +95,10 @@
 	.analyze-method-left {
 		height: 100%;
 		.report-item {
+			.report-title-icon{
+				color: white;
+				font-size: 18px;
+			}
 			.report-list {
 				width: 100%;
 				max-height: 0;
@@ -159,13 +144,9 @@
 						background-size: 100% 100%;
 					}
 					>.report-title-icon {
-						margin-top: 16px;
 						display: inline-block;
-						width: 22px;
-						height: 24px;
-						&.report {
-							background: url(../../assets/imgs/blue/icon_report.png) no-repeat 0 0;
-						}
+						margin-top: 21px;
+						line-height: 1;
 					}
 					>p {
 						color: white;
@@ -204,9 +185,7 @@
 					user-select: none;
 					>.report-title-icon {
 						float: left;
-						margin-top: 30px;
-						width: 18px;
-						height: 20px;
+						line-height: 80px;
 					}
 					>p {
 						float: left;
@@ -240,11 +219,6 @@
 				.report-title {
 					background: url(../../assets/imgs/bg_red.png) no-repeat;
 					background-size: 100% 100%;
-					>.report-title-icon {
-						&.report {
-							background: url(../../assets/imgs/green/icon_report.png) no-repeat 0 0;
-						}
-					}
 				}
 				.report-list {
 					.report-list-content {
@@ -270,11 +244,6 @@
 				.report-title {
 					background: url(../../assets/imgs/bg_green.png) no-repeat;
 					background-size: 100% 100%;
-					>.report-title-icon {
-						&.report {
-							background: url(../../assets/imgs/green/icon_report.png) no-repeat 0 0;
-						}
-					}
 				}
 				.report-list {
 					.report-list-content {

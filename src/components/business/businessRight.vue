@@ -416,10 +416,10 @@
 						},
 						events: {
 							edgeAdded: function(params) { //拖动连线时所产生的开始端口和结束端口
-								//								console.log(params)
+								console.log(params)
 								if(params.addedByMouse) {
 									toolkit.updateEdge(params.edge);
-//									refreshData() //sessionStorage
+									refreshData() //sessionStorage
 								}
 							},
 							canvasClick: function(e) {

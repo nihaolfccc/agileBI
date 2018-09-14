@@ -273,17 +273,18 @@
    	   		margin-left: 15px;
 			ul {
 				width: 100%;
-				border: 1px solid #faeae9;
+				border: 1px solid transparent;
 				border-bottom: none;
 				background: #fdf6f5;
 				>li {
 					height: 40px;
 					text-align: center;
 					line-height: 40px;
-					border-bottom: 1px solid #fce6e4;
+					border-bottom: 1px solid transparent;
 					box-sizing: border-box;
 					&:first-child {
 						background: #f9dfd6;
+						color:#a92312
 					}
 				}
 			}
@@ -303,6 +304,7 @@
 				box-sizing: border-box;
 				&:first-child{
 					background: #f9dfd6;
+					color:#a92312
 				}
 				&:nth-of-type(even){ 
 					background: #fffbfa;
@@ -341,8 +343,10 @@
 			.ify_file {
 				ul {
 					background: #f5f8fd;
+					border-color:#e6eff9;
 					>li {
 						box-sizing: border-box;
+						border-color:#e6eff9;
 						&:first-child {
 							    background: #dce8f6;
     							color: #4a6c98;
@@ -394,10 +398,12 @@
 			.ify_file {
 				ul {
 					background: #f6fdf8;
+					border-color:#e7f9ed;
 					>li {
+						border-color:#e7f9ed;
 						&:first-child {
-								background-color: rgba(221, 246, 220, 0.78);
-    							color: #017734;
+							background-color: rgba(221, 246, 220, 0.78);
+    						color: #017734;
 						}
 						&:nth-of-type(even){ 
 							background: #fcfffc;
@@ -437,7 +443,16 @@
 		}
 	}
 	.theme-red{
-		
+		.banner {
+			.ify_file {
+				ul {
+					border-color:#fceceb;
+					>li {
+						border-color:#fceceb;
+					}
+				}
+			}
+		}
 	}
     
     

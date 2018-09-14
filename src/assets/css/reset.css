@@ -163,10 +163,12 @@ label {
 
 .fl {
 	float: left;
+	display: inline;
 }
 
 .fr {
 	float: right;
+	display: inline;
 }
 
 .tl {

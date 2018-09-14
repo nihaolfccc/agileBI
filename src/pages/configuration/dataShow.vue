@@ -66,7 +66,7 @@
 				数据汇聚
 			</div>
 			<div class="node01" style="left: 1038px; top: 399px;" do-item-id="n2">
-				数据应用
+				知识图谱
 			</div>
 			<div class="node01" style="left: 1325px; top: 399px;" do-item-id="n3">
 				数据服务
@@ -175,8 +175,16 @@
 			<div do-source-id="n3" do-target-id="g4_7"></div>
 			<div do-source-id="n3" do-target-id="g4_e"></div>
 
-			<!--编辑数据源按钮-->
-			<btn :item="editDataSourceBtn"></btn>
+			<!--编辑数据源-按钮-->
+			<btn :item="editDataSourceBtn" @click.native="editDataSourceFn"></btn>
+
+			<!--编辑资源库-对话框-->
+			<el-dialog title="选择字段" :visible.sync="$root.dialogEditResource" class="dialogEditResource">
+				<dialog-field class="el-dialog-content"></dialog-field>
+				<div slot="footer" class="dialog-footer">
+					<button class="dialog-confirm" type="button" @click="saveFn">保存</button>
+				</div>
+			</el-dialog>
 		</div>
 	</div>
 </template>
@@ -184,12 +192,7 @@
 <script>
 	import ChartLib from '@/../static/chart-library.min.js';
 	import btn from '@/components/buttons/btn'
-
-	import roulette01 from 'assets/imgs/dataShow/do-roulette-01.png';
-	import roulette02 from 'assets/imgs/dataShow/do-roulette-02.png';
-	import roulette03 from 'assets/imgs/dataShow/do-roulette-03.png';
-	import sphere01 from 'assets/imgs/dataShow/do-sphere-01.png';
-	import circle01 from 'assets/imgs/dataShow/do-circle-01.png';
+	import dialogField from '@/components/dialog/dialogFileld'
 
 	/**
 	 * 数据概览中央复合组件，采用控制器管辖各部件。
@@ -197,19 +200,32 @@
 	 */
 	export default {
 		components: {
-			btn
+			btn,
+			dialogField
 		},
 		data: function() {
 			return {
 				editDataSourceBtn: {
 					name: '编辑数据源',
 					className: 'edit-data-source',
-					iconName: 'icon-bi',
+					iconName: 'icon-bi'
 				}
 			};
 		},
+		methods: {
+			editDataSourceFn() {
+				console.log('editDataSourceFn', this);
+				//this.$root.dialogEditResource = true
+				this.$router.push({
+					name: 'dataMatching'
+				})
+			},
+			saveFn() {
+				this.$root.dialogEditResource = false
+			}
+		},
 		mounted() {
-			console.log(ChartLib); //{DataOverview: ƒ, TWEEN: o, Timer: ƒ, WaterMap: ƒ}
+			//console.log(ChartLib); //{DataOverview: ƒ, TWEEN: o, Timer: ƒ, WaterMap: ƒ}
 
 			let me = this;
 
@@ -221,46 +237,9 @@
 			//console.log(me.$el, me.$el.children[0]);
 			let app = new ChartLib.DataOverview({
 				viewport: viewport,
-				billboard: {
-					edges: 'rgb(0,0,0)',
-					width: 100,
-					height: 100,
-					stroke: {
-						colorStops: 'rgb(0,0,0)'
-					},
-					color: 'rgb(0,0,0)',
-					fill: 'rgb(0,0,0)',
-					curveLayer: {
-						stroke: {
-							colorStops: [{
-									color: 'rgb(0,0,0)'
-								},
-								{
-									color: 'rgb(0,0,0)'
-								},
-								{
-									color: 'rgb(0,0,0)'
-								}
-							]
-						}
-					}
-				},
-				/*core: {
-					x: 583, //875
-					y: 89,
-					width: 660, //1000
-					height: 622, //viewport.clientHeight
-					rings: [
-						roulette01,
-						roulette02,
-						roulette03
-					],
-					sphere: sphere01,
-					itemBackground: circle01
-				}*/
 			});
 			me._app = app;
-			console.log(app)
+			//console.log(app)
 			// 为核心区特殊数值内容区绑定处理器
 			app.registerFormatter('c_1', function(element, value) {
 				//console.log(element, value)
@@ -294,7 +273,7 @@
 			////
 			let autoIncrement = 0;
 			let testTimer = new ChartLib.Timer(2000);
-			console.log(testTimer)
+			//console.log(testTimer)
 			testTimer.on('timer', e => {
 				// 转换思路提供的接口数据，映射至数值内容区。
 				let indexData = require('@/json/getIndexData.json');
@@ -366,12 +345,14 @@
 			}
 			me._app.stopRender();
 			me._app = null;
-		},
-		methods: {}
+		}
 	}
 </script>
 
 <style lang="scss" scoped>
+	.dialogEditResource{
+		
+	}
 	.rootWrap {
 		padding: 20px 50px;
 		min-width: 1814px;
@@ -423,7 +404,7 @@
 		font-weight: bold;
 		font-size: 22px;
 		text-align: center;
-		color: #dd2911;
+		color: $red-color;
 	}
 	
 	.ellipsis01 {
@@ -447,7 +428,7 @@
 		background-image: url(../../assets/imgs/red/dataSourceShape.png);
 		background-repeat: no-repeat;
 		background-size: 100% 100%;
-		color: #333;
+		color: $search-input-color;
 		font-weight: bold;
 		font-size: 18px;
 	}
@@ -455,7 +436,7 @@
 	.name01,
 	.name02,
 	.name03 {
-		color: #333;
+		color: $search-input-color;
 		text-align: center;
 		line-height: 1;
 	}
@@ -481,7 +462,7 @@
 	.numeric02,
 	.numeric03 {
 		font-weight: bold;
-		color: #dd2911;
+		color: $red-color;
 		text-align: center;
 		line-height: 1;
 	}
@@ -510,11 +491,11 @@
 		font-size: 40px;
 		line-height: 1;
 		span {
-			color: #dd2911;
+			color: $red-color;
 		}
 		small {
 			font-size: 16px;
-			color: #333333;
+			color: $search-input-color;
 		}
 	}
 	

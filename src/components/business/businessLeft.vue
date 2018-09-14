@@ -19,7 +19,7 @@
 				<span>{{item.nodes[0].name}}</span>
 				<i class="iconfont icon-duihao2 fr" v-if="item.nodes[0].tip"></i>
 				<i class="iconfont icon-bi bt_left" :class="{'activeShow': active==index}" @click.stop="changeName(item.nodes[0].name,item.nodes[0].id)"></i>
-				<i class="iconfont icon-unie639 bt_left" :class="{'activeShow': active==index}" @click="deleteName(item.nodes[0].name,item.nodes[0].id)"></i>
+				<i class="iconfont icon-unie639 bt_left" :class="{'activeShow': active==index}" @click="deleteName(item.nodes[0].name,item.nodes[0].id)"></i>			
 				<div class="tilte_background"></div>
 				
 			</li>
@@ -275,10 +275,13 @@
 					white-space: nowrap;
 					text-overflow: ellipsis;
 				}
+				i{
+					margin-left: 15px;
+				}
 				.bt_left{
 					display: none;
+					/*float:right;*/
 					color: #FFF;
-					margin-left: 15px;
 				}
 				&:hover .bt_left{
 					display: inline-block;

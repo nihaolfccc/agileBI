@@ -2,22 +2,40 @@
 // standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import ElementUI from 'element-ui'
+Vue.use(ElementUI);
+
 import html2canvas from 'html2canvas';
+Vue.prototype.$h2c = html2canvas
+
 import echarts from 'echarts'
+Vue.prototype.$echarts = echarts
+
+// 导出功能
+import { exportPng } from '@/assets/js/tools.js'
+Object.defineProperty(Vue.prototype, '$exportPng', {
+	value: exportPng
+});
+import '@/assets/js/jspdf.min.js'
+
 import 'babel-polyfill'
 import App from './App'
 import router from './router'
 import store from './store/store' //vuex
 import VueLazyload from 'vue-lazyload'
-import errImg from './assets/imgs/placeholder_blue.png'
-import loadingImg from './assets/imgs/loading.gif'
+Vue.use(VueLazyload, {
+	preLoad: 1.3,
+	error: '',
+	loading: '',
+	attempt: 2,
+	//throttleWait: 2000
+})
 
 // 滚动条
 //import elementResizeDetectorMaker from 'element-resize-detector'
 import HappyScroll from 'vue-happy-scroll'
+Vue.use(HappyScroll)
 // 引入css
 import 'vue-happy-scroll/docs/happy-scroll.css'
-Vue.use(HappyScroll)
 
 //元素拖拽
 import VueDraggableResizable from 'vue-draggable-resizable'
@@ -29,8 +47,9 @@ Vue.component('vuedraggable', VueDraggable)
 
 //通用样式
 import './assets/css/iconfont.css'
+import './assets/css/reset.css'
 import 'element-ui/lib/theme-chalk/index.css'
-import './assets/css/index.scss'
+// variables.scss是在build目录下utils.js文件里引入的
 
 // echarts 主题注册
 import themeRed from '@/components/charts/theme/theme-red'
@@ -39,22 +58,13 @@ import themeBlue from '@/components/charts/theme/theme-blue'
 echarts.registerTheme('red', themeRed)
 echarts.registerTheme('green', themeGreen)
 echarts.registerTheme('blue', themeBlue)
-Vue.prototype.$echarts = echarts
-Vue.prototype.$h2c = html2canvas
-Vue.use(ElementUI);
-//console.log(store.state.themeColor)
-Vue.use(VueLazyload, {
-	preLoad: 1.3,
-	error: errImg,
-	loading: loadingImg,
-	attempt: 2
-})
 
 Vue.config.productionTip = false
 /*自定义指令*/
 Vue.directive('focus', {
 	inserted(el, binding) { //el为原生元素
-		el.focus()
+		console.log(el);
+		el.querySelector('input').focus()
 	}
 })
 Vue.directive('setfocus', {
@@ -73,23 +83,84 @@ new Vue({
 	data() {
 		return {
 			headNav: sessionStorage.getItem('headNav') ?
-				JSON.parse(sessionStorage.getItem('headNav')) :
-				0,
+				JSON.parse(sessionStorage.getItem('headNav')) : 0,
 			configureActive: sessionStorage.getItem('configureActive') ?
-				JSON.parse(sessionStorage.getItem('configureActive')) :
-				-1,
+				JSON.parse(sessionStorage.getItem('configureActive')) : -1,
+			myActive: sessionStorage.getItem('myActive') ?
+				JSON.parse(sessionStorage.getItem('myActive')) : -1,
 			skinActive: localStorage.getItem('skinActive') ?
-				JSON.parse(localStorage.getItem('skinActive')) :
-				1,
+				JSON.parse(localStorage.getItem('skinActive')) : 1,
 			search: '',
-			dialogExportSet: false, //导出设置对话框
+			dialogExportSet: false, //导出设置-对话框
+			dialogCollect: false, //收藏-对话框
+			dialogEditResource: false, //编辑资源库-对话框
+			dialogLoginFormVisible: false, //登录对话框
+			btnDisable: false, //对话框中的确定按钮是否可用，默认可用
+			toolkit: null, //jsPlumb 实例对象
 		}
 	},
+	computed: {
+		userId() {
+			return this.$store.state.userId;
+		},
+		reportName() {
+			return this.$store.state.reportName;
+		},
+	},
 	watch: {
-		
+		'$route': function(to, from) {
+			document.body.scrollTop = 0 //IE
+			document.documentElement.scrollTop = 0 //W3C
+		}
+	},
+	methods: {
+		exportEcharts() {
+			$('.draggable').addClass('not-border')
+			$('.draggable[class*="rect"]').removeClass('not-border')
+			$('.draggable[class*="ellipse"]').removeClass('not-border')
+			this.dialogExportSet = true
+			this.btnDisable = false
+		},
+		confirmExport(exportFormat) {
+			document.querySelector('.btn-wrap').style.display = 'none'
+			var dom = document.querySelector('#content')
+
+			setTimeout(() => {
+				switch(exportFormat) {
+					case 'word文档':
+						this.$message({
+							message: '暂不支持导出为word文档'
+						})
+						break;
+					case 'png图片':
+						this.$exportPng(dom, this.reportName)
+						break;
+					case 'PDF文件':
+						var pdf = new jsPDF('p', 'pt', 'a4');
+						// 设置打印比例 越大打印越小
+						pdf.internal.scaleFactor = 3.5;
+						var options = {
+							pagesplit: true, //设置是否自动分页
+							"background": '#FFFFFF', //如果导出的pdf为黑色背景， 需要将导出的html模块内容背景 设置成白色。
+						};
+						pdf.addHTML(dom, 15, 15, options, ()=> {
+							pdf.save(this.reportName);
+						});
+						break;
+				}
+			}, 10)
+
+			setTimeout(() => {
+				document.querySelector('.btn-wrap').style.display = 'block'
+				this.dialogExportSet = false
+			}, 20)
+		},
 	},
 	components: {
 		App
 	},
-	template: '<App/>'
+	template: '<App/>',
+	mounted() {
+		
+	}
 })

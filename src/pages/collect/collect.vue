@@ -1,443 +1,287 @@
 <template>
 	<div class="collect">
-	<div class="search-result">
-		<div class="content">
-			<div class="clearfix main_sum">
-				<div class="main_echarts">
-					<div class="main_hed">
-						<h2>我的收藏</h2>
-						<div class="main_button">
-							<button class="check_all_blue" @click="checkAll()">
-								<i class="iconfont icon-quanxuan"></i>
-								<b>全选</b>
-								<input id="all-checked" type="checkbox" :checked="isAllChecked()" @change="changeAllChecked($event)"/>
-							</button>
-							<button class="report_blue" :disabled="collectCheckList.length==0">
-								<i class="iconfont icon-zhizuo"></i>
-								<b>导出</b>
-							</button>
-							<button class="report_blue" :disabled="collectCheckList.length==0">
-								<i class="iconfont icon-unie639"></i>
-								<b>删除</b>
-							</button>
+		<div class="search-result">
+			<div class="content">
+				<div class="clearfix main_sum">
+					<div class="main_echarts">
+						<collect-btn :btnCollectList.sync="collectList" :btnCollectCheckList.sync="collectCheckList" :title="title" type="collect" :btn="btn" :options="options"></collect-btn>
+						<collect-content :contentCollectList="collectList" :contentCollectCheckList.sync="collectCheckList" type="collect"></collect-content>
+						<div class="clearfix">
+							<pagination :total="total"></pagination>
 						</div>
-					</div>
-					<ul class="main_echarts_drawing clearfix">
-						<li v-for="(item,index) in collectList" :key="index">
-							<div class="med_border">
-								<img :src="img" v-show="true" />
-								<img src="../../assets/imgs/placeholder_blue.png" class="img_true" v-show="false" />
-								<div class="med_explain" :title="item.text">{{item.text}}</div>
-								<div class="med_checkbox">
-									<input type="checkbox" :value="index" class="med_real" v-model="collectCheckList" @click="check($event)" />
-								</div>
-							</div>
-						</li>
-					</ul>
-					<div class="clearfix">
-						<pagination :total="total"></pagination>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	</div>
 </template>
 
 <script>
 	import pagination from '@/components/pagination/pagination'
+	import collectBtn from '@/components/buttons/collectBtn'
+	import collectContent from '@/components/collectContent/collectContent'
+	import { storeFolderList, reportStoreInfoList, reportStoreInfoDelete } from "@/api/index.js"
+	import { mapState } from "vuex";
+	import { BIMsg } from '@/assets/js/tools.js'
 	export default {
 		components: {
-			pagination
+			pagination,
+			collectBtn,
+			collectContent
 		},
 		data() {
 			return {
-				total:200,
-				collectList: [
-					{
-						text: '接受教育程度的年薪细分是多少？',
-						id: 1
-					},
-					{
-						text: '接受教育程度的年薪细分是多少？2',
-						id: 2
-					},
-					{
-						text: '接受教育程度的年薪细分是多少？3',
-						id: 3
-					},
-					{
-						text: '接受教育程度的年薪细分是多少？4',
-						id: 4
-					},
-					{
-						text: '接受教育程度的年薪细分是多少？5',
-						id: 5
-					},
-					{
-						text: '接受教育程度的年薪细分是多少？6',
-						id: 6
-					},
-					{
-						text: '接受教育程度的年薪细分是多少？6',
-						id: 7
-					},
-					{
-						text: '接受教育程度的年薪细分是多少？6',
-						id: 8
-					},
-					{
-						text: '接受教育程度的年薪细分是多少？6',
-						id: 9
-					},
-					{
-						text: '接受教育程度的年薪细分是多少？6',
-						id: 10
-					},
-					{
-						text: '接受教育程度的年薪细分是多少？6',
-						id: 11
-					},
-					{
-						text: '接受教育程度的年薪细分是多少？6',
-						id: 12
-					},
-					{
-						text: '接受教育程度的年薪细分是多少？6',
-						id: 13
-					},
-					{
-						text: '接受教育程度的年薪细分是多少？6',
-						id: 14
-					},
-					{
-						text: '接受教育程度的年薪细分是多少？6',
-						id: 15
+				total: 0,
+				title: "我的收藏",
+				btn: [{
+					name: "导出",
+					iconName: "icon-zhizuo",
+					className: "report_blue",
+					fn: () => {
+						this.$root.exportEcharts()
 					}
-				],
-				img: localStorage.getItem("theme") ? require('../../assets/imgs/placeholder_' + localStorage.getItem("theme") + '.png') : require('../../assets/imgs/placeholder_blue.png'),
-//				selected: sessionStorage.getItem("collectCheckList") ? JSON.parse(sessionStorage.getItem("collectCheckList")) : [],
-				collectCheckList:sessionStorage.getItem("collectCheckList") ? JSON.parse(sessionStorage.getItem("collectCheckList")) : [],
+				}, {
+					name: "删除",
+					iconName: "icon-unie639",
+					className: "report_blue",
+					fn: () => {
+						this.reportFolderDeleteAjax()
+					}
+				}, {
+					name: "制作报告",
+					iconName: "icon-zhizuo",
+					className: "report_blue",
+					fn: () => {
+						this.goProduceReport()
+					}
+				}],
+				collectList: [],
+				collectCheckList: [],
+				options: [],
+				currentFolder: 0, //当前选中的分类的id
 			}
 		},
 		computed: {
-			themeColor() {
-				return this.$store.state.themeColor
-			}
+			...mapState(["dataLimit", "dataPage", "currPageSearch"])
 		},
-		methods: {
-			changeAllChecked(event) {
-				var _this = this
-				if(event.target.checked === true) {
-					this.collectList.forEach(function(item, index) {
-						if(_this.collectCheckList.indexOf(index) == -1) {
-							_this.collectCheckList.push(index);
-						}
-					})
-//					this.collectCheckList = this.selected
-					sessionStorage.setItem("collectCheckList", JSON.stringify(this.collectCheckList))
-				} else {
-//					this.selected = [];
-					this.collectCheckList = [];
-					sessionStorage.setItem("collectCheckList", JSON.stringify(this.collectCheckList))
+
+		watch: {
+			currentFolder: {
+				handler(val, olVal) {
+					console.log("监听目录id", val)
+					this.reportListAjax(this.currPageSearch)
 				}
 			},
-			isAllChecked() {
-				return this.collectCheckList.length === this.collectList.length;
+			//用于我的报告，我的收藏的本页搜索
+			currPageSearch: {
+				handler(val, olVal) {
+					console.log("监听用于我的报告，我的收藏的本页搜索", val)
+					this.reportListAjax(val)
+				},
+				deep: true
 			},
-			checkAll() {
-				document.getElementById("all-checked").click()
+			dataLimit: {
+				handler(val, olVal) {
+					//每页的条数
+					console.log("监听每页的条数", val)
+					if(this.currentFolder != 0) {
+						this.reportListAjax(this.currPageSearch)
+					}
+				},
+				deep: true
 			},
-			check(e) {
-				if(e.target.checked == true) {
-					if(this.collectCheckList.indexOf(e.target.value) == -1) {
-						this.collectCheckList.push(Number(e.target.value))
-					}
-				} else {
-					var item = e.target.value;
-					for(let i = 0; i < this.collectCheckList.length; i++) {
-						if(this.collectCheckList[i] == item) {
-							this.collectCheckList.splice(i, 1);
-							i--;
-						}
-					}
-				}
-				sessionStorage.setItem("collectCheckList", JSON.stringify(this.collectCheckList))
-				//console.log(sessionStorage.getItem("checkList").split(","))
-			}
-		},
-		watch:{
-			themeColor: {
-				handler(newValue, oldValue) {
-					console.log(newValue)
-					if(newValue == "red") {
-						this.img = require('../../assets/imgs/placeholder_red.png')
-					} else if(newValue == "blue") {
-						this.img = require('../../assets/imgs/placeholder_blue.png')
-					} else if(newValue == "green") {
-						this.img = require('../../assets/imgs/placeholder_green.png')
+			dataPage: {
+				handler(val, olVal) {
+					//当前的页码
+					console.log("监听当前的页码", val)
+					if(this.currentFolder != 0) {
+						this.reportListAjax(this.currPageSearch)
 					}
 				},
 				deep: true
 			}
 		},
+		methods: {
+			//调往制作报告页
+			goProduceReport() {
+				//console.log(this.collectCheckList);
+				//console.log(this.collectList);
+				var arr = [];
+				this.collectCheckList.forEach(itemCheck => {
+					this.collectList.forEach(item => {
+						if(item.id == itemCheck) {
+							arr.push({
+								folderId: item.folderId,
+								reportId: item.id,
+								reportName: item.reportName,
+							});
+						}
+					})
+				});
+				//console.log(arr);
+				this.$store.commit('changeReportList', arr)
+				this.$router.push({
+					name: 'produceReport',
+					params: {
+						id: '1'
+					}
+				})
+			},
+			folderListAjax() {
+				storeFolderList()
+					.then(data => {
+						console.log('我的收藏目录列表', data)
+						if(data.code == 200) {
+							var folderList = data.data
+							if(folderList.constructor == Array && folderList.length > 0) {
+								this.options = folderList
+								this.currentFolder = data.data[0].id
+							}
+						}
+					})
+					.catch(err => {
+						console.log(err)
+					})
+			},
+			//当前文件夹下面具体的表
+			reportListAjax(reportName) {
+				reportStoreInfoList({
+						"page": this.dataPage, //当前的页码
+						"size": this.dataLimit, //每页的条数
+						"folderId": this.currentFolder, //当前选中分类的id
+						"reportName": reportName, //搜索时需要传入的名字，可不传
+					})
+					.then(data => {
+						console.log('当前文件夹下面具体的表', data)
+						if(data.code == 200) {
+							var list = data.data.list
+							var arr=[]
+							list.forEach((item, index) => {
+								var obj = {
+									folderId: item.folderId,
+									folderName: item.folderName,
+									id: item.id,
+									reportId: item.reportId,
+									reportName: item.reportName,
+									reportUrl: item.storeUrl,
+								}
+								arr.push(obj)
+							})
+							this.collectCheckList = [] //清空选中
+							this.collectList = arr
+							this.total = data.data.total
+						}
+					})
+					.catch(err => {
+						console.log(err)
+					})
+			},
+			//删除文件夹中报告
+			reportFolderDeleteAjax() {
+				this.$confirm('确定要删除这些报告吗？', '提示', {
+					confirmButtonText: '确定',
+					cancelButtonText: '取消',
+					type: 'warning'
+				}).then(() => {
+					var checkStr = this.collectCheckList.join(",")
+					//console.log(checkStr);
+					reportStoreInfoDelete({
+						"ids": checkStr, //报告主键id,以逗号连接：1,2,3
+					}).then(data => {
+						console.log('删除文件夹中的收藏', data)
+						if(data.code == 200) {
+							this.reportListAjax(this.currPageSearch)
+							BIMsg({
+								message: "删除成功",
+								type: 'success'
+							})
+						}
+					}).catch(err => {
+						console.log(err)
+					})
+				}).catch(() => {
+					BIMsg({
+						message: '已取消删除'
+					});
+				});
+			}
+		},
 		created() {
-			
+			this.folderListAjax()
 		},
 		mounted() {
-			
+			this.$root.search = ''
 		}
 	}
 </script>
 
 <style scoped lang="scss" rel="stylesheet/scss">
-.collect{
-	height: 100%;
-}
-.search-result{
-	height: 100%;
-	.content {
-      padding-top: 12px;
-      padding-bottom: 74px;
-      margin: 0 50px;
-      }
-	.main_sum {
-	  display: flex;
-	  flex-direction: row;
-	  justify-content: flex-start;
+	.collect {
+		height: 100%;
 	}
-	.main_echarts {
-	  flex: 1;
-	  .main_hed{
-	    display: flex;
-	    justify-content: space-between;
-	    h2 {
-	      flex: 1;
-	      height: 80px;
-	      line-height: 80px;
-	      font-weight: 700;
-	      font-size: 20px;
-	      color: #333333
-	    }
-	    .main_button {
-			height: 80px;
-			line-height: 80px;
-			cursor: pointer;
-			button {
-				display: inline-block;
-				box-sizing: border-box;
-				width: 100px;
-				height: 32px;
-				text-align: center;
-				line-height: 32px;
-				cursor: pointer;
-				user-select: none;
-				border-radius: 20px;
-				margin-left: 21px;
-				input {
-					display: none;
-				}
-				b {
-					font-weight: normal;
-					/*text-indent:41px;*/
-				}
-				&:hover {
-					opacity: 0.8;
-				}
-			}
-			i {
-				width: 15px;
-				height: 15px;
-				cursor: pointer;
-				/*vertical-align: middle;*/
-			}
+	
+	.search-result {
+		height: 100%;
+		.content {
+			padding-top: 12px;
+			padding-bottom: 74px;
+			margin: 0 50px;
 		}
-	  }
-	  .main_echarts_drawing {
-			li {
-				position: relative;
-				float: left;
-				width: 19%;
-				box-sizing: border-box;
-				border: 8px solid #FFF;
-				border-radius: 10px;
-				height: 230px;
-				margin-bottom: 20px;
-				margin-right: 1%;
-				background: #f0f0f0;
-				-webkit-transition: background .3s;
-				-moz-transition: background .3s;
-				-ms-transition: background .3s;
-				-o-transition: background .3s;
-				transition: background .3s;
-				.med_explain {
-					position: absolute;
-					bottom: -1px;
-					left: -1px;
-					width: 100%;
-					height: 51px;
-					font-size: 16px;
-					overflow: hidden;
-					white-space: nowrap;
-					text-overflow: ellipsis;
-					border-bottom-right-radius: 10px;
-					border-bottom-left-radius: 10px;
-					cursor: pointer;
-					font-weight: 600;
-					line-height: 50px;
-					text-indent: 20px;
-					padding-right: 2px;
-					transition: all .5s;
-				}
-				.med_border {
-					position: absolute;
-					top: -8px;
-					left: -8px;
-					width: 100%;
-					height: 100%;
-					border-radius: 10px;
-					padding: 7px;
-					border: 1px solid transparent;
-					/*background:url(../../assets/imgs/placeholder_blue.png) no-repeat;*/
-					img {
-						display: block;
-						margin: 40px auto 0;
-					}
-					img.img_true {
-						margin: 0;
-						width: 100%;
-						height: 100%;
-					}
-					.med_checkbox {
-						position: absolute;
-						top: -10px;
-						right: -12px;
-						width: 28px;
-						height: 28px;
-						border-radius: 50%;
-						background: #FFFFFF;
-						cursor: pointer;
-						.med_real {
-							width: 28px;
-							height: 28px;
-							background: url(../../assets/imgs/unselected.png);
-							background-size: 100% 100%;
-							-webkit-appearance: none;
-							outline: none;
-							cursor: pointer;
-						}
-						input[type=checkbox]:checked {
-							background: url(../../assets/imgs/pitch_on_blue.png);
-							background-size: 100% 100%;
-						}
-					}
-				}
-			}
-			li:hover {
-				.med_explain {
-					border-bottom-right-radius: 10px;
-					border-bottom-left-radius: 10px;
-				}
-			}
-			li:nth-child(5n) {
-				margin-right: 0;
-			}
+		.main_sum {
+			display: flex;
+			flex-direction: row;
+			justify-content: flex-start;
+		}
+		.main_echarts {
+			flex: 1;
 		}
 	}
-}
-.theme-blue {
-	.main_button {
-		button{
-				color: #4a6c98;
-		}
-		.check_all_blue {
-			background: url(../../assets/imgs/blue/next_blue.png);
-			background-size: 100% 100%;
-		}
-		.report_blue {
-			background: url(../../assets/imgs/blue/next_blue.png);
-		}
-	}
-	.med_explain {
-		background: rgba(255, 255, 255, .6);
-		color: $home-recommend-color;
-	}
-	li:hover {
+	
+	.theme-blue {
 		.med_explain {
-			background: rgba(11, 83, 172, .6);
-			color: #FFF;
+			background: rgba(255, 255, 255, .6);
+			color: $home-recommend-color;
 		}
-		.med_border {
-			border: 1px solid $search-li-border!important;
-		}
-	}
-}
-.theme-red {
-	.main_button {
-		button{
-			color: $red-color;
-		}
-		.check_all_blue {
-			/*background:url(../../assets/imgs/red/next_red.png);
-			background-size:100% 100% ;*/
-			background-color: #fff3ef;
-			color: #dd2a12;
-			border: 1px solid #dd2a12!important;
-		}
-		.report_blue {
-			/*background:url(../../assets/imgs/red/next_red.png);
-			background-size:100% 100% ;*/
-			background-color: #fff3ef;
-			color: #dd2a12;
-			border: 1px solid #dd2a12!important;
+		li:hover {
+			.med_explain {
+				background: rgba(11, 83, 172, .6);
+				color: #FFF;
+			}
+			.med_border {
+				border: 1px solid $search-li-border!important;
+			}
 		}
 	}
-	.med_explain {
-		background: rgba(255, 255, 255, .6);
-		color: #37261f;
-	}
-	li:hover {
+	
+	.theme-red {
 		.med_explain {
-			background-color: rgba(72, 61, 54, 0.6);
-			color: #FFF;
+			background: rgba(255, 255, 255, .6);
+			color: #37261f;
 		}
-		.med_border {
-			border: 1px solid $configure-list-red !important;
-		}
-	}
-}
-.theme-green {
-	.main_button {
-		button{
-			color: $green-color;
-		}
-		.check_all_blue {
-			background-color: #effdf5;
-			color: #009540;
-			border: 1px solid #009540!important;
-			/*background:url(../../assets/imgs/green/next_green.png);
-			background-size:100% 100%;*/
-		}
-		.report_blue {
-			background-color: #effdf5;
-			color: #009540;
-			border: 1px solid #009540!important;
-			/*background:url(../../assets/imgs/green/next_green.png);
-			background-size:100% 100% ;*/
+		li:hover {
+			.med_explain {
+				background-color: rgba(72, 61, 54, 0.6);
+				color: #FFF;
+			}
+			.med_border {
+				border: 1px solid $configure-list-red !important;
+			}
 		}
 	}
-	.med_explain {
-		background: rgba(255, 255, 255, .6);
-		color: #1c4e1d;
-	}
-	li:hover {
+	
+	.theme-green {
 		.med_explain {
-			background-color: rgba(90, 161, 120, 0.6);
-			color: #FFF;
+			background: rgba(255, 255, 255, .6);
+			color: #1c4e1d;
 		}
-		.med_border {
-			border: 1px solid $configure-list-green!important;
+		li:hover {
+			.med_explain {
+				background-color: rgba(90, 161, 120, 0.6);
+				color: #FFF;
+			}
+			.med_border {
+				border: 1px solid $configure-list-green!important;
+			}
 		}
 	}
-}
 </style>
