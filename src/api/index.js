@@ -4,8 +4,8 @@ window.eolinker = "https://result.eolinker.com/ZqWwDzBe66791fff39851c2858a818b45
 window.serverUrlWF = "http://222.128.15.210:8004" //潍坊的接口地址
 window.serverUrlHQ = "http://192.168.4.10:8888" //总部的接口地址
 //window.serverUrlHQ = "http://172.16.101.206:8888" //总部的接口地址2
-window.baseUrlResult = serverUrlWF 
-window.baseUrlSwagger = serverUrlHQ 
+window.baseUrlResult = eolinker
+window.baseUrlSwagger = eolinker
 
 /*
  * 登录注册接口
@@ -420,7 +420,7 @@ export {
 	postDataAllocationRight,
 	getDataAllocationRight,
 	getDataMatchingList,
-	
+
 	// 数据结构分析接口
 	getDatabaseStruct,
 	saveDatabaseStruct,
@@ -442,37 +442,37 @@ export {
 	//我的报告列表
 	reportFolderList,
 	reportFolderDelete,
-	
+
 	//我的报告分类
 	folderList,
 	folderAdd,
 	folderUpdate,
 	folderDelete,
-	
+
 	//报告详情
 	reportInfo,
 	reportInfoSave,
 	reportInfoUpdate,
-	
+
 	//我的收藏——列表
 	reportStoreInfoList,
 	reportStoreInfoDelete,
-	
+
 	//我的收藏—— 类型接口
 	storeFolderList,
 	storeFolderSave,
 	storeFolderUpdate,
 	storeFolderDelete,
-	
+
 	//我的收藏——详情接口
 	reportStoreInfo,
 	reportStoreInfoSave,
-	
+
 	//我的搜索历史记录
 	reportSearchHistoryList,
 	reportSearchHistorySave,
 	reportSearchHistoryDelete,
-	
+
 	getTest,
 	postTest
 }

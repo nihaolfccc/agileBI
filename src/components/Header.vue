@@ -3,7 +3,7 @@
 		<div class="logoBox fl" @click="goHome">
 			<img src="../assets/imgs/logo.png" />
 		</div>
-		<div class="toggle-env fl" v-if="true">
+		<div class="toggle-env fl" v-if="false">
 			<btn class="mini-btn" :item="toggleBtn" @click.native="toggleEnvironment"></btn>
 		</div>
 		<ul class="headMenu fr">
@@ -42,7 +42,7 @@
 				</transition>
 			</li>
 			<li :class="{'active': $root.headNav==3}">
-				<router-link :to="{name:'test'}">
+				<router-link :to="{name: 'help'}">
 					<span class="transition">帮助</span>
 					<em class="transition">Help</em>
 				</router-link>
@@ -62,7 +62,7 @@
 				</transition>
 			</li>
 			<li class="margin-right" :class="{'active': $root.headNav==4}">
-				<router-link to="community">
+				<router-link :to="{name: 'community'}">
 					<span class="transition">社区</span>
 					<em class="transition">Community</em>
 				</router-link>

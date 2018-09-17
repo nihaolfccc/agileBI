@@ -4,7 +4,6 @@ Vue.use(Router)
 import store from '../store/store' //vuex
 
 const Layout = r => require(['@/pages/layout'], r)
-const Login = r => require(['@/pages/user/login'], r)
 const Index = r => require(['@/pages/index/index'], r)
 const Chart = r => require(['@/pages/chart/chart'], r)
 const ProduceReport = r => require(['@/pages/report/produceReport'], r)
@@ -26,52 +25,16 @@ const TemplateMatching = r => require(['@/pages/configuration/templateMatching']
 
 const Collect = r => require(['@/pages/collect/collect'], r)
 const Community = r => require(['@/pages/community/index'], r)
-
-const Test = r => require(['@/pages/test/test'], r)
-const Test2 = r => require(['@/pages/test/test2'], r)
-const Test3 = r => require(['@/pages/test/test3'], r)
-const Test4 = r => require(['@/pages/test/test4'], r)
-const Tree = r => require(['@/pages/test/tree'], r)
-const Tree2 = r => require(['@/pages/test/tree2'], r)
-const Tree3 = r => require(['@/pages/test/tree3'], r)
-const Form = r => require(['@/pages/test/form'], r)
+const Help = r => require(['@/pages/help/help'], r)
 
 const router = new Router({
 	routes: [{
 		path: '/',
 		component: Layout,
 		children: [{
-				path: 'test',
-				name: 'test',
-				component: Test
-			}, {
-				path: 'test2',
-				name: 'test2',
-				component: Test2
-			}, {
-				path: 'test3',
-				name: 'test3',
-				component: Test3
-			}, {
-				path: 'test4',
-				name: 'test4',
-				component: Test4
-			}, {
-				path: 'tree',
-				name: 'tree',
-				component: Tree
-			}, {
-				path: 'tree2',
-				name: 'tree2',
-				component: Tree2
-			}, {
-				path: 'tree3',
-				name: 'tree3',
-				component: Tree3
-			}, {
-				path: 'form',
-				name: 'form',
-				component: Form
+				path: 'help',
+				name: 'help',
+				component: Help
 			}, { //主页
 				path: 'index',
 				name: 'index',
@@ -195,11 +158,7 @@ const router = new Router({
 				redirect: 'index'
 			}
 		]
-	}, {
-		path: '/login',
-		name: 'Login',
-		component: Login
-	}, {
+	},{
 		path: '*',
 		redirect: '/index'
 	}]
@@ -255,7 +214,7 @@ router.beforeEach((to, from, next) => {
 			app.headNav = 0
 			sessionStorage.setItem('headNav', 0)
 			break;
-		case 'test': //帮助页面
+		case 'help': //帮助页面
 			app.headNav = 3
 			sessionStorage.setItem('headNav', 3)
 			break;

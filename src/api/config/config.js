@@ -2,9 +2,9 @@ import axios from "axios"
 import qs from 'qs'
 import CryptoJS from 'crypto-js'
 import { handleChinese, BIloading, BIMsg } from '@/assets/js/tools'
-import { mapState, mapMutations } from "vuex";
 import store from '../../store/store' //vuex
-import router from '../../router/index'
+//import router from '../../router/index'
+//console.log(store, router);// store在这里获取不到，router能获取到
 
 //秘钥
 const secret = "ea598b9e9c5611e893a56014b3c5f1b6"
@@ -47,6 +47,7 @@ instance
 		config.showLoading == 'show' && BIloading.show()
 		if(config.method === 'post') {
 			config.headers['Content-Type'] = "application/json; charset=UTF-8";
+			//console.log(store);// store在这里能获取不到
 			if(store.state.token) {
 				if(config.url != baseUrl + '/sysUser/check' && config.url != baseUrl + '/sysUser/register' && config.url != baseUrl + '/sysUser/login' && config.url != baseUrl + '/reportStoreCount/list') {
 					if (config.url.indexOf(eolinker) == -1) {
