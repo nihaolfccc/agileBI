@@ -46,7 +46,7 @@
 				//this.$store.commit('changeEcharts', obj)
 			},
 			getEchartsData(params, name) {
-				console.log(params, name);
+				//console.log(params, name);
 			}
 		},
 		mounted() {

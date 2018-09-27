@@ -38,7 +38,7 @@
 				getDataRelationExtraction({
 					"userId": this.$root.userId,
 				}).then(data => {
-					console.log("启动知识图谱构建", data);
+					//console.log("启动知识图谱构建", data);
 					if(data.message == 'success') {
 						if(data.data.status) {
 							this.missionId=data.data.missionId
@@ -67,7 +67,7 @@
 					"userId": this.$root.userId,
 					"missionId": this.missionId,
 				}).then(data => {
-					console.log("终止图谱任务", data)
+					//console.log("终止图谱任务", data)
 					if(data.message == 'success') {
 						if(data.data.status) {
 							this.showProgress = false
@@ -98,7 +98,7 @@
 					"userId": this.$root.userId,
 					"missionId": this.missionId,
 				}).then(data => {
-					console.log("查询图谱任务进度", data)
+					//console.log("查询图谱任务进度", data)
 					if(data.message == 'success') {
 						if(data.data.process != -2 && data.data.process != -1) {
 							this.progress = data.data.process

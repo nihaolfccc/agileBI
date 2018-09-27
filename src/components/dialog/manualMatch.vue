@@ -128,8 +128,8 @@
 	  methods: {
 	    handleSelectionChange(val) {
 	        this.multipleSelection = val;
-	        console.log(val)
-	        console.log("选择")
+	        //console.log(val)
+	        //console.log("选择")
 	    },
 	    ctiv(index,item){
 	    	this.active = index

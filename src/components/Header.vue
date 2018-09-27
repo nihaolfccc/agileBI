@@ -101,7 +101,7 @@
 			<el-form ref="loginUserInfo" :model="loginUserInfo" :rules="loginRules" class="login-form">
 				<el-form-item prop="userName">
 					<i class="iconfont icon-yonghu icon-p"></i>
-					<el-input v-model.trim="loginUserInfo.userName" placeholder="请输入用户名" class="user-pwd"></el-input>
+					<el-input v-model.trim="loginUserInfo.userName" v-focus placeholder="请输入用户名" class="user-pwd"></el-input>
 				</el-form-item>
 				<el-form-item prop="pwd">
 					<i class="iconfont icon-mima-copy icon-p"></i>
@@ -126,7 +126,7 @@
 			<el-form ref="signUserInfo" :model="signUserInfo" :rules="signRules" class="login-form">
 				<el-form-item prop="userName">
 					<i class="iconfont icon-yonghu icon-p"></i>
-					<el-input v-model.trim="signUserInfo.userName" placeholder="请输入用户名" class="user-pwd"></el-input>
+					<el-input v-model.trim="signUserInfo.userName" v-focus placeholder="请输入用户名" class="user-pwd"></el-input>
 				</el-form-item>
 				<el-form-item prop="pwd">
 					<i class="iconfont icon-mima-copy icon-p"></i>
@@ -151,7 +151,7 @@
 
 <script>
 	import { mapState, mapMutations } from "vuex";
-	import { BIMsg } from "../assets/js/tools.js";
+	import { BIMsg } from "@/assets/js/tools.js";
 	import btn from '@/components/buttons/btn'
 	import { register, check, login } from "@/api/index.js"
 
@@ -162,8 +162,8 @@
 		},
 		data() {
 			var validateName = (rule, value, callback) => {
-				console.log(rule)
-				console.log(value)
+				//console.log(rule)
+				//console.log(value)
 				this.checkName(value, callback)
 			}
 			var validatePass = (rule, value, callback) => {
@@ -272,8 +272,8 @@
 				],
 				dialogSignFormVisible: false, //注册对话框
 				loginUserInfo: {
-					userName: '123',
-					pwd: '123',
+					userName: '',
+					pwd: '',
 				},
 				signUserInfo: {
 					userName: '',
@@ -357,24 +357,42 @@
 							"username": this.loginUserInfo.userName,
 							"password": this.loginUserInfo.pwd
 						}).then(data => {
-							//console.log(data)
+							//console.log('登录', data)
 							if(data.code == 200) {
-								// "userId": 18,
-								//"token": "Token-18_1d2db99c7aa64070931e29272ebc637d"
 								BIMsg({
-									message: "登录成功"
+									message: "登录成功！"
 								});
 								this.$root.dialogLoginFormVisible = false
 								this.$store.commit('setToken', data.data.token)
 								this.$store.commit('changeUserInfo', {
-									//userId: data.data.userId, //接口返回的用户名ID
-									userId: 1, //接口返回的用户名ID
+									userId: data.data.userId, //接口返回的用户名ID
+									//userId: 1, //接口返回的用户名ID
 									userName: data.data.userName //接口返回的用户名
 								})
-								//登录成功后跳回主页面
-								this.$router.push({
-									name: 'index'
-								})
+								var communityType = data.data.communityType
+								if(communityType == null) {
+									this.$confirm('您还没有选择社区，是否前往社区页选择社区？', '提示', {
+										confirmButtonText: '确定',
+										cancelButtonText: '取消',
+										type: 'warning',
+										customClass: "change_Box",
+									}).then(() => {
+										//点击确定按钮，跳到社区页
+										this.$router.push({
+											name: 'community'
+										})
+									}).catch(() => {
+										//点击取消按钮，跳到主页
+										this.$router.push({
+											name: 'index'
+										})
+									});
+								} else {
+									//登录成功后跳回主页面
+									this.$router.push({
+										name: 'index'
+									})
+								}
 							} else {
 								BIMsg({
 									message: data.message,

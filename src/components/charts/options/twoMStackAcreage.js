@@ -1,5 +1,5 @@
 const option = (OPT) => {
-	console.log("2维多序列面积图", OPT);
+	//console.log("2维多序列面积图", OPT);
 	if(OPT.type !== 'twoMStackAcreage') {
 		console.error('数据类型错误')
 		return

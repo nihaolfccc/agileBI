@@ -15,7 +15,7 @@
 					<el-input v-model="ruleForm.myPassWold"></el-input>
 				</el-form-item>
 				<transition-group name="custom-classes-transition" mode="in-out" enter-active-class="animated fadeInDown">
-					<el-form-item v-if="dataMatch.id == 1" label="数据库名/实例名" prop="myDatabase" key="1">
+					<el-form-item v-if="dataMatch.id == 1 || dataMatch.id == 5" label="数据库名/实例名" prop="myDatabase" key="1">
 						<el-input v-model="ruleForm.myDatabase"></el-input>
 					</el-form-item>
 					<el-form-item v-if="dataMatch.id == 3 || dataMatch.id == 4" label="服务器或SID" prop="myPicked" key="2">
@@ -134,7 +134,7 @@
 		watch: {
 			dataMatch: {
 				handler(newValue, oldValue) {
-					console.log('监听dataMatch', newValue)
+					//console.log('监听dataMatch', newValue)
 					if(newValue.host) { //存在说明是点击了已有的数据源
 						this.emptyForm() //先重置表单在加载数据
 						this.ruleForm.myDatabase = newValue.databaseName
@@ -177,7 +177,7 @@
 								"userId": this.$root.userId, //用来确认权限和购买的服务
 							})
 							.then(data => {
-								console.log('测试连接返回',data)
+								//console.log('测试连接返回',data)
 								if(data.data.status) {
 									this.$parent.disState = false //父级保存按钮的使用
 									BIMsg({
@@ -215,7 +215,7 @@
 						"userId": this.$root.userId,
 					})
 					.then(data => {
-						console.log('增加数据源返回',data)
+						//console.log('增加数据源返回',data)
 						if(data.data.status) {
 							this.emptyForm()
 							this.$parent.$parent.$parent.$refs.allocationList.getDataSource()

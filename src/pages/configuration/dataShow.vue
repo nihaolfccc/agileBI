@@ -214,7 +214,7 @@
 		},
 		methods: {
 			editDataSourceFn() {
-				console.log('editDataSourceFn', this);
+				//console.log('editDataSourceFn', this);
 				//this.$root.dialogEditResource = true
 				this.$router.push({
 					name: 'dataMatching'

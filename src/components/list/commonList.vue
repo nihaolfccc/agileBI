@@ -100,15 +100,15 @@
 		methods: {
 			handleEdit(index, row) {
 				if(this.types == 'AssociationList') {
-					console.log(1)
+					//console.log(1)
 				} else if(this.types == "matchingList") {
-					console.log(2)
-					console.log(row)
+					//console.log(2)
+					//console.log(row)
 					this.getMatchFieldAjax(row)
 				}
 			},
 			handleDelete(index, row) {
-				console.log(index, row);
+				//console.log(index, row);
 			},
 			getMatchFieldAjax(obj){
 				/*getDataMatchField({

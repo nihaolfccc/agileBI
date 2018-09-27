@@ -100,7 +100,7 @@
 		watch: {
 			dataMatch: {
 				handler(newValue, oldValue) {
-					console.log(newValue, newValue.host)
+					//console.log(newValue, newValue.host)
 					if(newValue.host) { //存在说明是点击了已有的数据源
 						this.emptyForm() //先重置表单在加载数据
 						this.ruleForm.myDatabase = newValue.databaseName

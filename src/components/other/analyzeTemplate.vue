@@ -78,7 +78,7 @@
 		},
 		methods: {
 			selectTemplate(type, idx, index) {
-				console.log(type, idx, index)
+				//console.log(type, idx, index)
 				// 当前模板如果和右侧图表的个数不匹配，则切换不了并且显示提示框
 				if(this.chartArr.length == idx) {
 					this.$store.commit('changeTemplateActive', index)

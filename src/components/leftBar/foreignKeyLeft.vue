@@ -41,7 +41,7 @@
 				getDataForeignKey({ //获取数据库表结构和外键接口
 					userId: this.$root.userId,
 				}).then(data => {
-					console.log("左侧表的数据",data)
+					//console.log("左侧表的数据",data)
 					if(data.message == "success") {
 						this.$store.commit("changeForeignKeyList", data.data)
 					}

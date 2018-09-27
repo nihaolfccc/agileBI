@@ -61,7 +61,7 @@
 					"page": this.dataPage,
 					"size": this.dataLimit
 				}).then(data => {
-					console.log('获取历史搜索列表', data)
+					//console.log('获取历史搜索列表', data)
 					if(data.code == 200) {
 						this.total = data.data.total
 						let arr = data.data.list
@@ -97,7 +97,7 @@
 					reportSearchHistoryDelete({
 						'ids': checkStr,
 					}).then(data => {
-						console.log('删除搜索记录', data)
+						//console.log('删除搜索记录', data)
 						if(data.code == 200) {
 							this.reportSearchHistoryListAjax()
 							BIMsg({

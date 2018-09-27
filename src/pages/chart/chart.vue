@@ -161,7 +161,7 @@
 			},
 			//根据ReportInfo对象创建报告表
 			saveReport(obj) {
-				console.log('添加收藏的参数', obj)
+				//console.log('添加收藏的参数', obj)
 				reportStoreInfoSave({
 						"folderId": obj.folderid,
 						"folderName": obj.foldername,
@@ -170,9 +170,9 @@
 						"storeUrl": obj.reportUrl
 					})
 					.then(data => {
-						console.log('添加收藏', data)
+						//console.log('添加收藏', data)
 						if(data.code == 200) {
-							this.$message({
+							BIMsg({
 								type: 'success',
 								duration: 1000,
 								message: '添加收藏成功!'
@@ -201,7 +201,7 @@
 						'searchImg': reportUrl,
 						'searchName': this.reportName,
 					}).then(data => {
-						console.log('我的搜索历史记录', data)
+						//console.log('我的搜索历史记录', data)
 					}).catch(err => {
 						console.log(err)
 					})
@@ -213,7 +213,7 @@
 			if(this.token != '') {
 				storeFolderList()
 					.then(data => {
-						console.log('添加收藏获取到的list', data)
+						//console.log('添加收藏获取到的list', data)
 						if(data.code == 200) {
 							var folderList = data.data
 							if(folderList.constructor == Array && folderList.length > 0) {
@@ -253,7 +253,7 @@
 				//console.log(this.buttons, arr, this.buttons==arr)
 			}
 			// 隐藏图表中的删除和切换按钮
-			//this.$store.commit('changeVisibleBtn', false)
+			this.$store.commit('changeVisibleBtn', false)
 			//模板配置页的内容区域头部——显示
 			this.$store.commit('changeVisibleHeader', true)
 		},

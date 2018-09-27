@@ -110,7 +110,7 @@
 		          confirmButtonText: '确定',
 		          cancelButtonText: '取消',
 		        }).then(({ value }) => {
-		          	console.log(value)
+		          	//console.log(value)
 		          	this.list.name = value
 		        }).catch(() => {
 		                 
@@ -123,7 +123,7 @@
 		    	parentList.forEach((item,index)=>{
 		    		if(item.id == chickList.id){
 		    			parentList.splice(index,1)
-		    			console.log(item.list)
+		    			//console.log(item.list)
 		    			if(item.list.length>0){
 		    				item.list.forEach((chickItem,chickIdex)=>{
 		    					parentListRight.push(chickItem)

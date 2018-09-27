@@ -1,5 +1,5 @@
 const option = (OPT) => {
-	console.log('2维多序列普通面积图数据', OPT)
+	//console.log('2维多序列普通面积图数据', OPT)
 	if(OPT.type !== 'twoMacreage') {
 		console.error('数据类型错误')
 		return

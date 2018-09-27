@@ -132,7 +132,7 @@
 		},
 		methods: {
 			searchTableName() {
-				console.log('搜索表名关键字', this.search);
+				//console.log('搜索表名关键字', this.search);
 				if(this.search == '') {
 					this.$message({
 						type: 'info',
@@ -153,13 +153,13 @@
 				this.selectTables.forEach((item, index) => {
 					selectTableIds.push(item.tableId)
 				})
-				console.log(selectTableIds);
+				//console.log(selectTableIds);
 				// 存储数据库表结构选取结果接口
 				saveDatabaseStruct({
 					userId: this.$root.userId,
 					selectTableIds: selectTableIds,
 				}).then(data => {
-					console.log('存储数据库表结构选取结果接口', data)
+					//console.log('存储数据库表结构选取结果接口', data)
 					if(data.message == "success") {
 						if(data.data.status == true) {
 							// 启动外键识别任务接口

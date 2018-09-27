@@ -78,14 +78,14 @@
 		watch: {
 			currentFolder: {
 				handler(val, olVal) {
-					console.log("监听目录id", val)
+					//console.log("监听目录id", val)
 					this.reportFolderListAjax(this.currPageSearch)
 				}
 			},
 			//用于我的报告，我的收藏的本页搜索
 			currPageSearch: {
 				handler(val, olVal) {
-					console.log("监听用于我的报告，我的收藏的本页搜索", val)
+					//console.log("监听用于我的报告，我的收藏的本页搜索", val)
 					this.reportFolderListAjax(val)
 				},
 				deep: true
@@ -93,7 +93,7 @@
 			dataLimit: {
 				handler(val, olVal) {
 					//每页的条数
-					console.log("监听每页的条数", val)
+					//console.log("监听每页的条数", val)
 					if (this.currentFolder!=0) {
 						this.reportFolderListAjax(this.currPageSearch)
 					}
@@ -103,7 +103,7 @@
 			dataPage: {
 				handler(val, olVal) {
 					//当前的页码
-					console.log("监听当前的页码", val)
+					//console.log("监听当前的页码", val)
 					if (this.currentFolder!=0) {
 						this.reportFolderListAjax(this.currPageSearch)
 					}
@@ -156,7 +156,7 @@
 			//获取目录列表和当前选中目录
 			folderListAjax() {
 				folderList().then(data => {
-					console.log('报告列表页——根据用户token查询我的报告分类列表', data)
+					//console.log('报告列表页——根据用户token查询我的报告分类列表', data)
 					if(data.code == 200) {
 						if(data.data && data.data.length > 0) {
 							//数据赋值
@@ -179,7 +179,7 @@
 						"reportName": reportName, //搜索时需要传入的名字，可不传
 					})
 					.then(data => {
-						console.log('当前文件夹下面具体的表', data)
+						//console.log('当前文件夹下面具体的表', data)
 						if(data.code == 200) {
 							this.collectCheckList = [] //清空选中
 							this.collectList = data.data.list
@@ -202,7 +202,7 @@
 					reportFolderDelete({
 						"ids": checkStr, //报告主键id,以逗号连接：1,2,3
 					}).then(data => {
-						console.log('删除文件夹中的报告', data)
+						//console.log('删除文件夹中的报告', data)
 						if(data.code == 200) {
 							this.reportFolderListAjax(this.currPageSearch)
 							BIMsg({

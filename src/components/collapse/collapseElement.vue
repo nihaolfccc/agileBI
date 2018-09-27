@@ -397,10 +397,10 @@
 				//this.$store.commit('changeEcharts', obj)
 			},
 			getEchartsData(params, name) {
-				console.log(params, name);
+				//console.log(params, name);
 			},
 			selectShape(index, type) {
-				console.log(type);
+				//console.log(type);
 				this.elementTypeActive = index
 				this.$store.commit('changeElementType', type)
 			},

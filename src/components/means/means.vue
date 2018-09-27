@@ -91,7 +91,7 @@
 							page: this.HotspotPage, //页码
 						})
 						.then(data => {
-							console.log("热搜", data)
+							//console.log("热搜", data)
 							if(data.message == 'success') {
 								this.items = data.data.list;
 								if(this.items.length==0){
@@ -112,7 +112,7 @@
 							size: 5
 						})
 						.then(data => {
-							console.log("收藏", data)
+							//console.log("收藏", data)
 							//当返回数据为空时，跳回第一页
 							if(data.code == 200) {
 								//还要转

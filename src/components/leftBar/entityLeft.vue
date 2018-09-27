@@ -87,7 +87,7 @@
 				});
 			},
 			getShow(data) { //点击实体获取接口
-				console.log("获取到的实体", data)
+				//console.log("获取到的实体", data)
 				var item = data.item
 				var index = data.index
 				var _this = this
@@ -209,7 +209,7 @@
 				getDataEntity({
 					"userId": this.$root.userId,
 				}).then(data => {
-					console.log('获取实体列表接口', data, this.entityId)
+					//console.log('获取实体列表接口', data, this.entityId)
 					if(data.message == "success") {
 						this.list = data.data
 						if(this.entityId) {

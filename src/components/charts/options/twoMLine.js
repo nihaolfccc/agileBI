@@ -1,5 +1,5 @@
 const option = (OPT) => {
-	console.log('2维多序列折线图数据', OPT)
+	//console.log('2维多序列折线图数据', OPT)
 	if(OPT.type !== 'twoMLine') {
 		console.error('数据类型错误')
 		return

@@ -113,7 +113,7 @@
 			},
 			entityDataObj: {
 				handler(newValue, oldValue) {
-					console.log('实体对象，用于控制连线', newValue)
+					//console.log('实体对象，用于控制连线', newValue)
 					this.entityName = newValue.entityName; //实体名字有的话就加
 					if(newValue.entityId) {
 						this.formEntity.majorKeyName = newValue.entityPrimaryTableId
@@ -138,7 +138,7 @@
 			},
 			commonArr: {
 				handler(newValue, oldValue) {
-					console.log('监听右侧实体属性数组的变化', newValue) //获取到表数据
+					//console.log('监听右侧实体属性数组的变化', newValue) //获取到表数据
 					this.tableData = newValue
 				},
 				deep: true
@@ -259,7 +259,7 @@
 							"literalColumnId": this.literalId, //实体字面量列id
 							"entityPrimaryColumnId": this.majorId //实体主键列id
 						}).then(data => {
-							console.log('保存实体', data, this.entityId)
+							//console.log('保存实体', data, this.entityId)
 							if(data.data.status) {
 								this.$store.commit("changeEntityUpdata", !this.entityUpdata) // 更新实体id
 								if(this.entityId == '') {

@@ -166,7 +166,7 @@
 		},
 		methods: {
 			clickCheckbox(currentChecked, allChecked) {
-				console.log(currentChecked, allChecked);
+				//console.log(currentChecked, allChecked);
 				this.leftAllChecked = allChecked.checkedNodes
 			},
 			handleNodeClick(data) {
@@ -201,7 +201,7 @@
 				}
 			},
 			handleSelectionChange(val) {
-				console.log(val);
+				//console.log(val);
 				this.multipleSelection = val
 			}
 		},

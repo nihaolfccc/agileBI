@@ -11,13 +11,13 @@
 			</div>
 			<div class="clearfix community_wrap">
 				<ul>
-					<li v-for="(item,index) in dataList">
+					<li v-for="(item, index) in dataList">
 						<span class="circle">
-              <i :class="item.icon"></i>
+              <i class="iconfont" :class="item.icon"></i>
             </span>
 						<span class="txt">{{item.name}}</span>
 						<div class="med_checkbox">
-							<input type="radio" name="community-radio" class="med_real" :key="item.index" :value="item.name" v-model="selected" @click="check($event)" />
+							<input type="radio" name="community-radio" class="med_real" :key="item.index" :value="item.index" v-model="selected" />
 						</div>
 					</li>
 				</ul>
@@ -27,7 +27,9 @@
 </template>
 <script>
 	import btn from '@/components/buttons/btn'
-	
+	import { BIMsg } from "@/assets/js/tools.js";
+	import { getCommunity, saveCommunity } from "@/api/index.js"
+
 	export default {
 		components: {
 			btn
@@ -44,102 +46,134 @@
 				dataList: [{
 						index: "1",
 						name: "工商社区",
-						icon: "iconfont icon-1"
+						icon: "icon-1"
 					},
 					{
 						index: "2",
 						name: "财务社区",
-						icon: "iconfont icon-qiandai"
+						icon: "icon-qiandai"
 					},
 					{
 						index: "3",
 						name: "金融社区",
-						icon: "iconfont icon-19"
+						icon: "icon-19"
 					},
 					{
 						index: "4",
 						name: "文化社区",
-						icon: "iconfont icon-jiaoyupeixun"
+						icon: "icon-jiaoyupeixun"
 					},
 					{
 						index: "5",
 						name: "保险社区",
-						icon: "iconfont icon-baoxianxiaoshou1"
+						icon: "icon-baoxianxiaoshou1"
 					},
 					{
 						index: "6",
 						name: "能源社区",
-						icon: "iconfont icon-jiayouzhan"
+						icon: "icon-jiayouzhan"
 					},
 					{
 						index: "7",
 						name: "健康社区",
-						icon: "iconfont icon-2jiankangzhishi"
+						icon: "icon-2jiankangzhishi"
 					},
 					{
 						index: "8",
 						name: "电商社区",
-						icon: "iconfont icon-shangdian"
+						icon: "icon-shangdian"
 					},
 					{
 						index: "9",
 						name: "教育社区",
-						icon: "iconfont icon-jiaoyu"
+						icon: "icon-jiaoyu"
 					},
 					{
 						index: "10",
 						name: "工业社区",
-						icon: "iconfont icon-qiyegongchangjianzhu2"
+						icon: "icon-qiyegongchangjianzhu2"
 					},
 					{
 						index: "11",
 						name: "物流社区",
-						icon: "iconfont icon-wuliu2"
+						icon: "icon-wuliu2"
 					},
 					{
 						index: "12",
 						name: "银行社区",
-						icon: "iconfont icon-yinhangqia"
+						icon: "icon-yinhangqia"
 					},
 					{
 						index: "13",
 						name: "农业社区",
-						icon: "iconfont icon-zhiwu"
+						icon: "icon-zhiwu"
 					},
 					{
 						index: "14",
 						name: "地理社区",
-						icon: "iconfont icon-diliweizhi"
+						icon: "icon-diliweizhi"
 					},
 					{
 						index: "15",
 						name: "气象社区",
-						icon: "iconfont icon-qixiangzhan"
+						icon: "icon-qixiangzhan"
 					},
 					{
 						index: "16",
 						name: "房产社区",
-						icon: "iconfont icon-ai-home"
+						icon: "icon-ai-home"
 					},
 					{
 						index: "17",
 						name: "环境社区",
-						icon: "iconfont icon-huanjing"
+						icon: "icon-huanjing"
 					}
 				],
-				selected: '工商社区',
+				selected: '4',
 			};
 		},
 		computed: {},
 		watch: {},
 		methods: {
-			check(e) {
-				//console.log(e.target.checked);
-				//sessionStorage.setItem("communityChecked", e.target.value);
+			saveFn() {
+				//console.log('保存当前社区', this.selected);
+				//用户保存社区
+				saveCommunity({
+					'str': this.selected
+				}).then(data => {
+					console.log('用户保存社区', data)
+					if(data.code == 200) {
+						BIMsg({
+							type: 'success',
+							message: '社区保存成功！'
+						})
+					} else {
+						BIMsg({
+							type: 'error',
+							message: '社区保存失败！'
+						})
+					}
+				}).catch(err => {
+					console.log(err)
+				})
 			},
-			saveFn(){
-				console.log('保存', this.selected);
-			},
+		},
+		created() {
+			//获取所有社区
+			getCommunity().then(data => {
+				//console.log('获取所有社区', data)
+				if(data.code == 200) {
+					this.dataList = data.data.communityList
+					this.selected = data.data.communityType ? data.data.communityType : '4'
+				} else {
+					BIMsg({
+						type: 'error',
+						message: '获取社区失败！'
+					})
+				}
+			}).catch(err => {
+				console.log(err)
+			})
 		},
 		mounted() {
 
@@ -151,18 +185,17 @@
 	.community {
 		height: 100%;
 		.content {
-			padding-top: 21px;
+			padding-top: 12px;
 			padding-bottom: 74px;
 			margin: 0 50px;
 			.community_wrap {
 				background: #fff;
 				padding: 20px;
 				ul {
-					width: 102%;
 					li {
 						position: relative;
 						display: inline-block;
-						margin: 30px;
+						margin: 30px 20px;
 						width: 160px;
 						border: 1px solid #f0f0f0;
 						border-radius: 3px;
@@ -236,7 +269,7 @@
 					font-size: 20px;
 					color: #333333;
 				}
-				button{
+				button {
 					margin-top: 24px;
 				}
 			}

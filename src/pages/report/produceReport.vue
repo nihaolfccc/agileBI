@@ -71,7 +71,7 @@
 						name: name
 					})
 					.then(data => {
-						console.log('新增目录', data)
+						//console.log('新增目录', data)
 						if(data.code == 200) {
 							this.newFolderId = data.data.id
 						}
@@ -86,7 +86,7 @@
 						id: id
 					})
 					.then(data => {
-						console.log('删除(包括文件夹相关内容)', data)
+						//console.log('删除(包括文件夹相关内容)', data)
 						if(data.code == 200) {
 							this.flagDelete = !this.flagDelete
 						}
@@ -102,7 +102,7 @@
 						name: obj.name
 					})
 					.then(data => {
-						console.log('修改目录 传id和文件夹名称', data)
+						//console.log('修改目录 传id和文件夹名称', data)
 						if(data.code == 200) {
 							this.flagUpdate = !this.flagUpdate
 						}
@@ -122,7 +122,7 @@
 						"reportUrl": obj.reportUrl
 					})
 					.then(data => {
-						console.log('保存报告', data)
+						//console.log('保存报告', data)
 						if(data.code == 200) {
 							this.$message({
 								type: 'success',
@@ -145,7 +145,7 @@
 						"reportUrl": obj.reportUrl
 					})
 					.then(data => {
-						console.log('修改报告', data)
+						//console.log('修改报告', data)
 						if(data.code == 200) {
 							this.$message({
 								type: 'success',
@@ -167,7 +167,7 @@
 			// 根据用户id查询我的报告分类列表
 			folderList()
 				.then(data => {
-					console.log('制作报告页——根据用户token查询我的报告分类列表', data)
+					//console.log('制作报告页——根据用户token查询我的报告分类列表', data)
 					if(data.code == 200) {
 						var folderList = data.data
 						if(folderList.constructor == Array && folderList.length > 0) {

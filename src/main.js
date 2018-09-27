@@ -63,18 +63,18 @@ Vue.config.productionTip = false
 /*自定义指令*/
 Vue.directive('focus', {
 	inserted(el, binding) { //el为原生元素
-		console.log(el);
+		//console.log(el);
 		el.querySelector('input').focus()
 	}
 })
-Vue.directive('setfocus', {
+Vue.directive('set-focus', {
+	inserted(el, binding) { //el为原生元素
+		el.querySelector('input').focus()
+	},
 	update(el, binding, vnode, oldVnode) {
-		if(binding.value) {
-			el.focus()
-		}
+		el.querySelector('input').focus()
 	}
 })
-
 /* eslint-disable no-new */
 new Vue({
 	el: '#app',

@@ -1,5 +1,5 @@
 const option = (OPT) => {
-	console.log("2维多序列线状雷达图", OPT);
+	//console.log("2维多序列线状雷达图", OPT);
 	if(OPT.type !== 'twoMradarLine') {
 		console.error('数据类型错误')
 		return

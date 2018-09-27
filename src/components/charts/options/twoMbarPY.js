@@ -1,5 +1,5 @@
 const option = (OPT) => {
-	console.log("2维多序列横向百分比堆积柱状图", OPT);
+	//console.log("2维多序列横向百分比堆积柱状图", OPT);
 	if(OPT.type !== 'twoMbarPY') {
 		console.error('数据类型错误')
 		return

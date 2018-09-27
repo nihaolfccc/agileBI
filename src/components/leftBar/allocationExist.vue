@@ -50,6 +50,11 @@
 					imgUrl: require("@/assets/imgs/common/SQLServer.png"),
 					id: "4",
 					tag: "mysql"
+				}, {
+					name: "DB2",
+					imgUrl: require("@/assets/imgs/common/SQLServer.png"),
+					id: "5",
+					tag: "mysql"
 				}]
 			}
 		},

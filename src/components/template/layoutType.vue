@@ -291,7 +291,7 @@
 		watch: {
 			echartsData: {
 				handler(val, olval) {
-					console.log("监听图表数组变化", val)
+					//console.log("监听图表数组变化", val)
 					this.showChart()
 				},
 				deep: true

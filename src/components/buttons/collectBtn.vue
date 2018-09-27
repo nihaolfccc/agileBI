@@ -74,7 +74,7 @@
 			},
 			//获取到分类的value
 			valueChange(value) { 
-				console.log('获取选中的目录id', value)
+				//console.log('获取选中的目录id', value)
 				this.$parent.currentFolder = value
 				this.$store.commit("changeDataPage", 1)
 			},

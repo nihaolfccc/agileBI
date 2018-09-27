@@ -1,6 +1,6 @@
 <template>
 	<div class="business">
-		<div class="business_add_wrap"  @click="open">
+		<div class="business_add_wrap" @click="open">
 			<button type="text" class="business_add">
 				<i class="iconfont icon-jia fl"></i>
 				<span class="fl">添加术语</span>
@@ -19,9 +19,9 @@
 				<span>{{item.nodes[0].name}}</span>
 				<i class="iconfont icon-duihao2 fr" v-if="item.nodes[0].tip"></i>
 				<i class="iconfont icon-bi bt_left" :class="{'activeShow': active==index}" @click.stop="changeName(item.nodes[0].name,item.nodes[0].id)"></i>
-				<i class="iconfont icon-unie639 bt_left" :class="{'activeShow': active==index}" @click="deleteName(item.nodes[0].name,item.nodes[0].id)"></i>			
+				<i class="iconfont icon-unie639 bt_left" :class="{'activeShow': active==index}" @click="deleteName(item.nodes[0].name,item.nodes[0].id)"></i>
 				<div class="tilte_background"></div>
-				
+
 			</li>
 		</ul>
 	</div>
@@ -36,9 +36,9 @@
 		data: function() {
 			return {
 				active: 0,
-				dialogTableVisible:false,
+				dialogTableVisible: false,
 				businessTermsList: [{
-						"nodes":[{
+						"nodes": [{
 							"id": "1",
 							"type": "start",
 							"name": "销售收入",
@@ -49,12 +49,12 @@
 							"top": 50,
 							"tip": false,
 						}],
-						"edges":{
-							
+						"edges": {
+
 						}
 					},
 					{
-						"nodes":[{
+						"nodes": [{
 							"id": "2",
 							"type": "start",
 							"name": "商品收入",
@@ -65,12 +65,12 @@
 							"top": 50,
 							"tip": true,
 						}],
-						"edges":{
-							
+						"edges": {
+
 						}
 					},
 					{
-						"nodes":[{
+						"nodes": [{
 							"id": "3",
 							"type": "start",
 							"name": "利润率",
@@ -81,12 +81,12 @@
 							"top": 50,
 							"tip": false,
 						}],
-						"edges":{
-							
+						"edges": {
+
 						}
 					},
 					{
-						"nodes":[{
+						"nodes": [{
 							"id": "4",
 							"type": "start",
 							"name": "订单转换率",
@@ -97,12 +97,12 @@
 							"top": 50,
 							"tip": false,
 						}],
-						"edges":{
-							
+						"edges": {
+
 						}
 					},
 					{
-						"nodes":[{
+						"nodes": [{
 							"id": "5",
 							"type": "start",
 							"name": "商品类型",
@@ -113,12 +113,12 @@
 							"top": 50,
 							"tip": false,
 						}],
-						"edges":{
-							
+						"edges": {
+
 						}
 					},
 					{
-						"nodes":[{
+						"nodes": [{
 							"id": "6",
 							"type": "start",
 							"name": "时间占比",
@@ -129,13 +129,13 @@
 							"top": 50,
 							"tip": false,
 						}],
-						"edges":{
-							
+						"edges": {
+
 						}
 					}
 				],
-				exp:{
-					
+				exp: {
+
 				},
 			}
 		},
@@ -150,31 +150,33 @@
 				this.$prompt('', '新增术语', {
 					confirmButtonText: '确定',
 					showCancelButton: false,
-					confirmButtonClass:"confirm_add",
-		            customClass:"add_Box",
-		            inputType:"textarea",
-		            inputPlaceholder:'请输入您要新增的术语(中间以","隔开)',
-		            inputValidator:this.validator,
-		            inputErrorMessage:"输入框不能为空",
-				}).then(({value}) => {
-					console.log(value)
+					confirmButtonClass: "confirm_add",
+					customClass: "add_Box",
+					inputType: "textarea",
+					inputPlaceholder: '请输入您要新增的术语(中间以","隔开)',
+					inputValidator: this.validator,
+					inputErrorMessage: "输入框不能为空",
+				}).then(({
+					value
+				}) => {
+					//console.log(value)
 					//调用接口
 					var list = {
-						"nodes":[],
-						"edges":{}
+						"nodes": [],
+						"edges": {}
 					}
 					var val = {}
-						val.name = value;
-						val.tip = false;
-						val.id = value + 7;
-						val.type = "start";
-						val.datatype= "varchar";
-						val.w=  140;
-						val.h=  140;
-						val.left=  0;
-						val.top=  50;
-						list.nodes.push(val)
-						this.businessTermsList.push(list)
+					val.name = value;
+					val.tip = false;
+					val.id = value + 7;
+					val.type = "start";
+					val.datatype = "varchar";
+					val.w = 140;
+					val.h = 140;
+					val.left = 0;
+					val.top = 50;
+					list.nodes.push(val)
+					this.businessTermsList.push(list)
 					BIMsg({
 						message: "添加成功",
 						type: 'success'
@@ -186,24 +188,26 @@
 					})
 				});
 			},
-			validator(val){
-				if(val.trim() == "" || val == null){
+			validator(val) {
+				if(val.trim() == "" || val == null) {
 					return false
-				}else{
+				} else {
 					return true
 				}
 			},
-			changeName(name,id) {
+			changeName(name, id) {
 				this.$prompt('请输入名字', '提示', {
 					confirmButtonText: '确定',
 					cancelButtonText: '取消',
-					inputValue:name,
-					customClass:"change_Box",
-				}).then(({value}) => {
-					console.log(value)
-					this.businessTermsList.map((item,i)=>{
-						
-						if(item.nodes[0].id == id){
+					inputValue: name,
+					customClass: "change_Box",
+				}).then(({
+					value
+				}) => {
+					//console.log(value)
+					this.businessTermsList.map((item, i) => {
+
+						if(item.nodes[0].id == id) {
 							item.nodes[0].name = value
 						}
 					})
@@ -211,31 +215,31 @@
 
 				});
 			},
-			deleteName(name,id){
-			        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-			          confirmButtonText: '确定',
-			          cancelButtonText: '取消',
-			          type: 'warning',
-			          customClass:"change_Box",
-			        }).then(() => {
-			        	this.businessTermsList.map((item,i)=>{
-							if(item.nodes[0].id == id){
-								this.businessTermsList.splice(i, 1);
-							}
-						})
-				        BIMsg({
-							message: "删除成功",
-							type: 'success'
-						})
-			        }).catch(() => {
-			                   
-			        });
+			deleteName(name, id) {
+				this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+					confirmButtonText: '确定',
+					cancelButtonText: '取消',
+					type: 'warning',
+					customClass: "change_Box",
+				}).then(() => {
+					this.businessTermsList.map((item, i) => {
+						if(item.nodes[0].id == id) {
+							this.businessTermsList.splice(i, 1);
+						}
+					})
+					BIMsg({
+						message: "删除成功",
+						type: 'success'
+					})
+				}).catch(() => {
+
+				});
 			},
 			chackFile() {
 				this.$refs.file.click()
 			},
 			fileUpload() {
-				console.log(1)
+				//console.log(1)
 			},
 			selectBusinessTerms(index) {
 				this.active = index;
@@ -266,8 +270,8 @@
 				cursor: pointer;
 				padding-left: 19px;
 				padding-right: 25px;
-				>span{
-					float:left;
+				>span {
+					float: left;
 					display: block;
 					max-width: 140px;
 					height: 50px;
@@ -275,18 +279,18 @@
 					white-space: nowrap;
 					text-overflow: ellipsis;
 				}
-				i{
+				i {
 					margin-left: 15px;
 				}
-				.bt_left{
+				.bt_left {
 					display: none;
 					/*float:right;*/
 					color: #FFF;
 				}
-				&:hover .bt_left{
+				&:hover .bt_left {
 					display: inline-block;
 				}
-				.activeShow{
+				.activeShow {
 					display: inline-block;
 				}
 			}
@@ -301,7 +305,8 @@
 			height: 38px;
 			line-height: 38px;
 			margin-bottom: 15px;
-			&.active, &:hover{
+			&.active,
+			&:hover {
 				font-weight: bold;
 				.tilte_background {
 					display: block;
@@ -331,13 +336,14 @@
 				.business_title {
 					height: 51px;
 					line-height: 51px;
-					&.active, &:hover {
+					&.active,
+					&:hover {
 						background: url(../../assets/imgs/red/bg_red_bar.jpg)
 					}
 					i {
 						color: #feb600;
-						&.bt_left{
-							color:#FFF;
+						&.bt_left {
+							color: #FFF;
 						}
 					}
 				}
@@ -358,13 +364,14 @@
 				.business_title {
 					height: 51px;
 					line-height: 51px;
-					&.active, &:hover {
+					&.active,
+					&:hover {
 						background: url(../../assets/imgs/green/bg_green_bar.jpg);
 					}
 					i {
 						color: #feb600;
-						&.bt_left{
-							color:#FFF;
+						&.bt_left {
+							color: #FFF;
 						}
 					}
 				}

@@ -133,7 +133,7 @@
 											"foreignKeyId": eventForeignKeys.foreignKeyId
 										}
 									}
-									console.log(params)
+									//console.log(params)
 									_this.toolkit.addEdge(params)
 
 								}
@@ -192,7 +192,7 @@
 									maxConnections: -1, // no limit on connections
 									events: {
 										"click": function(params) {
-											console.log(params.edge)
+											//console.log(params.edge)
 											if(params.edge.data.foreignKeyId) {
 												_this.removerId.push(params.edge.data.foreignKeyId)
 											}
@@ -251,7 +251,7 @@
 											if(params.scope == "true" && soure != target) {
 												return true
 											} else {
-												console.log(params)
+												//console.log(params)
 												return false
 											}
 										},
@@ -405,7 +405,7 @@
 					"deleteKeyIds": $.unique(this.removerId), //删除外键id列表
 
 				}).then(data => {
-					console.log(data)
+					//console.log(data)
 					BIMsg({
 						message: "保存成功",
 						type: 'success'

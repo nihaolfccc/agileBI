@@ -71,24 +71,24 @@
 //		        console.log("tab被选中了")
 		    },
 		    changeFileList(files,fileList){
-		    	console.log(files)
-		    	console.log(fileList)
+		    	//console.log(files)
+		    	//console.log(fileList)
 //		    	console.log("1")
 		    	this.fileList = fileList
 		    },
 		    removeFileList(file){
-		    	console.log(file)
+		    	//console.log(file)
 		    	this.fileList = [];
 		    },
 		    handleSelectionChange(val) {
 				//多选框的选中的值
-				console.log(val)
+				//console.log(val)
 //				console.log("multipleSelection触发了")
 			    this.multipleSelection = val;
 			},
 		    getParentChangeData(){
 		    	//父组件调用的
-		    	console.log(this.multipleSelection)
+		    	//console.log(this.multipleSelection)
 		    }
 		    
 		    

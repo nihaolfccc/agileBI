@@ -100,24 +100,24 @@
 	  		this.typeAccept = files.accept
 	  	},
 	  	handleExceed(files,fileList){
-	  		console.log(files)
-	  		console.log(fileList)
+	  		//console.log(files)
+	  		//console.log(fileList)
 	  	},
 	  	changeFileList(files,fileList){
-	  		console.log(files)
-	  		console.log(fileList)
+	  		//console.log(files)
+	  		//console.log(fileList)
 	  		this.fileList = fileList
 	  		this.listLength = fileList.length;
 	  	},
 	  	removeFileList(file){
-	  		console.log(file)
-	  		console.log("这是 清空")
+	  		//console.log(file)
+	  		//console.log("这是 清空")
 	  		this.fileList = [];
 	  		this.listLength = this.fileList.length;
 	  	},
 	  	getParentLeadData() {
 	  		//父组件调用的  且在这上传数据
-	  		console.log(this.fileList)
+	  		//console.log(this.fileList)
 	      }
 	  	
 	  },

@@ -73,7 +73,7 @@
 			},
 			entityLeftList: {
 				handler(newValue, oldValue) {
-					console.log("entityLeftList，监听中间部分数组的变化", newValue) 
+					//console.log("entityLeftList，监听中间部分数组的变化", newValue) 
 					this.foreignKeys = [];
 					this.$root.toolkit.clear()
 					if(newValue.length==0){
@@ -323,7 +323,7 @@
 											// returning anything but true will cause the connection to be aborted.
 										},
 										"beforeDetach": function(params) {
-											console.log(params)
+											//console.log(params)
 											// returning anything but true will cause the detach to be aborted.
 										}
 									},
@@ -410,7 +410,7 @@
 					function refreshData() { //如果一个接口可以在这调用函数
 						renderer.storePositionsInModel();
 						var data = _this.$root.toolkit.exportData();
-						console.log(data)
+						//console.log(data)
 						//sessionStorage.setItem("entityJsPlumb", JSON.stringify(data))
 					}
 				});

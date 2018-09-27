@@ -24,7 +24,7 @@
 						<i class="iconfont icon-ep--"></i>
 						<p>已上传的数据源</p>
 					</template>
-					<allocation-exist :allocationList="allocationList"></allocation-exist>
+					<allocation-exist ref="allocationExist" :allocationList="allocationList"></allocation-exist>
 				</el-collapse-item>
 			</el-collapse>
 		</happy-scroll>
@@ -45,29 +45,39 @@
 				activeNames: ["1", "2"], //控制折叠面板的展开
 				active: 1, //数据源类型下标
 				nameActive: 0, //蓝色主题下-标题下面的高亮短横杠
-				allocationList: [],//数据源列表
-				dataAll: [{//数据源类型
+				allocationList: [], //数据源列表
+				dataAll: [{ //数据源类型
 						data: [{
-							name: "MySQL",
-							imgUrl: require("@/assets/imgs/common/MySQL.png"),
-							id: "1",
-							tag: "mysql"
-						}, {
-							name: "MaprHadoopHive",
-							imgUrl: require("@/assets/imgs/common/MaprHadoopHive.png"),
-							id: "2",
-							tag: "mapr"
-						}, {
-							name: "Oracle",
-							imgUrl: require("@/assets/imgs/common/oracle.png"),
-							id: "3",
-							tag: "mysql"
-						}, {
-							name: "SQLServer",
-							imgUrl: require("@/assets/imgs/common/SQLServer.png"),
-							id: "4",
-							tag: "mysql"
-						}]
+								name: "MySQL",
+								imgUrl: require("@/assets/imgs/common/MySQL.png"),
+								id: "1",
+								tag: "mysql"
+							},
+							/*{
+								name: "MaprHadoopHive",
+								imgUrl: require("@/assets/imgs/common/MaprHadoopHive.png"),
+								id: "2",
+								tag: "mapr"
+							}, */
+							{
+								name: "Oracle",
+								imgUrl: require("@/assets/imgs/common/oracle.png"),
+								id: "3",
+								tag: "mysql"
+							},
+							/*{
+								name: "SQLServer",
+								imgUrl: require("@/assets/imgs/common/SQLServer.png"),
+								id: "4",
+								tag: "mysql"
+							},*/
+							{
+								name: "DB2",
+								imgUrl: require("@/assets/imgs/common/SQLServer.png"),
+								id: "5",
+								tag: "mysql"
+							}
+						]
 					},
 					/*{
 						title: "文件",
@@ -112,17 +122,19 @@
 		methods: {
 			// 新建数据源，并且下面的数据源列表取消选中状态
 			getActive(obj, index) {
-				this.nameActive = index
-				this.$store.commit('changeDataMatch', obj)//右侧表单清空
-				this.$store.commit('changeUploaded')//数据源列表取消选中状态
+				//console.log("点击按钮",obj)
+				//this.nameActive = index
+				this.$store.commit('changeDataMatch', obj) //右侧表单清空
+				this.$store.commit('changeUploaded') //数据源列表取消选中状态
 			},
 			getDataSource() {
 				getDataMatchingList({
 					"userId": this.$root.userId
 				}).then(data => {
-					console.log('获取左侧服务器、数据库列表', data)
+					//console.log('获取左侧服务器、数据库列表', data)
 					if(data.message == "success") {
 						this.allocationList = data.data
+						this.$refs.allocationExist.active = -1
 					}
 				}).catch(err => {
 					console.log(err)
@@ -240,6 +252,7 @@
 				>.el-collapse-item {
 					>div[role='tab'] {
 						.el-collapse-item__header {
+							text-align: center;
 							background: url(../../assets/imgs/bg_red.png) no-repeat;
 							background-size: 100% 100%;
 						}
@@ -276,6 +289,7 @@
 				>.el-collapse-item {
 					>div[role='tab'] {
 						.el-collapse-item__header {
+							text-align: center;
 							background: url(../../assets/imgs/blue/report_title.png)no-repeat;
 							background-size: 100% 100%;
 						}
@@ -319,6 +333,7 @@
 				>.el-collapse-item {
 					>div[role='tab'] {
 						.el-collapse-item__header {
+							text-align: center;
 							background: url(../../assets/imgs/bg_green.png) no-repeat;
 							background-size: 100% 100%;
 						}

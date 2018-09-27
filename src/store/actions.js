@@ -5,7 +5,7 @@ export default { //在action中可以进行异步操作。
 	getRecommendedQueriesAction(context) {
 		getRecommendedQueries({})
 			.then(data => {
-				console.log('获取推荐的查询问题', data)
+				//console.log('获取推荐的查询问题', data)
 				if(data.data.length > 0) {
 					context.commit('changeChart', data.data)
 				} else {
@@ -24,7 +24,7 @@ export default { //在action中可以进行异步操作。
 				"id": reportId,
 			})
 			.then(data => {
-				console.log('获取当前报告详细信息', data)
+				//console.log('获取当前报告详细信息', data)
 				if(data.code == 200) {
 					if(data.data) {
 						var arr = JSON.parse(data.data.reportContent)
@@ -43,7 +43,7 @@ export default { //在action中可以进行异步操作。
 				"id": reportId,
 			})
 			.then(data => {
-				console.log('获取收藏报表详细信息', data)
+				//console.log('获取收藏报表详细信息', data)
 				if(data.code == 200) {
 					if(data.data) {
 						var arr = JSON.parse(data.data.storeData)
