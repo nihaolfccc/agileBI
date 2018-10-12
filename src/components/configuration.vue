@@ -6,82 +6,80 @@
 					<img class="img" :src="item.src" />
 					<img class="img-selected" :src="item.srcSelected" />
 				</div>
-				<img class="img-arrow fl" src="../assets/imgs/red/step-arrow.png" v-if="(configurationList.length-1)!=index" />
+				<img class="img-arrow fl" src="../assets/imgs/step-arrow.png" v-if="(configurationList.length-1)!=index" />
 			</li>
 		</ul>
 	</div>
 </template>
 
 <script>
+	import { mapState } from "vuex";
+
 	export default {
 		name: "configuration",
 		components: {},
 		data: function() {
 			return {
-				configurationList: [{
-					  name: 'dataMatching',
-						src: require('../assets/imgs/red/step1.png'),
-						srcSelected: require('../assets/imgs/red/step1-selected.png')
-					},
-					{
-						name: 'dataStructureAnalysis',
-						src: require('../assets/imgs/red/step2.png'),
-						srcSelected: require('../assets/imgs/red/step2-selected.png')
-					},
-					{
-						name: 'foreignKey',
-						src: require('../assets/imgs/red/step3.png'),
-						srcSelected: require('../assets/imgs/red/step3-selected.png')
-					},
-					{
-						name: 'dataShow',
-						src: require('../assets/imgs/red/step4.png'),
-						srcSelected: require('../assets/imgs/red/step4-selected.png')
-					},
-					{
-						name: 'entity',
-						src: require('../assets/imgs/red/step5.png'),
-						srcSelected: require('../assets/imgs/red/step5-selected.png')
-					},
-					{
-						name: 'relationExtraction',
-						src: require('../assets/imgs/red/step6.png'),
-						srcSelected: require('../assets/imgs/red/step6-selected.png')
-					},
-					{
-						name: 'hotWord',
-						src: require('../assets/imgs/red/step7.png'),
-						srcSelected: require('../assets/imgs/red/step7-selected.png')
-					},
-					/*{
-						name: 'templateMatching',
-						src: require('../assets/imgs/red/step8.png'),
-						srcSelected: require('../assets/imgs/red/step8-selected.png')
-					}*/
-				]
+				configurationList: []
 			}
 		},
 		computed: {
-			configurationName() {
-				return this.$store.state.configurationName
-			},
+			...mapState(["themeColor", "configurationName"]),
 		},
 		watch: {
-
+			themeColor: {
+				handler(newValue, oldValue) {
+					this.setConfigurationList(newValue)
+				}
+			},
 		},
 		methods: {
-			goPage(name){
+			goPage(name) {
 				this.$store.commit('changeConfigurationName', name)
 				this.$router.push({
 					name: name
 				});
-			}
+			},
+			setConfigurationList(color) {
+				//console.log(color)
+				this.configurationList = [{
+						name: 'dataMatching',
+						src: require('../assets/imgs/' + color + '/step1.png'),
+						srcSelected: require('../assets/imgs/' + color + '/step1-selected.png')
+					},
+					{
+						name: 'dataStructureAnalysis',
+						src: require('../assets/imgs/' + color + '/step2.png'),
+						srcSelected: require('../assets/imgs/' + color + '/step2-selected.png')
+					},
+					{
+						name: 'foreignKey',
+						src: require('../assets/imgs/' + color + '/step3.png'),
+						srcSelected: require('../assets/imgs/' + color + '/step3-selected.png')
+					},
+					{
+						name: 'entity',
+						src: require('../assets/imgs/' + color + '/step4.png'),
+						srcSelected: require('../assets/imgs/' + color + '/step4-selected.png')
+					},
+					{
+						name: 'relationExtraction',
+						src: require('../assets/imgs/' + color + '/step5.png'),
+						srcSelected: require('../assets/imgs/' + color + '/step5-selected.png')
+					},
+					{
+						name: 'hotWord',
+						src: require('../assets/imgs/' + color + '/step6.png'),
+						srcSelected: require('../assets/imgs/' + color + '/step6-selected.png')
+					},
+				]
+			},
 		},
 		created() {
 
 		},
 		mounted() {
-			
+			this.setConfigurationList(this.themeColor)
 		}
 	};
 </script>
@@ -98,13 +96,15 @@
 	
 	.configuration-list {
 		overflow: hidden;
-    /*min-width: 1689px;*/
-    height: 100%;
+		/*min-width: 1689px;*/
 		>li {
 			.img-wrap {
-				width: 170px;
+				/*width: 170px;*/
+				background: url(../assets/imgs/configuration_white.png) no-repeat 0 97px;
+				background-size: 100%;
 				cursor: pointer;
-				&:hover, &.active {
+				&:hover,
+				&.active {
 					.img {
 						display: none;
 					}
@@ -121,13 +121,19 @@
 				}
 			}
 			.img-arrow {
-				margin-top: 67px;
+				margin-top: 87px;
 			}
 		}
 	}
-	/*.theme-red {
+	
+	.theme-blue {
 		.configuration {
-			background: url(../assets/imgs/red/configuration_bg.png);
+			background: url(../assets/imgs/blue/configuration_bg.png);
 		}
-	}*/
+	}
+	.theme-green {
+		.configuration {
+			background: url(../assets/imgs/green/configuration_bg.png);
+		}
+	}
 </style>

@@ -1,7 +1,7 @@
 import $api from './config/config'
 
-window.baseUrlResult = eolinker
-window.baseUrlSwagger = eolinker
+window.baseUrlResult = serverUrlWF
+window.baseUrlSwagger = serverUrlHQ
 
 /*
  * 登录注册接口

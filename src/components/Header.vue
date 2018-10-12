@@ -203,10 +203,6 @@
 						url: "foreignKey"
 					},
 					{
-						name: "数据展示",
-						url: "dataShow"
-					},
-					{
 						name: "实体配置",
 						url: "entity"
 					},

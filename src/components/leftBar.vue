@@ -67,7 +67,7 @@
 				var name = this.$route.name
 				var leftBar = this.$refs.leftBar
 				//控制头部搜索框与配置流程相互切换  
-				if(name == 'dataMatching' || name == 'dataStructureAnalysis' || name == 'foreignKey' || name == 'dataShow' || name == 'entity' || name == 'relationExtraction' || name == 'hotWord' || name == 'templateMatching') {
+				if(name == 'dataMatching' || name == 'dataStructureAnalysis' || name == 'foreignKey' || name == 'entity' || name == 'relationExtraction' || name == 'hotWord' || name == 'templateMatching') {
 					leftBar.style.height = 'calc(100vh - 190px)'
 				} else {
 					leftBar.style.height = 'calc(100vh - 170px)'

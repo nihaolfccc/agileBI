@@ -8,8 +8,8 @@ import store from '../../store/store' //vuex
 
 window.eolinker = "https://result.eolinker.com/ZqWwDzBe66791fff39851c2858a818b455f18bc7470cabb?uri="
 window.serverUrlWF = "http://222.128.15.210:8004" //潍坊的接口地址
-window.serverUrlHQ = "http://47.92.149.56:80" //总部的接口地址
-//window.serverUrlHQ = "http://192.168.4.10:8888" //总部的接口地址
+//window.serverUrlHQ = "localhost:8888" //总部的接口地址
+window.serverUrlHQ = "http://192.168.4.10:8888" //总部的接口地址
 
 //秘钥
 const secret = "ea598b9e9c5611e893a56014b3c5f1b6"

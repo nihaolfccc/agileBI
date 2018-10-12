@@ -102,13 +102,13 @@ const router = new Router({
 					path: 'dataClassify',
 					name: 'dataClassify',
 					component: DataClassify*/
-			}, { //数据展示
+			/*}, { //数据展示
 				path: 'dataShow',
 				name: 'dataShow',
 				component: DataShow,
 				meta: {
 					requireAuth: true
-				}
+				}*/
 			}, { //实体配置
 				path: 'entity',
 				name: 'entity',
@@ -255,7 +255,7 @@ router.beforeEach((to, from, next) => {
 		app.headNav = -1
 		sessionStorage.setItem('headNav', -1)
 	}
-	if(to.name == 'dataMatching' || to.name == 'dataStructureAnalysis' || to.name == 'foreignKey' || to.name == 'dataShow' || to.name == 'entity' || to.name == 'relationExtraction' || to.name == 'hotWord' || to.name == 'templateMatching') {
+	if(to.name == 'dataMatching' || to.name == 'dataStructureAnalysis' || to.name == 'foreignKey' || to.name == 'entity' || to.name == 'relationExtraction' || to.name == 'hotWord' || to.name == 'templateMatching') {
 		app.headNav = 1
 		sessionStorage.setItem('headNav', 1)
 		store.commit('changeConfigurationName', to.name)
@@ -275,25 +275,21 @@ router.beforeEach((to, from, next) => {
 				app.configureActive = 2
 				sessionStorage.setItem('configureActive', 2)
 				break;
-			case 'dataShow':
+			case 'entity':
 				app.configureActive = 3
 				sessionStorage.setItem('configureActive', 3)
 				break;
-			case 'entity':
+			case 'relationExtraction':
 				app.configureActive = 4
 				sessionStorage.setItem('configureActive', 4)
 				break;
-			case 'relationExtraction':
+			case 'hotWord':
 				app.configureActive = 5
 				sessionStorage.setItem('configureActive', 5)
 				break;
-			case 'hotWord':
+			case 'templateMatching':
 				app.configureActive = 6
 				sessionStorage.setItem('configureActive', 6)
-				break;
-			case 'templateMatching':
-				app.configureActive = 7
-				sessionStorage.setItem('configureActive', 7)
 				break;
 		}
 	} else {

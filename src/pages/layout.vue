@@ -69,7 +69,7 @@
 				var mainWrap = document.getElementById("main-wrap")
 				//console.log(this.visibleSearch, name);
 				//控制头部搜索框与配置流程相互切换
-				if(name == 'dataMatching' || name == 'dataStructureAnalysis' || name == 'foreignKey' || name == 'dataShow' || name == 'entity' || name == 'relationExtraction' || name == 'hotWord' || name == 'templateMatching') {
+				if(name == 'dataMatching' || name == 'dataStructureAnalysis' || name == 'foreignKey' || name == 'entity' || name == 'relationExtraction' || name == 'hotWord' || name == 'templateMatching') {
 					mainWrap.style.paddingTop = '190px'
 					mainWrap.style.minHeight = 'calc(100vh - 190px)'
 				} else {
